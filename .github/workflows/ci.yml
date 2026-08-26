@@ -47,6 +47,12 @@ jobs:
             - run: bun run format:check
             - run: bun run emails:check
 
+            - name: Install Playwright browser
+              run: bunx playwright install --with-deps chromium
+
+            - name: Story tests (render, interactions, a11y)
+              run: bun run test
+
     test:
         name: Build theme
         runs-on: ubuntu-latest
