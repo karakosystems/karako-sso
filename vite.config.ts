@@ -68,7 +68,15 @@ export default defineConfig({
                     browser: {
                         enabled: true,
                         headless: true,
-                        provider: playwright({}),
+                        provider: playwright({
+                            launchOptions: {
+                                args: [
+                                    "--no-sandbox",
+                                    "--disable-dev-shm-usage",
+                                    "--disable-gpu"
+                                ]
+                            }
+                        }),
                         instances: [{ browser: "chromium" }]
                     }
                 }
