@@ -8,6 +8,8 @@ import org.keycloak.storage.ldap.LDAPStorageProvider;
 import org.keycloak.storage.ldap.idm.model.LDAPObject;
 import org.keycloak.storage.ldap.mappers.UserAttributeLDAPStorageMapper;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -42,38 +44,79 @@ public class RegexLdapStorageMapper extends UserAttributeLDAPStorageMapper {
             return;
         }
 
-        String current = user.getFirstAttribute(userAttr);
-        if (current == null || current.isBlank()) {
+        List<String> current = user.getAttributeStream(userAttr).toList();
+        if (current.isEmpty()) {
             return;
         }
 
         String regexStr = getConfig(RegexLdapStorageMapperFactory.REGEX_PATTERN, RegexLdapStorageMapperFactory.DEFAULT_REGEX);
         String groupStr = getConfig(RegexLdapStorageMapperFactory.REGEX_GROUP,   RegexLdapStorageMapperFactory.DEFAULT_REGEX_GROUP);
 
-        String extracted = extract(regexStr, groupStr, current.trim());
-        if (extracted != null && !extracted.isBlank()) {
-            user.setSingleAttribute(userAttr, extracted.trim());
+        List<String> extracted = extractAll(regexStr, groupStr, current);
+        if (!extracted.isEmpty()) {
+            user.setAttribute(userAttr, extracted);
         }
     }
 
+    /** Applies the regex to every value; a value that does not match is kept as-is. */
+    static List<String> extractAll(String regexStr, String groupStr, List<String> values) {
+        Pattern pattern = compile(regexStr);
+        if (pattern == null) {
+            return List.of();
+        }
+
+        Integer group = parseGroup(groupStr);
+        if (group == null) {
+            return List.of();
+        }
+
+        List<String> out = new ArrayList<>(values.size());
+        for (String value : values) {
+            if (value == null || value.isBlank()) {
+                continue;
+            }
+            String extracted = extract(pattern, group, value.trim());
+            out.add(extracted != null && !extracted.isBlank() ? extracted.trim() : value.trim());
+        }
+        return out;
+    }
+
+    /**
+     * Deliberately a no-op: the extracted value is a transformation of what LDAP
+     * holds, so writing it back would overwrite the source with its own excerpt.
+     */
     @Override
     public void onRegisterUserToLDAP(LDAPObject ldapUser, UserModel localUser, RealmModel realm) {}
 
-    private String extract(String regexStr, String groupStr, String value) {
+    private static Pattern compile(String regexStr) {
         try {
-            Matcher matcher = Pattern.compile(regexStr, Pattern.CASE_INSENSITIVE).matcher(value);
-            if (!matcher.find()) {
-                return null;
-            }
-            return matcher.group(Integer.parseInt(groupStr.trim()));
+            return Pattern.compile(regexStr, Pattern.CASE_INSENSITIVE);
         } catch (PatternSyntaxException e) {
-            LOG.warnf("Invalid regex: %s — %s", regexStr, e.getMessage());
+            LOG.warnf("Invalid regex: %s - %s", regexStr, e.getMessage());
+            return null;
+        }
+    }
+
+    private static Integer parseGroup(String groupStr) {
+        try {
+            return Integer.parseInt(groupStr.trim());
         } catch (NumberFormatException e) {
             LOG.warnf("Invalid group index: %s", groupStr);
-        } catch (IndexOutOfBoundsException e) {
-            LOG.warnf("Capturing group not found (index=%s)", groupStr);
+            return null;
         }
-        return null;
+    }
+
+    private static String extract(Pattern pattern, int group, String value) {
+        Matcher matcher = pattern.matcher(value);
+        if (!matcher.find()) {
+            return null;
+        }
+        try {
+            return matcher.group(group);
+        } catch (IndexOutOfBoundsException e) {
+            LOG.warnf("Capturing group not found (index=%s)", group);
+            return null;
+        }
     }
 
     private String getConfig(String key, String defaultValue) {
