@@ -8,29 +8,53 @@ export function BrandStyle() {
 
     useEffect(() => {
         const root = document.documentElement;
-        const set = (name: string, value: string) => root.style.setProperty(name, value);
+        const applied: [string, string][] = [
+            ["--primary", branding.primary],
+            ["--primary-foreground", branding.primaryForeground],
+            ["--sidebar-primary", branding.primary],
+            ["--sidebar-primary-foreground", branding.primaryForeground],
+            ["--ring", branding.primary],
+            ["--radius", branding.radius]
+        ];
 
-        set("--primary", branding.primary);
-        set("--primary-foreground", branding.primaryForeground);
-        set("--sidebar-primary", branding.primary);
-        set("--sidebar-primary-foreground", branding.primaryForeground);
-        set("--ring", branding.primary);
-        set("--radius", branding.radius);
+        const previous = applied.map(
+            ([name]) => [name, root.style.getPropertyValue(name)] as const
+        );
+        applied.forEach(([name, value]) => root.style.setProperty(name, value));
+
+        // Restore on unmount: without this, one story's brand leaks into the
+        // next whenever they share a page.
+        return () => {
+            previous.forEach(([name, value]) => {
+                if (value === "") {
+                    root.style.removeProperty(name);
+                } else {
+                    root.style.setProperty(name, value);
+                }
+            });
+        };
     }, [branding.primary, branding.primaryForeground, branding.radius]);
 
     useEffect(() => {
         if (branding.faviconUrl === null) {
             return;
         }
-        const links = document.querySelectorAll<HTMLLinkElement>(
-            'link[rel="icon"], link[rel="apple-touch-icon"]'
-        );
-        links.forEach(link => link.remove());
+        const previous = [
+            ...document.querySelectorAll<HTMLLinkElement>(
+                'link[rel="icon"], link[rel="apple-touch-icon"]'
+            )
+        ];
+        previous.forEach(link => link.remove());
 
         const link = document.createElement("link");
         link.rel = "icon";
         link.href = branding.faviconUrl;
         document.head.appendChild(link);
+
+        return () => {
+            link.remove();
+            previous.forEach(old => document.head.appendChild(old));
+        };
     }, [branding.faviconUrl]);
 
     return null;
