@@ -17,7 +17,10 @@ const { I18nProvider, useI18n } = i18nBuilder
             "identity-provider-login-last-used": "Last used",
             attemptedUsernameLoggingInAs: "Logging in as",
             switchToDarkMode: "Switch to dark mode",
-            switchToLightMode: "Switch to light mode"
+            switchToLightMode: "Switch to light mode",
+            turnstileFailed: "Security check failed. Please try again.",
+            turnstileNotConfigured:
+                "The security check is required but has not been configured."
         },
         fr: {
             welcomeMessage: "Bienvenue sur Karako - votre accès sécurisé à nos services.",
@@ -32,7 +35,10 @@ const { I18nProvider, useI18n } = i18nBuilder
             "identity-provider-login-last-used": "Dernière utilisation",
             attemptedUsernameLoggingInAs: "Se connecter en tant que",
             switchToDarkMode: "Passer en mode sombre",
-            switchToLightMode: "Passer en mode clair"
+            switchToLightMode: "Passer en mode clair",
+            turnstileFailed: "La vérification de sécurité a échoué. Veuillez réessayer.",
+            turnstileNotConfigured:
+                "La vérification de sécurité est requise mais n'a pas été configurée."
         }
     })
     .build();
