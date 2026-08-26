@@ -22,20 +22,22 @@ import {
 } from "./constants";
 import i18n from "./i18n";
 
-const main = {
-    backgroundColor: "#ffffff",
+const page = {
+    backgroundColor: "#f4f4f7",
     fontSize: "16px",
     fontFamily:
         '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
     margin: 0,
-    padding: 0
+    padding: "32px 12px"
 };
 
-const container = {
+const card = {
     width: "100%",
     maxWidth: "600px",
     margin: "0 auto",
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
+    borderRadius: "12px",
+    border: `1px solid ${borderColor}`
 };
 
 const accentBar = {
@@ -45,25 +47,8 @@ const accentBar = {
     lineHeight: "4px"
 };
 
-const content = {
-    padding: "40px 40px 8px 40px",
-    color: textColor
-};
-
-const divider = {
-    borderColor: borderColor,
-    borderWidth: "1px 0 0 0",
-    margin: "32px 40px 0 40px",
-    width: "auto"
-};
-
-const footer = {
-    padding: "24px 40px 36px 40px"
-};
-
-const logoWrap = {
-    display: "inline-block",
-    lineHeight: 0
+const header = {
+    padding: "32px 40px 0 40px"
 };
 
 const logoImage = {
@@ -74,8 +59,24 @@ const logoImage = {
     height: "auto"
 };
 
+const content = {
+    padding: "24px 40px 8px 40px",
+    color: textColor
+};
+
+const divider = {
+    borderColor: borderColor,
+    borderWidth: "1px 0 0 0",
+    margin: "24px 40px 0 40px",
+    width: "auto"
+};
+
+const footer = {
+    padding: "20px 40px 32px 40px"
+};
+
 const footerText = {
-    margin: "16px 0 0 0",
+    margin: 0,
     fontSize: "12px",
     lineHeight: "1.6",
     color: mutedColor,
@@ -85,11 +86,11 @@ const footerText = {
 const darkModeStyles = `<style type="text/css">
   @media (prefers-color-scheme: dark) {
     body, .email-body { background-color: #0c0c0c !important; }
-    .email-container { background-color: #18181b !important; }
+    .email-card { background-color: #18181b !important; border-color: #2a2a2a !important; }
     .email-content p, .email-content li, .email-content td { color: #ededed !important; }
     .email-divider { border-color: #2a2a2a !important; border-top-color: #2a2a2a !important; }
     .email-footer-text { color: #a1a1aa !important; }
-    .email-logo-wrap { background-color: #ffffff !important; padding: 8px 12px !important; border-radius: 8px !important; }
+    .email-logo-wrap { background-color: #ffffff !important; padding: 8px 12px !important; border-radius: 8px !important; display: inline-block !important; }
   }
 </style>`;
 
@@ -111,9 +112,15 @@ export const EmailLayout = ({
                 <Raw content={darkModeStyles} />
             </Head>
             <Preview>{preview}</Preview>
-            <Body style={main} className="email-body">
-                <Container style={container} className="email-container">
+            <Body style={page} className="email-body">
+                <Container style={card} className="email-card">
                     <Section style={accentBar}>&nbsp;</Section>
+
+                    <Section style={header}>
+                        <span className="email-logo-wrap">
+                            <Img src={companyLogo} width={132} alt="" style={logoImage} />
+                        </span>
+                    </Section>
 
                     <Section style={content} className="email-content">
                         {children}
@@ -122,14 +129,6 @@ export const EmailLayout = ({
                     <Hr style={divider} className="email-divider" />
 
                     <Section style={footer}>
-                        <span style={logoWrap} className="email-logo-wrap">
-                            <Img
-                                src={companyLogo}
-                                width={120}
-                                alt="Karako"
-                                style={logoImage}
-                            />
-                        </span>
                         <Text style={footerText} className="email-footer-text">
                             {t("footer.allRightsReserved", {
                                 currentYear,
