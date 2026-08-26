@@ -65,9 +65,6 @@ export default defineConfig({
                 test: {
                     name: "storybook",
                     setupFiles: [".storybook/vitest.setup.ts"],
-                    // Runners have 4 cores but little memory: unbounded workers
-                    // make chromium die mid-run.
-                    maxWorkers: process.env.CI ? 2 : undefined,
                     browser: {
                         enabled: true,
                         headless: true,
