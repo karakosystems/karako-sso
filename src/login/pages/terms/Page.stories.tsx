@@ -55,21 +55,6 @@ export const French: Story = {
     }
 };
 
-export const Spanish: Story = {
-    args: {
-        kcContext: {
-            locale: {
-                currentLanguageTag: "es"
-            },
-            "x-keycloakify": {
-                messages: {
-                    termsText: "<p>Mis términos en <strong>Español</strong></p>"
-                }
-            }
-        }
-    }
-};
-
 export const LongMessage: Story = {
     args: {
         kcContext: {

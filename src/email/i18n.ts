@@ -3,15 +3,11 @@ import type { GetMessages } from "keycloakify-emails";
 import { initReactI18next } from "react-i18next";
 
 import enTranslation from "./locales/en/translation.json";
-import esTranslation from "./locales/es/translation.json";
 import frTranslation from "./locales/fr/translation.json";
 
 const resources = {
     en: {
         translation: enTranslation
-    },
-    es: {
-        translation: esTranslation
     },
     fr: {
         translation: frTranslation

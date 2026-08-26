@@ -36,7 +36,7 @@ export default defineConfig({
                     ),
                     themeNames: buildContext.themeNames,
                     keycloakifyBuildDirPath: buildContext.keycloakifyBuildDirPath,
-                    locales: ["en", "es", "fr"],
+                    locales: ["en", "fr"],
                     esbuild: {
                         jsx: "automatic"
                     },
