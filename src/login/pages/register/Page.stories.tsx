@@ -177,6 +177,8 @@ export const WithEmailAsUsername: Story = {
 };
 
 export const WithRecaptcha: Story = {
+    // Not run in tests: the Google reCAPTCHA script reloads the story iframe.
+    tags: ["!test"],
     args: {
         kcContext: {
             scripts: ["https://www.google.com/recaptcha/api.js?hl=en"],
@@ -187,6 +189,8 @@ export const WithRecaptcha: Story = {
 };
 
 export const WithRecaptchaFrench: Story = {
+    // Not run in tests: the Google reCAPTCHA script reloads the story iframe.
+    tags: ["!test"],
     args: {
         kcContext: {
             locale: {
