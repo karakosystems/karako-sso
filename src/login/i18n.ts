@@ -15,7 +15,9 @@ const { I18nProvider, useI18n } = i18nBuilder
             "organization.selectTitle": "Choose Your Organization",
             "organization.pickPlaceholder": "Pick an organization to continue",
             "identity-provider-login-last-used": "Last used",
-            attemptedUsernameLoggingInAs: "Logging in as"
+            attemptedUsernameLoggingInAs: "Logging in as",
+            switchToDarkMode: "Switch to dark mode",
+            switchToLightMode: "Switch to light mode"
         },
         fr: {
             welcomeMessage: "Bienvenue sur Karako - votre accès sécurisé à nos services.",
@@ -28,7 +30,9 @@ const { I18nProvider, useI18n } = i18nBuilder
             "organization.pickPlaceholder":
                 "Sélectionnez une organisation pour continuer",
             "identity-provider-login-last-used": "Dernière utilisation",
-            attemptedUsernameLoggingInAs: "Se connecter en tant que"
+            attemptedUsernameLoggingInAs: "Se connecter en tant que",
+            switchToDarkMode: "Passer en mode sombre",
+            switchToLightMode: "Passer en mode clair"
         }
     })
     .build();
