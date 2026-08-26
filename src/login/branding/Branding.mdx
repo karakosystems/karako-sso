@@ -1,0 +1,67 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="branding/Overview" />
+
+# White-label
+
+One image serves every client. Branding comes from environment variables read
+by Keycloak **at server start**, so rebranding never needs a rebuild.
+
+```bash
+docker run --env-file ./acme.env ghcr.io/karakosystems/karako-iam
+```
+
+```ini
+KARAKO_BRAND_NAME=ACME
+KARAKO_BRAND_LEGAL_NAME=ACME Corporation
+KARAKO_BRAND_PRIMARY=#0055aa
+KARAKO_BRAND_LAYOUT=hero
+KARAKO_BRAND_DECOR=aurora
+```
+
+## Settings
+
+| Variable                       | Default                | Notes                                |
+| ------------------------------ | ---------------------- | ------------------------------------ |
+| `KARAKO_BRAND_NAME`            | `Karako`               | Short name, page title               |
+| `KARAKO_BRAND_LEGAL_NAME`      | `Karako Systems`       | Footer, emails                       |
+| `KARAKO_BRAND_WELCOME_MESSAGE` | _(translated default)_ | Tagline beside the logo              |
+| `KARAKO_BRAND_LOGO_URL`        | Karako violet logo     | `https://` only                      |
+| `KARAKO_BRAND_LOGO_DARK_URL`   | Karako white logo      | Used on dark backgrounds             |
+| `KARAKO_BRAND_FAVICON_URL`     | _(theme icons)_        | `https://` only                      |
+| `KARAKO_BRAND_PRIMARY`         | `#635bfe`              | Hex; drives buttons, links, decor    |
+| `KARAKO_BRAND_RADIUS`          | `0.625rem`             | Any CSS length                       |
+| `KARAKO_BRAND_LAYOUT`          | `centered`             | See below                            |
+| `KARAKO_BRAND_DECOR`           | `shape`                | A name below, or an `https://` image |
+
+Anything missing or invalid falls back to the default — a typo never produces a
+broken login page. The text colour on the brand colour is **derived by
+contrast**, not configured, so a pale primary cannot yield an unreadable button.
+
+## Layouts
+
+`centered` · `split` · `split-reverse` · `hero` · `minimal` · `stacked`
+
+Pages never reference a layout: all 38 render the same `<Template>`. Shared
+chrome lives in `Template/parts/`, so a new layout is a composition, not a copy.
+
+## Decors
+
+`none` · `shape` · `waves` · `aurora` · `mesh` · `grid` · `dots` · `rings` ·
+`diagonals` · `arcs` · `blobs` · `topography` · `hexagons` · `beams` ·
+`gradient` · `glow` · `columns` · `scatter`
+
+They are SVG painted with `var(--primary)`, so any decor works with any colour.
+See **branding/Decors** for the gallery.
+
+## Previewing
+
+The toolbar above drives Brand, Layout and Decor on every story — same resolver
+and defaults as a real deployment.
+
+## Multi-tenancy
+
+Environment variables are per-instance: one deployment, one brand. Serving
+several realms with different brands from a single instance would need the
+branding to come from realm attributes instead. `BrandingProvider` is the single
+place that would change; no consumer would.
