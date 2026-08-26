@@ -15,7 +15,9 @@ import { createVariablesHelper } from "keycloakify-emails/variables";
 import type { PropsWithChildren, ReactNode } from "react";
 import {
     borderColor,
+    companyLegalName,
     companyLogo,
+    companyName,
     mutedColor,
     primaryColor,
     textColor
@@ -125,12 +127,18 @@ export const EmailLayout = ({
 
                     <Section style={footer}>
                         <span style={logoWrap} className="email-logo-wrap">
-                            <Img src={companyLogo} width={132} alt="" style={logoImage} />
+                            <Img
+                                src={companyLogo}
+                                width={132}
+                                alt={companyName}
+                                style={logoImage}
+                            />
                         </span>
                         <Text style={footerText} className="email-footer-text">
                             {t("footer.allRightsReserved", {
                                 currentYear,
-                                realmName: exp("realmName")
+                                realmName: exp("realmName"),
+                                companyName: companyLegalName
                             })}
                         </Text>
                     </Section>

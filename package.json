@@ -18,8 +18,8 @@
         "lint:fix": "eslint . --fix",
         "format": "prettier . --write",
         "format:check": "prettier . --check",
-        "emails:check": "email check ./src/email/templates --use-preview-props",
-        "emails:preview": "email preview ./src/email/templates --use-preview-props"
+        "emails:check": "KARAKO_EMAIL_PREVIEW=1 email check ./src/email/templates --use-preview-props",
+        "emails:preview": "KARAKO_EMAIL_PREVIEW=1 email preview ./src/email/templates --use-preview-props"
     },
     "keywords": [],
     "packageManager": "bun",

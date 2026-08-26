@@ -104,6 +104,6 @@
         "days": "{0,choice,0#days|1#day|1<days}"
     },
     "footer": {
-        "allRightsReserved": "© {{currentYear}}, Karako Systems"
+        "allRightsReserved": "© {{currentYear}}, {{companyName}}"
     }
 }
