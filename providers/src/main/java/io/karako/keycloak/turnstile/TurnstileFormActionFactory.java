@@ -18,6 +18,12 @@ public class TurnstileFormActionFactory implements FormActionFactory {
     public static final String SECRET_KEY = "turnstile.secret.key";
     public static final String ACTION = "turnstile.action";
     public static final String THEME = "turnstile.theme";
+    public static final String TEST_MODE = "turnstile.test.mode";
+
+    // Cloudflare's public test keys: the widget always passes and siteverify
+    // always succeeds. They protect nothing - replace them before going live.
+    static final String TEST_SITE_KEY = "1x00000000000000000000AA";
+    static final String TEST_SECRET_KEY = "1x0000000000000000000000000000000AA";
 
     private static final Requirement[] REQUIREMENT_CHOICES = {
         Requirement.REQUIRED,
@@ -65,15 +71,23 @@ public class TurnstileFormActionFactory implements FormActionFactory {
         ProviderConfigProperty siteKey = new ProviderConfigProperty();
         siteKey.setName(SITE_KEY);
         siteKey.setLabel("Site key");
-        siteKey.setHelpText("Public key from the Turnstile dashboard.");
+        siteKey.setHelpText(
+            "Public key from the Turnstile dashboard. Pre-filled with "
+                + "Cloudflare's test key - replace it before going live."
+        );
         siteKey.setType(ProviderConfigProperty.STRING_TYPE);
+        siteKey.setDefaultValue(TEST_SITE_KEY);
 
         ProviderConfigProperty secretKey = new ProviderConfigProperty();
         secretKey.setName(SECRET_KEY);
         secretKey.setLabel("Secret key");
-        secretKey.setHelpText("Private key, used server-side only.");
+        secretKey.setHelpText(
+            "Private key, used server-side only. Pre-filled with Cloudflare's "
+                + "test key, which accepts any token - replace it before going live."
+        );
         secretKey.setType(ProviderConfigProperty.PASSWORD);
         secretKey.setSecret(true);
+        secretKey.setDefaultValue(TEST_SECRET_KEY);
 
         ProviderConfigProperty action = new ProviderConfigProperty();
         action.setName(ACTION);
@@ -90,7 +104,18 @@ public class TurnstileFormActionFactory implements FormActionFactory {
         theme.setOptions(List.of("auto", "light", "dark"));
         theme.setDefaultValue("auto");
 
-        return List.of(siteKey, secretKey, action, theme);
+        ProviderConfigProperty testMode = new ProviderConfigProperty();
+        testMode.setName(TEST_MODE);
+        testMode.setLabel("Use Cloudflare test keys");
+        testMode.setHelpText(
+            "Replaces both keys with Cloudflare's public test pair: the widget "
+                + "always passes and any token is accepted. For local testing "
+                + "only - it protects nothing."
+        );
+        testMode.setType(ProviderConfigProperty.BOOLEAN_TYPE);
+        testMode.setDefaultValue(false);
+
+        return List.of(testMode, siteKey, secretKey, action, theme);
     }
 
     @Override

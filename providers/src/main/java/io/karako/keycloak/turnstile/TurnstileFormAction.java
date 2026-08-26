@@ -13,7 +13,6 @@ import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.utils.FormMessage;
-import org.keycloak.services.messages.Messages;
 import org.keycloak.services.validation.Validation;
 
 import java.io.IOException;
@@ -32,6 +31,10 @@ public class TurnstileFormAction implements FormAction {
     private static final Logger LOG = Logger.getLogger(TurnstileFormAction.class);
 
     static final String RESPONSE_FIELD = "cf-turnstile-response";
+
+    // Resolved from the theme's message bundles, generated from src/login/i18n.ts.
+    static final String MSG_FAILED = "turnstileFailed";
+    static final String MSG_NOT_CONFIGURED = "turnstileNotConfigured";
     static final String SCRIPT_URL =
         "https://challenges.cloudflare.com/turnstile/v0/api.js";
     static final String SITEVERIFY_URL =
@@ -40,10 +43,12 @@ public class TurnstileFormAction implements FormAction {
     @Override
     public void buildPage(FormContext context, LoginFormsProvider form) {
         AuthenticatorConfigModel config = context.getAuthenticatorConfig();
-        String siteKey = configValue(config, TurnstileFormActionFactory.SITE_KEY);
+        String siteKey = isTestMode(config)
+            ? TurnstileFormActionFactory.TEST_SITE_KEY
+            : configValue(config, TurnstileFormActionFactory.SITE_KEY);
 
         if (siteKey == null) {
-            form.addError(new FormMessage(null, Messages.RECAPTCHA_NOT_CONFIGURED));
+            form.addError(new FormMessage(null, MSG_NOT_CONFIGURED));
             return;
         }
 
@@ -68,17 +73,19 @@ public class TurnstileFormAction implements FormAction {
 
         String token = formData.getFirst(RESPONSE_FIELD);
         AuthenticatorConfigModel config = context.getAuthenticatorConfig();
-        String secret = configValue(config, TurnstileFormActionFactory.SECRET_KEY);
+        String secret = isTestMode(config)
+            ? TurnstileFormActionFactory.TEST_SECRET_KEY
+            : configValue(config, TurnstileFormActionFactory.SECRET_KEY);
 
         if (secret == null) {
-            errors.add(new FormMessage(null, Messages.RECAPTCHA_NOT_CONFIGURED));
+            errors.add(new FormMessage(null, MSG_NOT_CONFIGURED));
             fail(context, formData, errors, Errors.INVALID_REGISTRATION);
             return;
         }
 
         if (Validation.isBlank(token) || !isTokenValid(context.getSession(), secret, token,
                 context.getConnection().getRemoteAddr())) {
-            errors.add(new FormMessage(null, Messages.RECAPTCHA_FAILED));
+            errors.add(new FormMessage(null, MSG_FAILED));
             formData.remove(RESPONSE_FIELD);
             fail(context, formData, errors, Errors.INVALID_REGISTRATION);
             return;
@@ -111,6 +118,12 @@ public class TurnstileFormAction implements FormAction {
             LOG.warnf("Turnstile verification failed: %s", e.getMessage());
             return false;
         }
+    }
+
+    private static boolean isTestMode(AuthenticatorConfigModel config) {
+        return Boolean.parseBoolean(
+            configValue(config, TurnstileFormActionFactory.TEST_MODE, "false")
+        );
     }
 
     private static String configValue(AuthenticatorConfigModel config, String key) {
