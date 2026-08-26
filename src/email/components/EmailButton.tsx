@@ -2,8 +2,8 @@ import { Button } from "jsx-email";
 import type { ReactNode } from "react";
 import { btnTextColor, primaryColor, radius } from "../constants";
 
-// No fixed width: labels vary a lot across locales (the French password-reset
-// label is ~376px) and a fixed width made them overflow.
+// width:auto is required: jsx-email defaults to width:100%, which together with
+// the padding overflows the container (email boxes are content-box).
 export const EmailButton = ({
     href,
     align = "left",
@@ -22,6 +22,8 @@ export const EmailButton = ({
         fontSize={15}
         style={{
             display: "inline-block",
+            width: "auto",
+            boxSizing: "border-box",
             padding: "14px 28px",
             fontWeight: 600,
             lineHeight: "20px",
