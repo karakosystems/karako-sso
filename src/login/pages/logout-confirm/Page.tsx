@@ -24,7 +24,6 @@ export function Page() {
                     <input type="hidden" name="session_code" value={logoutConfirm.code} />
 
                     <Button
-                        tabIndex={4}
                         className="w-full"
                         name="confirmLogout"
                         id="kc-logout"

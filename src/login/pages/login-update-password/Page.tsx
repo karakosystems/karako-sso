@@ -50,7 +50,7 @@ export function Page() {
                     {messagesPerField.existsError("password") && (
                         <FieldError>
                             <span
-                                id="input-error"
+                                id="input-error-password-new"
                                 aria-live="polite"
                                 dangerouslySetInnerHTML={{
                                     __html: kcSanitize(
@@ -83,7 +83,7 @@ export function Page() {
                     {messagesPerField.existsError("password-confirm") && (
                         <FieldError>
                             <span
-                                id="input-error"
+                                id="input-error-password-confirm"
                                 aria-live="polite"
                                 dangerouslySetInnerHTML={{
                                     __html: kcSanitize(

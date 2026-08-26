@@ -34,7 +34,6 @@ export function Page() {
                         )}
                     </FieldLabel>
                     <Input
-                        tabIndex={1}
                         id="recoveryCodeInput"
                         name="recoveryCodeInput"
                         autoComplete="off"
@@ -46,7 +45,7 @@ export function Page() {
                     {messagesPerField.existsError("recoveryCodeInput") && (
                         <FieldError>
                             <span
-                                id="input-error"
+                                id="input-error-recoveryCodeInput"
                                 aria-live="polite"
                                 dangerouslySetInnerHTML={{
                                     __html: kcSanitize(

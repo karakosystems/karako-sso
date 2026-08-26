@@ -42,7 +42,6 @@ export function Page() {
                     <FieldLabel htmlFor="password">{msg("password")}</FieldLabel>
                     <InputGroup>
                         <InputGroupInput
-                            tabIndex={2}
                             type="password"
                             id="password"
                             name="password"
@@ -58,7 +57,7 @@ export function Page() {
                     {kcContext.messagesPerField.existsError("password") && (
                         <FieldError>
                             <span
-                                id="input-error"
+                                id="input-error-password"
                                 aria-live="polite"
                                 dangerouslySetInnerHTML={{
                                     __html: kcSanitize(
@@ -75,7 +74,7 @@ export function Page() {
                 <div className="flex justify-end">
                     {kcContext.realm.resetPasswordAllowed && (
                         <span className=" underline-offset-4 hover:underline">
-                            <a tabIndex={5} href={kcContext.url.loginResetCredentialsUrl}>
+                            <a href={kcContext.url.loginResetCredentialsUrl}>
                                 <Label className="text-sm font-medium cursor-pointer">
                                     {msg("doForgotPassword")}
                                 </Label>
@@ -90,7 +89,6 @@ export function Page() {
                         className="w-full"
                         name="login"
                         type="submit"
-                        tabIndex={4}
                     >
                         {msgStr("doLogIn")}
                     </Button>

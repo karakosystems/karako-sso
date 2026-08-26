@@ -38,7 +38,6 @@ export function Page() {
                     <span>
                         {msg("noAccount")}{" "}
                         <a
-                            tabIndex={6}
                             href={url.registrationUrl}
                             className="text-primary dark:text-white hover:text-primary/80 underline underline-offset-4"
                         >

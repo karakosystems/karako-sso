@@ -39,7 +39,7 @@ export function Form() {
                 {kcContext.messagesPerField.existsError("username") && (
                     <FieldError>
                         <span
-                            id="input-error"
+                            id="input-error-username"
                             aria-live="polite"
                             dangerouslySetInnerHTML={{
                                 __html: kcSanitize(

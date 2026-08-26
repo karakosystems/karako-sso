@@ -39,9 +39,7 @@ export function Page() {
                     <div id="kc-registration">
                         <span>
                             ${msg("noAccount")}{" "}
-                            <a tabIndex={6} href={url.registrationUrl}>
-                                {msg("doRegister")}
-                            </a>
+                            <a href={url.registrationUrl}>{msg("doRegister")}</a>
                         </span>
                     </div>
                 )
@@ -240,7 +238,6 @@ export function Page() {
                                             {msg("passkey-autofill-select")}
                                         </label>
                                         <input
-                                            tabIndex={1}
                                             id="username"
                                             aria-invalid={messagesPerField.existsError(
                                                 "username"

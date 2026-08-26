@@ -44,7 +44,6 @@ export function Page() {
                         {msg("noAccount")}{" "}
                         <a
                             className="underline underline-offset-4 "
-                            tabIndex={8}
                             href={url.registrationUrl}
                         >
                             {msg("doRegister")}
@@ -79,7 +78,6 @@ export function Page() {
                                           : msg("username")}
                                 </FieldLabel>
                                 <Input
-                                    tabIndex={2}
                                     type="text"
                                     id="username"
                                     defaultValue={login.username ?? ""}
@@ -98,7 +96,7 @@ export function Page() {
                                 {messagesPerField.existsError("username") && (
                                     <FieldError>
                                         <span
-                                            id="input-error"
+                                            id="input-error-username"
                                             aria-live="polite"
                                             dangerouslySetInnerHTML={{
                                                 __html: kcSanitize(
@@ -116,7 +114,6 @@ export function Page() {
                         {realm.rememberMe && !usernameHidden && (
                             <div className="flex items-center space-x-2">
                                 <Checkbox
-                                    tabIndex={3}
                                     id="rememberMe"
                                     name="rememberMe"
                                     value="on"
@@ -136,7 +133,6 @@ export function Page() {
                             className="w-full"
                             name="login"
                             type="submit"
-                            tabIndex={4}
                         >
                             {msgStr("doLogIn")}
                         </Button>

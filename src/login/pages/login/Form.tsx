@@ -53,7 +53,6 @@ export function Form() {
                                               : msg("username")}
                                     </FieldLabel>
                                     <Input
-                                        tabIndex={2}
                                         type="text"
                                         id="username"
                                         defaultValue={kcContext.login.username ?? ""}
@@ -75,7 +74,7 @@ export function Form() {
                                     ) && (
                                         <FieldError>
                                             <span
-                                                id="input-error"
+                                                id="input-error-username"
                                                 aria-live="polite"
                                                 dangerouslySetInnerHTML={{
                                                     __html: kcSanitize(
@@ -97,7 +96,6 @@ export function Form() {
                                 </FieldLabel>
                                 <InputGroup>
                                     <InputGroupInput
-                                        tabIndex={3}
                                         type="password"
                                         id="password"
                                         name="password"
@@ -108,10 +106,7 @@ export function Form() {
                                         )}
                                     />
                                     <InputGroupAddon align="inline-end">
-                                        <PasswordVisibilityButton
-                                            passwordInputId="password"
-                                            tabIndex={4}
-                                        />
+                                        <PasswordVisibilityButton passwordInputId="password" />
                                     </InputGroupAddon>
                                 </InputGroup>
                                 {kcContext.messagesPerField.existsError(
@@ -120,7 +115,7 @@ export function Form() {
                                 ) && (
                                     <FieldError>
                                         <span
-                                            id="input-error"
+                                            id="input-error-password"
                                             aria-live="polite"
                                             dangerouslySetInnerHTML={{
                                                 __html: kcSanitize(
@@ -140,7 +135,6 @@ export function Form() {
                                     !kcContext.usernameHidden && (
                                         <div className="flex items-center space-x-2 ">
                                             <Checkbox
-                                                tabIndex={5}
                                                 id="rememberMe"
                                                 name="rememberMe"
                                                 defaultChecked={
@@ -160,7 +154,6 @@ export function Form() {
                                     {kcContext.realm.resetPasswordAllowed && (
                                         <span className=" underline-offset-4 hover:underline">
                                             <a
-                                                tabIndex={6}
                                                 href={
                                                     kcContext.url.loginResetCredentialsUrl
                                                 }
@@ -185,7 +178,6 @@ export function Form() {
                                 <Button
                                     disabled={isLoginButtonDisabled}
                                     className="w-full"
-                                    tabIndex={7}
                                     name="login"
                                     id="kc-login"
                                     type="submit"
