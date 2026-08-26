@@ -6,13 +6,8 @@ import {
     type Branding
 } from "../src/login/branding";
 
-/**
- * Storybook drives the branding from the toolbar, exactly like a deployment
- * drives it from environment variables - same resolver, same defaults. Picking
- * a layout or a decor here previews what KARAKO_BRAND_LAYOUT / _DECOR would do
- * in production.
- */
-
+// Same resolver and defaults as a real deployment; the toolbar stands in for
+// the environment variables.
 const BRAND_PRESETS: Record<string, Partial<Branding>> = {
     karako: {},
     acme: {
@@ -69,7 +64,9 @@ const preview: Preview = {
     parameters: {
         controls: {
             matchers: { color: /(background|color)$/i, date: /Date$/i }
-        }
+        },
+        // "error" fails the story in the test run, not just in the a11y panel.
+        a11y: { test: "error" }
     },
     globalTypes: {
         brand: {
