@@ -1,3 +1,4 @@
+import { BASE_COLORS, type BaseColor } from "./baseColors.ts";
 import { normalizeHexColor, readableForeground } from "./contrast";
 import { BRAND_DEFAULTS, BRAND_PREFIX, type BrandKey } from "./schema";
 import { DECORS, LAYOUTS, type Branding, type Decor, type Layout } from "./types";
@@ -23,6 +24,10 @@ function asHttpsUrl(value: string | undefined): string | undefined {
         return undefined;
     }
     return value.startsWith("https://") ? value : undefined;
+}
+
+function asBase(value: string | undefined): BaseColor | undefined {
+    return BASE_COLORS.includes(value as BaseColor) ? (value as BaseColor) : undefined;
 }
 
 function asLayout(value: string | undefined): Layout | undefined {
@@ -63,6 +68,7 @@ export function resolveBranding(
         faviconUrl: asHttpsUrl(read(properties, "FAVICON_URL")) ?? null,
         primary,
         primaryForeground: readableForeground(primary),
+        base: asBase(read(properties, "BASE")) ?? BRAND_DEFAULTS.BASE,
         radius,
         layout: asLayout(read(properties, "LAYOUT")) ?? BRAND_DEFAULTS.LAYOUT,
         decor: asDecor(read(properties, "DECOR")) ?? BRAND_DEFAULTS.DECOR

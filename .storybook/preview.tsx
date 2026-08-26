@@ -1,5 +1,6 @@
 import type { Decorator, Preview } from "@storybook/react-vite";
 import {
+    BASE_COLORS,
     BrandingOverrideProvider,
     DECORS,
     LAYOUTS,
@@ -14,10 +15,12 @@ const BRAND_PRESETS: Record<string, Partial<Branding>> = {
         name: "ACME",
         legalName: "ACME Corporation",
         primary: "#0055aa",
+        base: "gray",
         welcomeMessage: "Sign in to your ACME workspace."
     },
     verdant: {
         name: "Verdant",
+        base: "olive",
         legalName: "Verdant Health",
         primary: "#0f7b3f",
         radius: "1rem",
@@ -25,6 +28,7 @@ const BRAND_PRESETS: Record<string, Partial<Branding>> = {
     },
     ember: {
         name: "Ember",
+        base: "stone",
         legalName: "Ember Financial",
         primary: "#d97706",
         radius: "0.25rem",
@@ -32,6 +36,7 @@ const BRAND_PRESETS: Record<string, Partial<Branding>> = {
     },
     slate: {
         name: "Slate",
+        base: "mist",
         legalName: "Slate Institute",
         primary: "#334155",
         radius: "0rem"
@@ -51,6 +56,11 @@ const withBranding: Decorator = (Story, context) => {
     const decor = context.globals.decor as string | undefined;
     if (decor !== undefined && decor !== "default") {
         overrides.decor = decor;
+    }
+
+    const base = context.globals.base as string | undefined;
+    if (base !== undefined && base !== "default") {
+        overrides.base = base as Branding["base"];
     }
 
     return (
@@ -93,6 +103,19 @@ const preview: Preview = {
                 items: [
                     { value: "default", title: "From branding" },
                     ...LAYOUTS.map(value => ({ value, title: value }))
+                ],
+                dynamicTitle: true
+            }
+        },
+        base: {
+            description: "Neutral scale (KARAKO_BRAND_BASE)",
+            defaultValue: "default",
+            toolbar: {
+                title: "Base",
+                icon: "contrast",
+                items: [
+                    { value: "default", title: "From branding" },
+                    ...BASE_COLORS.map(value => ({ value, title: value }))
                 ],
                 dynamicTitle: true
             }

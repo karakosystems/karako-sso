@@ -1,14 +1,40 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { BASE_COLOR_SCALES } from "./baseColors.ts";
 import { useBranding } from "./BrandingProvider";
+
+// The theme provider toggles a `dark` class on <html>; watch it so the base
+// scale follows a theme change instead of being read once at mount.
+function useIsDark() {
+    const [isDark, setIsDark] = useState(
+        () =>
+            typeof document !== "undefined" &&
+            document.documentElement.classList.contains("dark")
+    );
+
+    useEffect(() => {
+        const root = document.documentElement;
+        const update = () => setIsDark(root.classList.contains("dark"));
+        update();
+
+        const observer = new MutationObserver(update);
+        observer.observe(root, { attributes: true, attributeFilter: ["class"] });
+        return () => observer.disconnect();
+    }, []);
+
+    return isDark;
+}
 
 // One brand colour for both schemes; --ring and --sidebar-primary follow it
 // rather than being separate settings.
 export function BrandStyle() {
     const branding = useBranding();
+    const isDark = useIsDark();
 
     useEffect(() => {
         const root = document.documentElement;
+        const scale = BASE_COLOR_SCALES[branding.base];
         const applied: [string, string][] = [
+            ...Object.entries(isDark ? scale.dark : scale.light),
             ["--primary", branding.primary],
             ["--primary-foreground", branding.primaryForeground],
             ["--sidebar-primary", branding.primary],
@@ -33,7 +59,13 @@ export function BrandStyle() {
                 }
             });
         };
-    }, [branding.primary, branding.primaryForeground, branding.radius]);
+    }, [
+        branding.base,
+        branding.primary,
+        branding.primaryForeground,
+        branding.radius,
+        isDark
+    ]);
 
     useEffect(() => {
         if (branding.faviconUrl === null) {

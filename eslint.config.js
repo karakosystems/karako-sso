@@ -65,7 +65,7 @@ export default typescriptEslint.config(
         }
     },
     {
-        files: ["src/components/ui/**/*.tsx"],
+        files: ["src/components/ui/**/*.tsx", "src/login/branding/BrandingProvider.tsx"],
         rules: {
             "react-refresh/only-export-components": "off"
         }

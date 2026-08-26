@@ -1,3 +1,4 @@
+import { BASE_COLORS } from "./baseColors.ts";
 import { DECORS, LAYOUTS, type Decor, type Layout } from "./types.ts";
 
 // Not `KC_`: Keycloak validates its own KC_* options and warns on unknown ones.
@@ -12,6 +13,7 @@ export const BRAND_DEFAULTS = {
         "https://cdn.karakosystems.com/karako/logos/logo-full-violet-white.png",
     FAVICON_URL: "",
     PRIMARY: "#635bfe",
+    BASE: "neutral",
     RADIUS: "0.625rem",
     LAYOUT: "centered" satisfies Layout,
     DECOR: "shape" satisfies Decor
@@ -46,6 +48,10 @@ export const BRAND_SETTINGS: Record<BrandKey, { label: string; hint: string }> =
     PRIMARY: {
         label: "Brand colour",
         hint: "Hex colour driving buttons, links and decor"
+    },
+    BASE: {
+        label: "Base colour",
+        hint: `Neutral scale for backgrounds and cards. One of: ${BASE_COLORS.join(", ")}`
     },
     RADIUS: { label: "Corner radius", hint: "Any CSS length, e.g. 0.25rem or 16px" },
     LAYOUT: { label: "Layout", hint: `One of: ${LAYOUTS.join(", ")}` },

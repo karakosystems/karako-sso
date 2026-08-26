@@ -1,3 +1,5 @@
+import type { BaseColor } from "./baseColors.ts";
+
 export const LAYOUTS = [
     "centered",
     "split",
@@ -42,6 +44,8 @@ export type Branding = {
     primary: string;
     /** Derived from `primary` by contrast, never configured directly. */
     primaryForeground: string;
+    /** Neutral scale behind backgrounds, cards and borders. */
+    base: BaseColor;
     radius: string;
     layout: Layout;
     /** A built-in decor name, or an absolute https:// image URL. */

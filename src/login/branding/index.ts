@@ -3,6 +3,8 @@ export {
     BrandingProvider,
     useBranding
 } from "./BrandingProvider";
+export { BASE_COLORS } from "./baseColors.ts";
+export type { BaseColor } from "./baseColors.ts";
 export { BrandStyle } from "./BrandStyle";
 export { Decor } from "./decor/Decor";
 export { resolveBranding } from "./resolve";
