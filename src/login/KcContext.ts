@@ -15,8 +15,15 @@ export type KcContextExtension = {
     darkMode?: boolean;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export type KcContextExtensionPerPage = {};
+export type KcContextExtensionPerPage = {
+    // Set by the Turnstile form action in providers/
+    "register.ftl": {
+        turnstileRequired?: boolean;
+        turnstileSiteKey?: string;
+        turnstileAction?: string;
+        turnstileTheme?: "auto" | "light" | "dark";
+    };
+};
 
 export type KcContext = ExtendKcContext<KcContextExtension, KcContextExtensionPerPage>;
 
