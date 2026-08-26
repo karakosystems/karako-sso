@@ -1,4 +1,4 @@
-import { DECORS, LAYOUTS, type Decor, type Layout } from "./types";
+import { DECORS, LAYOUTS, type Decor, type Layout } from "./types.ts";
 
 // Not `KC_`: Keycloak validates its own KC_* options and warns on unknown ones.
 export const BRAND_PREFIX = "KARAKO_BRAND_";
