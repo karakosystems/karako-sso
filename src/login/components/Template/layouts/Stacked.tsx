@@ -11,7 +11,6 @@ import {
     type TemplateProps
 } from "../parts";
 
-/** Branded banner across the top, form underneath. Reads well on wide screens. */
 export function Stacked(props: TemplateProps) {
     const { headerNode, displayRequiredFields, documentTitle, bodyClassName } = props;
     useTemplateSetup({ documentTitle, bodyClassName });

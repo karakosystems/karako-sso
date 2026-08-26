@@ -10,7 +10,6 @@ import {
     type TemplateProps
 } from "../parts";
 
-/** Card centred on a decorated background. */
 export function Centered(props: TemplateProps) {
     const { headerNode, displayRequiredFields, documentTitle, bodyClassName } = props;
     useTemplateSetup({ documentTitle, bodyClassName });

@@ -2,11 +2,6 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { DECORS } from "../types";
 import { Decor } from "./Decor";
 
-/**
- * Gallery of the built-in decorative backgrounds. A deployment picks one by
- * name (KARAKO_BRAND_DECOR); every pattern takes the brand colour, so the
- * swatches below all follow the "Brand colour" control.
- */
 function Gallery(props: { primary: string; opacity: number; dark: boolean }) {
     const { primary, opacity, dark } = props;
 

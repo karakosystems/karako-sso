@@ -3,24 +3,11 @@ import { useKcContext } from "../KcContext";
 import { resolveBranding } from "./resolve";
 import type { Branding } from "./types";
 
-/**
- * Makes the resolved branding available to the whole tree.
- *
- * Today the values come from `kcContext.properties`, i.e. environment
- * variables passed to the container. The indirection exists so a future source
- * - per-realm attributes injected by the Java provider, for instance - can be
- * plugged in here without touching a single consumer.
- */
-
+// Values come from kcContext.properties today; the context indirection lets a
+// future source (per-realm attributes) replace them without touching consumers.
 const BrandingContext = createContext<Branding | undefined>(undefined);
 
-/**
- * Out-of-band overrides, applied on top of whatever the deployment configured.
- *
- * Production never provides this. It exists so Storybook and the dev server can
- * sit *outside* <KcPage> and still drive the branding, which is what makes
- * every layout and decor previewable without rebuilding an image.
- */
+// Only Storybook and the dev server use this, from outside <KcPage>.
 const BrandingOverrideContext = createContext<Partial<Branding> | undefined>(undefined);
 
 export function BrandingOverrideProvider(props: {

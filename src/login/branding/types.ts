@@ -1,4 +1,3 @@
-/** Layout variants a deployment can choose from. */
 export const LAYOUTS = [
     "centered",
     "split",
@@ -10,11 +9,6 @@ export const LAYOUTS = [
 
 export type Layout = (typeof LAYOUTS)[number];
 
-/**
- * Built-in decorative backgrounds. They are drawn as SVG and take their colour
- * from the resolved brand palette, so a deployment picks a name instead of
- * hosting an image.
- */
 export const DECORS = [
     "none",
     "shape",

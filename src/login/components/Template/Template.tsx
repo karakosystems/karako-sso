@@ -7,12 +7,6 @@ import { Split } from "./layouts/Split";
 import { Stacked } from "./layouts/Stacked";
 import type { TemplateProps } from "./parts";
 
-/**
- * Picks the layout for the current deployment and renders the page inside it.
- *
- * Pages never reference a layout: they render <Template> with the same props
- * whatever the client has configured.
- */
 export function Template(props: TemplateProps) {
     const { layout } = useBranding();
 

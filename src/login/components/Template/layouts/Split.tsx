@@ -11,11 +11,6 @@ import {
     type TemplateProps
 } from "../parts";
 
-/**
- * Two columns: the form on one side, a branded panel on the other.
- * `reverse` puts the brand panel first, which reads better in RTL locales and
- * suits clients whose logo is the visual anchor.
- */
 export function Split(props: TemplateProps & { reverse?: boolean }) {
     const {
         headerNode,

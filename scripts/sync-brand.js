@@ -1,18 +1,6 @@
 #!/usr/bin/env bun
-/**
- * Syncs the brand assets that live in this repo with the Karako CDN.
- *
- * Two jobs:
- *   1. Download the favicon set into public/ (these are copied, not linked,
- *      because Keycloak serves theme resources with `Cache-Control: no-cache`
- *      whereas the CDN serves `immutable, max-age=31536000` - a replaced asset
- *      would stay invisible to returning visitors for up to a year).
- *   2. Check that every CDN URL referenced from src/ still exists in the CDN
- *      index, so a renamed logo fails here instead of silently 404ing on the
- *      login page.
- *
- * Run it after uploading new assets to the CDN:  bun run sync:brand
- */
+// Favicons are copied, not linked: Keycloak serves theme resources with
+// no-cache, the CDN with immutable/1-year. Run after uploading to the CDN.
 
 const CDN = "https://cdn.karakosystems.com";
 const INDEX_URL = `${CDN}/discover.json`;
@@ -27,10 +15,7 @@ const FAVICONS = {
     "karako/android-chrome-512x512.png": "public/android-chrome-512x512.png"
 };
 
-/**
- * The CDN sets `immutable`, so a plain fetch can return a stale edge copy even
- * when the origin has been updated. A per-run cache buster forces a fresh one.
- */
+// The CDN is immutable, so a plain fetch can return a stale edge copy.
 const bust = `cb=${process.env.SYNC_BRAND_CB ?? String(Math.floor(Date.now() / 1000))}`;
 
 const noCache = { "Cache-Control": "no-cache", Pragma: "no-cache" };
@@ -76,7 +61,6 @@ async function main() {
         changed += 1;
     }
 
-    // Every CDN URL hardcoded in the source must still exist in the index.
     const referenced = new Set();
     for await (const path of new Bun.Glob("**/*.{ts,tsx}").scan("src")) {
         const source = await Bun.file(`src/${path}`).text();

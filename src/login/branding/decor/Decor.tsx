@@ -1,14 +1,7 @@
 import type { CSSProperties } from "react";
 import type { Decor as DecorName } from "../types";
 
-/**
- * Decorative backgrounds.
- *
- * Every pattern paints with `var(--primary)`, so it follows the deployment's
- * brand colour automatically - a client picks a name, not an image. Each one
- * fills its positioned parent and is purely ornamental (aria-hidden).
- */
-
+// Every pattern paints with var(--primary), so a client picks a name, not an image.
 type Props = {
     /** A built-in decor name, or an absolute https:// image URL. */
     decor: DecorName | string;
@@ -315,7 +308,7 @@ function Columns({ o, id }: { o: number; id: string }) {
 }
 
 function Scatter({ o, id }: { o: number; id: string }) {
-    // Deterministic pseudo-random placement: stable across renders and SSR.
+    // Deterministic placement: stable across renders.
     const items = Array.from({ length: 44 }, (_, i) => {
         const a = (i * 9301 + 49297) % 233280;
         const b = (i * 4111 + 7919) % 233280;
@@ -342,7 +335,6 @@ function Scatter({ o, id }: { o: number; id: string }) {
 }
 
 function Shape({ o, id }: { o: number; id: string }) {
-    // The original Karako shape, redrawn so it takes the brand colour too.
     return (
         <Svg opacity={o} id={id}>
             <defs>

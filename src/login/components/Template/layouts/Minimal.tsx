@@ -9,11 +9,6 @@ import {
     type TemplateProps
 } from "../parts";
 
-/**
- * No card, no ornament by default: the form sits directly on the page.
- * Suits institutions that want the login screen to feel like a document
- * rather than a product.
- */
 export function Minimal(props: TemplateProps) {
     const { headerNode, displayRequiredFields, documentTitle, bodyClassName } = props;
     useTemplateSetup({ documentTitle, bodyClassName });

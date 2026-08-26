@@ -1,15 +1,8 @@
 import { useEffect } from "react";
 import { useBranding } from "./BrandingProvider";
 
-/**
- * Projects the resolved branding onto the CSS custom properties the theme
- * already uses, and onto the favicon links.
- *
- * The colour is written once on :root for both schemes - the same brand colour
- * in light and dark, with the readable foreground derived by contrast. Tokens
- * that should follow the brand (`--ring`, `--sidebar-primary`) are set from the
- * same value rather than exposed as separate settings.
- */
+// One brand colour for both schemes; --ring and --sidebar-primary follow it
+// rather than being separate settings.
 export function BrandStyle() {
     const branding = useBranding();
 
@@ -29,8 +22,6 @@ export function BrandStyle() {
         if (branding.faviconUrl === null) {
             return;
         }
-        // Replace every icon link; Keycloak renders the theme's own set by
-        // default and a deployment may want its client's icon instead.
         const links = document.querySelectorAll<HTMLLinkElement>(
             'link[rel="icon"], link[rel="apple-touch-icon"]'
         );

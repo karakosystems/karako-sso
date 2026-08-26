@@ -6,11 +6,6 @@ import { useI18n } from "../../../i18n";
 import { useKcContext } from "../../../KcContext";
 import type { TemplateProps } from "./types";
 
-/**
- * Everything between the header and the footer: server message, social
- * providers, the page itself, the "try another way" escape hatch and the
- * optional info note.
- */
 export function FormBody(props: TemplateProps) {
     const {
         displayInfo = false,

@@ -1,9 +1,3 @@
-/**
- * Minimal WCAG helpers. Used to pick the foreground colour that sits on top of
- * the brand colour, so a deployment cannot produce an unreadable button by
- * choosing a pale primary.
- */
-
 function toRgb(hex: string): [number, number, number] | null {
     const value = hex.trim().replace(/^#/, "");
     const full =
@@ -27,7 +21,6 @@ export function isValidHexColor(hex: string): boolean {
     return toRgb(hex) !== null;
 }
 
-/** Normalises `#abc` / `ABCDEF` to `#abcdef`. */
 export function normalizeHexColor(hex: string): string | null {
     const rgb = toRgb(hex);
     if (rgb === null) {
@@ -56,7 +49,6 @@ export function contrastRatio(a: string, b: string): number {
     return (hi + 0.05) / (lo + 0.05);
 }
 
-/** Returns white or near-black, whichever reads better on `background`. */
 export function readableForeground(background: string): string {
     const white = "#ffffff";
     const black = "#0a0a0a";

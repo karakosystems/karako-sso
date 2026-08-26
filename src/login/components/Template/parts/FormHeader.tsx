@@ -5,13 +5,7 @@ import type { ReactNode } from "react";
 import { useI18n } from "../../../i18n";
 import { useKcContext } from "../../../KcContext";
 
-/**
- * The title area above the form.
- *
- * Keycloak has two shapes here: the page's own header, or - when re-entering an
- * existing authentication - the username being authenticated with a link to
- * restart the flow. Both are wrapped by the optional "required fields" note.
- */
+// Either the page header, or the username being re-authenticated with a restart link.
 export function FormHeader(props: {
     headerNode: ReactNode;
     displayRequiredFields?: boolean;

@@ -2,14 +2,8 @@ import { normalizeHexColor, readableForeground } from "./contrast";
 import { BRAND_DEFAULTS, BRAND_PREFIX, type BrandKey } from "./schema";
 import { DECORS, LAYOUTS, type Branding, type Decor, type Layout } from "./types";
 
-/**
- * Turns raw `kcContext.properties` into a validated Branding object.
- *
- * Every field falls back to the Karako default when missing or invalid: a typo
- * in one environment variable must never produce a broken login page, which is
- * the last place an operator wants to debug a blank screen.
- */
-
+// Anything missing or invalid falls back to the default: a typo in one variable
+// must never produce a broken login page.
 const CSS_LENGTH = /^-?\d*\.?\d+(px|rem|em|%|vh|vw|pt)$/;
 
 function read(

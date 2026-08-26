@@ -5,10 +5,7 @@ import { useI18n } from "../../../i18n";
 import { useKcContext } from "../../../KcContext";
 import { useInitializeTemplate } from "../useInitializeTemplate";
 
-/**
- * Document-level side effects shared by every layout: page title, the classes
- * Keycloak expects on <html>/<body>, and Keycloakify's own initialisation.
- */
+/** Page title, the classes Keycloak expects, and Keycloakify's initialisation. */
 export function useTemplateSetup(params: {
     documentTitle?: string;
     bodyClassName?: string;

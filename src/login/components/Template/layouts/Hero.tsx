@@ -11,7 +11,6 @@ import {
     type TemplateProps
 } from "../parts";
 
-/** Full-bleed decor with a floating card - the most expressive of the set. */
 export function Hero(props: TemplateProps) {
     const { headerNode, displayRequiredFields, documentTitle, bodyClassName } = props;
     useTemplateSetup({ documentTitle, bodyClassName });

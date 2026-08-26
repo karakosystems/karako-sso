@@ -1,16 +1,6 @@
 import { DECORS, LAYOUTS, type Decor, type Layout } from "./types";
 
-/**
- * The deployment-facing configuration surface.
- *
- * Each entry becomes an environment variable declared to Keycloakify in
- * vite.config.ts, which materialises it in theme.properties as
- * `NAME=${env.NAME:default}`. Keycloak substitutes it at server start, so one
- * image serves every client - no rebuild to rebrand.
- *
- * The prefix is deliberately not `KC_`: Keycloak validates its own `KC_*`
- * options and logs "unrecognized configuration key" for unknown ones.
- */
+// Not `KC_`: Keycloak validates its own KC_* options and warns on unknown ones.
 export const BRAND_PREFIX = "KARAKO_BRAND_";
 
 export const BRAND_DEFAULTS = {
@@ -37,7 +27,6 @@ export const BRAND_ENVIRONMENT_VARIABLES = Object.entries(BRAND_DEFAULTS).map(
     })
 );
 
-/** Human-readable description of every setting, used by docs and Storybook. */
 export const BRAND_SETTINGS: Record<BrandKey, { label: string; hint: string }> = {
     NAME: { label: "Brand name", hint: "Short name shown in the UI and page title" },
     LEGAL_NAME: { label: "Legal name", hint: "Full company name, shown in the footer" },
