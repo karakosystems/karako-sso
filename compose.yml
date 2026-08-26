@@ -10,6 +10,16 @@ services:
             KC_BOOTSTRAP_ADMIN_USERNAME: admin
             KC_BOOTSTRAP_ADMIN_PASSWORD: admin
         command: start-dev
+        healthcheck:
+            # /health/ready lives on the management port, which start-dev does
+            # not open; serving a realm proves the server is up just as well.
+            test:
+                - CMD-SHELL
+                - "exec 3<>/dev/tcp/127.0.0.1/8080 && printf 'GET /realms/master HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3 && head -1 <&3 | grep -q '200 OK'"
+            interval: 10s
+            timeout: 5s
+            retries: 20
+            start_period: 20s
         volumes:
             - keycloak_data:/opt/keycloak/data
 
