@@ -65,6 +65,8 @@ export default defineConfig({
                 test: {
                     name: "storybook",
                     setupFiles: [".storybook/vitest.setup.ts"],
+                    // Browser tests are occasionally flaky (iframe reloads).
+                    retry: 2,
                     browser: {
                         enabled: true,
                         headless: true,
