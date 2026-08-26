@@ -36,8 +36,8 @@ const card = {
     maxWidth: "600px",
     margin: "0 auto",
     backgroundColor: "#ffffff",
-    borderRadius: "12px",
-    border: `1px solid ${borderColor}`
+    border: `1px solid ${borderColor}`,
+    borderTop: "0"
 };
 
 const accentBar = {
@@ -45,10 +45,6 @@ const accentBar = {
     backgroundColor: primaryColor,
     fontSize: "1px",
     lineHeight: "4px"
-};
-
-const header = {
-    padding: "32px 40px 0 40px"
 };
 
 const logoImage = {
@@ -60,7 +56,7 @@ const logoImage = {
 };
 
 const content = {
-    padding: "24px 40px 8px 40px",
+    padding: "40px 40px 8px 40px",
     color: textColor
 };
 
@@ -72,11 +68,16 @@ const divider = {
 };
 
 const footer = {
-    padding: "20px 40px 32px 40px"
+    padding: "24px 40px 36px 40px"
+};
+
+const logoWrap = {
+    display: "inline-block",
+    lineHeight: 0
 };
 
 const footerText = {
-    margin: 0,
+    margin: "16px 0 0 0",
     fontSize: "12px",
     lineHeight: "1.6",
     color: mutedColor,
@@ -116,12 +117,6 @@ export const EmailLayout = ({
                 <Container style={card} className="email-card">
                     <Section style={accentBar}>&nbsp;</Section>
 
-                    <Section style={header}>
-                        <span className="email-logo-wrap">
-                            <Img src={companyLogo} width={132} alt="" style={logoImage} />
-                        </span>
-                    </Section>
-
                     <Section style={content} className="email-content">
                         {children}
                     </Section>
@@ -129,6 +124,9 @@ export const EmailLayout = ({
                     <Hr style={divider} className="email-divider" />
 
                     <Section style={footer}>
+                        <span style={logoWrap} className="email-logo-wrap">
+                            <Img src={companyLogo} width={132} alt="" style={logoImage} />
+                        </span>
                         <Text style={footerText} className="email-footer-text">
                             {t("footer.allRightsReserved", {
                                 currentYear,
