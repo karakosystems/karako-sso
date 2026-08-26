@@ -1,4 +1,2 @@
-export * from "./Template";
-export * from "./TemplateSplit";
-export * from "./TemplateCentered";
-export * from "./TemplateVariantContext";
+export { Template } from "./Template";
+export type { TemplateProps } from "./parts";

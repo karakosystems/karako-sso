@@ -2,6 +2,7 @@ import { useExclusiveAppInstanceEffect } from "@keycloakify/login-ui/tools/useEx
 import { KcClsxProvider } from "@keycloakify/login-ui/useKcClsx";
 import type { ReactNode } from "react";
 import { assert } from "tsafe/assert";
+import { BrandingProvider, BrandStyle } from "./branding";
 import { type KcContext, KcContextProvider } from "./KcContext";
 import { I18nProvider } from "./i18n";
 import { PageIndex } from "./pages/PageIndex";
@@ -13,9 +14,12 @@ export default function KcPage(props: { kcContext: KcContext }) {
     return (
         <KcContextProvider kcContext={kcContext}>
             <I18nProvider kcContext={kcContext}>
-                <StyleLevelCustomization>
-                    <PageIndex />
-                </StyleLevelCustomization>
+                <BrandingProvider>
+                    <StyleLevelCustomization>
+                        <BrandStyle />
+                        <PageIndex />
+                    </StyleLevelCustomization>
+                </BrandingProvider>
             </I18nProvider>
         </KcContextProvider>
     );

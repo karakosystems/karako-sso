@@ -65,10 +65,7 @@ export default typescriptEslint.config(
         }
     },
     {
-        files: [
-            "src/components/ui/**/*.tsx",
-            "src/login/components/Template/TemplateVariantContext.tsx"
-        ],
+        files: ["src/components/ui/**/*.tsx"],
         rules: {
             "react-refresh/only-export-components": "off"
         }
