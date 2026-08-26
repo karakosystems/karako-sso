@@ -3,6 +3,9 @@ import { createKcPageStory, type Meta, type StoryObj } from "../../mocks/KcPageS
 const { KcPageStory } = createKcPageStory({ pageId: "webauthn-register.ftl" });
 
 const meta = {
+    // Not run in tests: these pages call navigator.credentials, which hangs or
+    // kills a headless page. They stay browsable in Storybook.
+    tags: ["!test"],
     title: "login/webauthn-register.ftl",
     component: KcPageStory
 } satisfies Meta<typeof KcPageStory>;

@@ -61,6 +61,9 @@ export const WithInvalidCredential: Story = {
 };
 
 export const WithWebauthn: Story = {
+    // Excluded from the test run: conditional WebAuthn calls
+    // navigator.credentials.get(), which kills a headless page.
+    tags: ["!test"],
     args: {
         kcContext: {
             url: {

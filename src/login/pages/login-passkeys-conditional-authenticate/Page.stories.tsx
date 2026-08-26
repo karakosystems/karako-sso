@@ -5,6 +5,9 @@ const { KcPageStory } = createKcPageStory({
 });
 
 const meta = {
+    // Not run in tests: these pages call navigator.credentials, which hangs or
+    // kills a headless page. They stay browsable in Storybook.
+    tags: ["!test"],
     title: "login/login-passkeys-conditional-authenticate.ftl",
     component: KcPageStory
 } satisfies Meta<typeof KcPageStory>;
