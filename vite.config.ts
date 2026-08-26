@@ -77,6 +77,9 @@ export default defineConfig({
                                 ]
                             }
                         }),
+                        // Pinned so a11y results do not depend on the host's
+                        // default window size.
+                        viewport: { width: 1280, height: 900 },
                         instances: [{ browser: "chromium" }]
                     }
                 }
