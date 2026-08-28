@@ -64,7 +64,7 @@ export function Page() {
 
                 if (kcContext.pageRedirectUri) {
                     return (
-                        <Button type="button" className="flex ms-auto">
+                        <Button className="flex ms-auto" asChild>
                             <a href={kcContext.pageRedirectUri}>
                                 {msg("backToApplication")}
                             </a>
@@ -73,7 +73,7 @@ export function Page() {
                 }
                 if (kcContext.actionUri) {
                     return (
-                        <Button type="button" className="flex ms-auto">
+                        <Button className="flex ms-auto" asChild>
                             <a href={kcContext.actionUri}>{msg("proceedWithAction")}</a>
                         </Button>
                     );
@@ -81,7 +81,7 @@ export function Page() {
 
                 if (kcContext.client.baseUrl) {
                     return (
-                        <Button type="button" className="flex ms-auto">
+                        <Button className="flex ms-auto" asChild>
                             <a href={kcContext.client.baseUrl}>
                                 {msg("backToApplication")}
                             </a>

@@ -56,7 +56,7 @@ export function Form() {
             </Button>
 
             <div className="flex justify-end">
-                <Button variant="link" type="button">
+                <Button variant="link" asChild>
                     <a id="backToApplication" href={kcContext.url.loginUrl}>
                         {msg("backToApplication")}
                     </a>

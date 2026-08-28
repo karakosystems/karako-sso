@@ -77,6 +77,7 @@ export function Page() {
                     </Label>
                     <div className="flex w-72 mx-auto">
                         <InputOTP
+                            id="otp"
                             maxLength={6}
                             pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
                             name="otp"

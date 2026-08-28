@@ -5,7 +5,6 @@ import {
     InputGroupAddon,
     InputGroupInput
 } from "@/components/ui/input-group";
-import { Label } from "@/components/ui/label";
 import { PasswordVisibilityButton } from "@/login/components/PasswordVisibilityButton";
 import { WebAuthnConditionalUI } from "@/login/components/WebAuthnConditionalUi";
 import { useI18n } from "@/login/i18n";
@@ -73,13 +72,12 @@ export function Page() {
 
                 <div className="flex justify-end">
                     {kcContext.realm.resetPasswordAllowed && (
-                        <span className=" underline-offset-4 hover:underline">
-                            <a href={kcContext.url.loginResetCredentialsUrl}>
-                                <Label className="text-sm font-medium cursor-pointer">
-                                    {msg("doForgotPassword")}
-                                </Label>
-                            </a>
-                        </span>
+                        <a
+                            href={kcContext.url.loginResetCredentialsUrl}
+                            className="text-sm font-medium underline-offset-4 hover:underline"
+                        >
+                            {msg("doForgotPassword")}
+                        </a>
                     )}
                 </div>
 

@@ -28,7 +28,7 @@ export function Page() {
 
                 {!kcContext.skipLink && !!kcContext.client?.baseUrl && (
                     <div className="flex justify-end">
-                        <Button type="button">
+                        <Button asChild>
                             <a id="backToApplication" href={kcContext.client.baseUrl}>
                                 {msg("backToApplication")}
                             </a>

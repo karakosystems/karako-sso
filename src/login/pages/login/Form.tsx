@@ -152,17 +152,12 @@ export function Form() {
                                     )}
                                 <div className="link-style ">
                                     {kcContext.realm.resetPasswordAllowed && (
-                                        <span className=" underline-offset-4 hover:underline">
-                                            <a
-                                                href={
-                                                    kcContext.url.loginResetCredentialsUrl
-                                                }
-                                            >
-                                                <Label className="text-sm font-medium cursor-pointer">
-                                                    {msg("doForgotPassword")}
-                                                </Label>
-                                            </a>
-                                        </span>
+                                        <a
+                                            href={kcContext.url.loginResetCredentialsUrl}
+                                            className="text-sm font-medium underline-offset-4 hover:underline"
+                                        >
+                                            {msg("doForgotPassword")}
+                                        </a>
                                     )}
                                 </div>
                             </div>
