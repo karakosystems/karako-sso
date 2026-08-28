@@ -62,9 +62,13 @@ export default defineConfig({
                         configDir: path.join(import.meta.dirname, ".storybook")
                     })
                 ],
+                // Every story is scanned up front so Vite never discovers a new
+                // dependency mid-run and reloads the story iframe.
+                optimizeDeps: {
+                    entries: [".storybook/preview.tsx", "src/**/*.stories.tsx"]
+                },
                 test: {
                     name: "storybook",
-                    setupFiles: [".storybook/vitest.setup.ts"],
                     // Browser tests are occasionally flaky (iframe reloads).
                     retry: 2,
                     browser: {
