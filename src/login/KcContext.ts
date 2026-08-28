@@ -15,14 +15,18 @@ export type KcContextExtension = {
     darkMode?: boolean;
 };
 
+// Set by the Turnstile providers in providers/
+type TurnstileFields = {
+    turnstileRequired?: boolean;
+    turnstileSiteKey?: string;
+    turnstileAction?: string;
+    turnstileTheme?: "auto" | "light" | "dark";
+};
+
 export type KcContextExtensionPerPage = {
-    // Set by the Turnstile form action in providers/
-    "register.ftl": {
-        turnstileRequired?: boolean;
-        turnstileSiteKey?: string;
-        turnstileAction?: string;
-        turnstileTheme?: "auto" | "light" | "dark";
-    };
+    "register.ftl": TurnstileFields;
+    "login.ftl": TurnstileFields;
+    "login-reset-password.ftl": TurnstileFields;
 };
 
 export type KcContext = ExtendKcContext<KcContextExtension, KcContextExtensionPerPage>;

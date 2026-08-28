@@ -44,11 +44,23 @@ gets dark text automatically. `bun storybook` previews every combination.
 
 ## Cloudflare Turnstile
 
-Not an environment variable: it is a registration form action, configured per
-realm. In _Authentication_, open the registration flow, add the step
-_Cloudflare Turnstile_ and fill its settings with the site and secret keys from
-the Cloudflare dashboard. Leave _Test mode_ on to use Cloudflare's always-pass
-test keys, which are prefilled.
+Not an environment variable: it is configured per realm, in _Authentication_.
+Three flows can be guarded, each with its own keys and its own on/off switch.
+
+| Flow               | What to do                                                                               |
+| ------------------ | ---------------------------------------------------------------------------------------- |
+| Registration       | Add the step _Cloudflare Turnstile_ to the registration form                             |
+| Login              | Replace _Username Password Form_ with _Username Password Form with Cloudflare Turnstile_ |
+| Forgotten password | Replace _Choose User_ with _Choose User with Cloudflare Turnstile_                       |
+
+Fill each step's settings with the site and secret keys from the Cloudflare
+dashboard. Leave _Test mode_ on to use Cloudflare's always-pass test keys,
+which are prefilled.
+
+The token is verified server-side before the credentials are checked, so a
+failed challenge reveals nothing about the account. Guarding the forgotten
+password flow matters most: without it the form accepts unlimited submissions
+and each one sends an email.
 
 ## LDAP regex mapper
 

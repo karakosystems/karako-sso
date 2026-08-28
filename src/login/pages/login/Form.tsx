@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Turnstile } from "@/login/components/Turnstile";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
@@ -161,6 +162,8 @@ export function Form() {
                                     )}
                                 </div>
                             </div>
+
+                            <Turnstile />
 
                             <div className={kcClsx("kcFormGroupClass")}>
                                 <input

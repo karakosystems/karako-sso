@@ -7,7 +7,7 @@ import { useKcContext } from "../../KcContext";
 import { UserProfileFormFields } from "../../components/UserProfileFormFields";
 import { useI18n } from "../../i18n";
 import { TermsAcceptance } from "./TermsAcceptance";
-import { Turnstile } from "./Turnstile";
+import { Turnstile } from "../../components/Turnstile";
 
 export function Form() {
     const { kcContext } = useKcContext();

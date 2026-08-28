@@ -1,0 +1,2 @@
+io.karako.keycloak.turnstile.TurnstileUsernamePasswordFormFactory
+io.karako.keycloak.turnstile.TurnstileResetCredentialChooseUserFactory

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Turnstile } from "@/login/components/Turnstile";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { kcSanitize } from "@keycloakify/login-ui/kcSanitize";
@@ -50,6 +51,8 @@ export function Form() {
                     </FieldError>
                 )}
             </Field>
+
+            <Turnstile />
 
             <Button className="w-full" type="submit">
                 {msgStr("doSubmit")}

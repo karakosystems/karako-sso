@@ -1,15 +1,13 @@
 import { useTheme } from "@/components/theme-provider";
-import { assert } from "tsafe/assert";
-import { useKcContext } from "../../KcContext";
+import { useKcContext } from "../KcContext";
 
-// Rendered by the Turnstile form action in providers/. The script it injects
+// Rendered by the Turnstile providers in providers/. The script they inject
 // picks the element up by its class and adds the token to the form.
 export function Turnstile() {
     const { kcContext } = useKcContext();
-    assert(kcContext.pageId === "register.ftl");
     const { theme } = useTheme();
 
-    if (kcContext.turnstileRequired !== true) {
+    if (!("turnstileRequired" in kcContext) || kcContext.turnstileRequired !== true) {
         return null;
     }
     if (kcContext.turnstileSiteKey === undefined) {

@@ -1,11 +1,9 @@
 package io.karako.keycloak.turnstile;
 
 import jakarta.ws.rs.core.MultivaluedMap;
-import org.jboss.logging.Logger;
 import org.keycloak.authentication.FormAction;
 import org.keycloak.authentication.FormContext;
 import org.keycloak.authentication.ValidationContext;
-import org.keycloak.broker.provider.util.SimpleHttp;
 import org.keycloak.events.Errors;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.AuthenticatorConfigModel;
@@ -13,12 +11,9 @@ import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.utils.FormMessage;
-import org.keycloak.services.validation.Validation;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Cloudflare Turnstile on the registration form.
@@ -28,41 +23,11 @@ import java.util.Map;
  */
 public class TurnstileFormAction implements FormAction {
 
-    private static final Logger LOG = Logger.getLogger(TurnstileFormAction.class);
-
-    static final String RESPONSE_FIELD = "cf-turnstile-response";
-
-    // Resolved from the theme's message bundles, generated from src/login/i18n.ts.
-    static final String MSG_FAILED = "turnstileFailed";
-    static final String MSG_NOT_CONFIGURED = "turnstileNotConfigured";
-    static final String SCRIPT_URL =
-        "https://challenges.cloudflare.com/turnstile/v0/api.js";
-    static final String SITEVERIFY_URL =
-        "https://challenges.cloudflare.com/turnstile/v0/siteverify";
-
     @Override
     public void buildPage(FormContext context, LoginFormsProvider form) {
-        AuthenticatorConfigModel config = context.getAuthenticatorConfig();
-        String siteKey = isTestMode(config)
-            ? TurnstileFormActionFactory.TEST_SITE_KEY
-            : configValue(config, TurnstileFormActionFactory.SITE_KEY);
-
-        if (siteKey == null) {
-            form.addError(new FormMessage(null, MSG_NOT_CONFIGURED));
-            return;
+        if (!Turnstile.decorate(form, context.getAuthenticatorConfig())) {
+            form.addError(new FormMessage(null, Turnstile.MSG_NOT_CONFIGURED));
         }
-
-        form.setAttribute("turnstileRequired", true);
-        form.setAttribute("turnstileSiteKey", siteKey);
-        form.setAttribute(
-            "turnstileAction",
-            configValue(config, TurnstileFormActionFactory.ACTION)
-        );
-        form.setAttribute(
-            "turnstileTheme",
-            configValue(config, TurnstileFormActionFactory.THEME, "auto")
-        );
-        form.addScript(SCRIPT_URL);
     }
 
     @Override
@@ -71,23 +36,27 @@ public class TurnstileFormAction implements FormAction {
             context.getHttpRequest().getDecodedFormParameters();
         List<FormMessage> errors = new ArrayList<>();
 
-        String token = formData.getFirst(RESPONSE_FIELD);
         AuthenticatorConfigModel config = context.getAuthenticatorConfig();
-        String secret = isTestMode(config)
-            ? TurnstileFormActionFactory.TEST_SECRET_KEY
-            : configValue(config, TurnstileFormActionFactory.SECRET_KEY);
+        String secret = Turnstile.secretKey(config);
 
         if (secret == null) {
-            errors.add(new FormMessage(null, MSG_NOT_CONFIGURED));
-            fail(context, formData, errors, Errors.INVALID_REGISTRATION);
+            errors.add(new FormMessage(null, Turnstile.MSG_NOT_CONFIGURED));
+            fail(context, formData, errors);
             return;
         }
 
-        if (Validation.isBlank(token) || !isTokenValid(context.getSession(), secret, token,
-                context.getConnection().getRemoteAddr())) {
-            errors.add(new FormMessage(null, MSG_FAILED));
-            formData.remove(RESPONSE_FIELD);
-            fail(context, formData, errors, Errors.INVALID_REGISTRATION);
+        String token = formData.getFirst(Turnstile.RESPONSE_FIELD);
+        boolean valid = Turnstile.verify(
+            context.getSession(),
+            secret,
+            token,
+            context.getConnection().getRemoteAddr()
+        );
+
+        if (!valid) {
+            errors.add(new FormMessage(null, Turnstile.MSG_FAILED));
+            formData.remove(Turnstile.RESPONSE_FIELD);
+            fail(context, formData, errors);
             return;
         }
 
@@ -96,47 +65,10 @@ public class TurnstileFormAction implements FormAction {
 
     private void fail(ValidationContext context,
                       MultivaluedMap<String, String> formData,
-                      List<FormMessage> errors,
-                      String error) {
-        context.getEvent().error(error);
+                      List<FormMessage> errors) {
+        context.getEvent().error(Errors.INVALID_REGISTRATION);
         context.validationError(formData, errors);
         context.excludeOtherErrors();
-    }
-
-    private boolean isTokenValid(KeycloakSession session, String secret, String token,
-                                 String remoteAddr) {
-        try {
-            SimpleHttp request = SimpleHttp.doPost(SITEVERIFY_URL, session)
-                .param("secret", secret)
-                .param("response", token);
-            if (remoteAddr != null) {
-                request = request.param("remoteip", remoteAddr);
-            }
-            Map<?, ?> result = request.asJson(Map.class);
-            return Boolean.TRUE.equals(result.get("success"));
-        } catch (IOException e) {
-            LOG.warnf("Turnstile verification failed: %s", e.getMessage());
-            return false;
-        }
-    }
-
-    private static boolean isTestMode(AuthenticatorConfigModel config) {
-        return Boolean.parseBoolean(
-            configValue(config, TurnstileFormActionFactory.TEST_MODE, "false")
-        );
-    }
-
-    private static String configValue(AuthenticatorConfigModel config, String key) {
-        return configValue(config, key, null);
-    }
-
-    private static String configValue(AuthenticatorConfigModel config, String key,
-                                      String fallback) {
-        if (config == null || config.getConfig() == null) {
-            return fallback;
-        }
-        String value = config.getConfig().get(key);
-        return Validation.isBlank(value) ? fallback : value;
     }
 
     @Override
