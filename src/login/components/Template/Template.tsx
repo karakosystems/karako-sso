@@ -1,5 +1,6 @@
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useBranding } from "@/login/branding";
+import { useI18n } from "@/login/i18n";
 import { Centered } from "./layouts/Centered";
 import { Hero } from "./layouts/Hero";
 import { Minimal } from "./layouts/Minimal";
@@ -9,6 +10,12 @@ import type { TemplateProps } from "./parts";
 
 export function Template(props: TemplateProps) {
     const { layout } = useBranding();
+    const { isFetchingTranslations } = useI18n();
+
+    // Rendering before the dictionary lands would flash empty labels and headings.
+    if (isFetchingTranslations) {
+        return null;
+    }
 
     return (
         <TooltipProvider>

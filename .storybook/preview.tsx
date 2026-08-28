@@ -1,3 +1,4 @@
+import { fetchMessages_defaultSet } from "@keycloakify/login-ui/core/i18n/messages_defaultSet";
 import type { Decorator, Preview } from "@storybook/react-vite";
 import {
     BASE_COLORS,
@@ -75,11 +76,23 @@ const preview: Preview = {
         controls: {
             matchers: { color: /(background|color)$/i, date: /Date$/i }
         },
-        // "todo" reports violations without failing the run. 27 pre-existing
-        // ones remain (nested-interactive, label, contrast); switch back to
-        // "error" once they are fixed.
         a11y: { test: "error" }
     },
+    // The dictionary of a non-default language is fetched lazily; loading it up
+    // front keeps stories from being checked while their labels are still empty.
+    loaders: [
+        async ({ args }) => {
+            const tag = (
+                args as { kcContext?: { locale?: { currentLanguageTag?: string } } }
+            ).kcContext?.locale?.currentLanguageTag;
+
+            if (tag !== undefined && tag !== "en") {
+                await fetchMessages_defaultSet(tag);
+            }
+
+            return {};
+        }
+    ],
     globalTypes: {
         brand: {
             description: "Client branding preset",
