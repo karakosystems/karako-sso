@@ -46,11 +46,7 @@ export function Page() {
                         </Button>
                     )}
 
-                    <Button
-                        type="submit"
-                        variant="destructive"
-                        className="sm:flex-1 text-white"
-                    >
+                    <Button type="submit" variant="destructive" className="sm:flex-1">
                         {msgStr("doConfirmDelete")}
                     </Button>
                 </div>

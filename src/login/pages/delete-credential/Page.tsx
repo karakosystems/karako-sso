@@ -38,7 +38,7 @@ export function Page() {
                         id="kc-accept"
                         type="submit"
                         variant="destructive"
-                        className="sm:flex-1 text-white"
+                        className="sm:flex-1"
                     >
                         {msgStr("doConfirmDelete")}
                     </Button>
