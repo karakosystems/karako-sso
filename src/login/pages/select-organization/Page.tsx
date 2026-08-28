@@ -17,7 +17,7 @@ export function Page() {
     const { kcContext } = useKcContext();
     assert(kcContext.pageId === "select-organization.ftl");
 
-    const { msg } = useI18n();
+    const { msg, msgStr } = useI18n();
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [selectedOrg, setSelectedOrg] = useState<string>("");
@@ -77,7 +77,10 @@ export function Page() {
                                 onValueChange={onSelectChange}
                                 disabled={isSubmitting}
                             >
-                                <SelectTrigger className="w-full">
+                                <SelectTrigger
+                                    className="w-full"
+                                    aria-label={msgStr("organization.pickPlaceholder")}
+                                >
                                     <SelectValue
                                         placeholder={msg("organization.pickPlaceholder")}
                                     />

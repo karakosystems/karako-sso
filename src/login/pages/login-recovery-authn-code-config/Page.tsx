@@ -28,9 +28,9 @@ export function Page() {
                 <Alert variant="warning">
                     <AlertDescription>
                         <div className="space-y-2">
-                            <h4 className="font-medium">
+                            <h2 className="font-medium">
                                 {msg("recovery-code-config-warning-title")}
-                            </h4>
+                            </h2>
                             <p className="text-sm">
                                 {msg("recovery-code-config-warning-message")}
                             </p>

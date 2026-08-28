@@ -17,7 +17,7 @@ export function TermsAcceptance(props: {
     return (
         <div className="space-y-4">
             <div className="p-4 bg-muted/50 rounded-lg space-y-2">
-                <h3 className="font-medium text-sm">{msg("termsTitle")}</h3>
+                <h2 className="font-medium text-sm">{msg("termsTitle")}</h2>
                 <div className="text-sm text-muted-foreground">{msg("termsText")}</div>
             </div>
 

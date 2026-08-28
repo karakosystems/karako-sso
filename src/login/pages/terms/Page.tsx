@@ -17,7 +17,10 @@ export function Page() {
             <div className="space-y-6">
                 <div
                     id="kc-terms-text"
-                    className="p-4 bg-muted/50 rounded-lg max-h-64 overflow-y-auto text-sm leading-relaxed"
+                    role="region"
+                    aria-label={msgStr("termsTitle")}
+                    tabIndex={0}
+                    className="p-4 bg-muted/50 rounded-lg max-h-64 overflow-y-auto text-sm leading-relaxed focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none"
                 >
                     {msg("termsText")}
                 </div>
