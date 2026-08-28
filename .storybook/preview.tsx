@@ -78,7 +78,7 @@ const preview: Preview = {
         // "todo" reports violations without failing the run. 27 pre-existing
         // ones remain (nested-interactive, label, contrast); switch back to
         // "error" once they are fixed.
-        a11y: { test: "todo" }
+        a11y: { test: "error" }
     },
     globalTypes: {
         brand: {
