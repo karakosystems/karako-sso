@@ -65,7 +65,38 @@ export default defineConfig({
                 // Every story is scanned up front so Vite never discovers a new
                 // dependency mid-run and reloads the story iframe.
                 optimizeDeps: {
-                    entries: [".storybook/preview.tsx", "src/**/*.stories.tsx"]
+                    entries: [".storybook/preview.tsx", "src/**/*.tsx"],
+                    include: [
+                        "@keycloakify/login-ui/KcContext",
+                        "@keycloakify/login-ui/KcContext/getKcContextMock",
+                        "@keycloakify/login-ui/core/i18n/messages_defaultSet",
+                        "@keycloakify/login-ui/i18n",
+                        "@keycloakify/login-ui/kcSanitize",
+                        "@keycloakify/login-ui/tools/clsx",
+                        "@keycloakify/login-ui/tools/useExclusiveAppInstanceEffect",
+                        "@keycloakify/login-ui/tools/useInsertScriptTags",
+                        "@keycloakify/login-ui/tools/waitForElementMountedOnDom",
+                        "@keycloakify/login-ui/useKcClsx",
+                        "@keycloakify/login-ui/useUserProfileForm",
+                        "class-variance-authority",
+                        "clsx",
+                        "input-otp",
+                        "keycloakify/lib/kcSanitize",
+                        "keycloakify/tools/clsx",
+                        "keycloakify/tools/useIsPasswordRevealed",
+                        "keycloakify/tools/useSetClassName",
+                        "lucide-react",
+                        "radix-ui",
+                        "react",
+                        "react-dom/client",
+                        "react-icons/fa",
+                        "react-icons/fi",
+                        "react-icons/io5",
+                        "react-icons/md",
+                        "rfc4648",
+                        "tailwind-merge",
+                        "tsafe/assert"
+                    ]
                 },
                 test: {
                     name: "storybook",
