@@ -78,6 +78,16 @@ const preview: Preview = {
         },
         a11y: { test: "error" }
     },
+    // Keycloakify records one-shot effects on window and reloads the page when a
+    // second app instance replays one. Stories share an iframe, so the registry
+    // is cleared to give each of them the clean document a real page load gives.
+    beforeEach: () => {
+        const key = "__keycloakify.useExclusiveAppInstanceEffect.globalContext";
+        const context = (window as unknown as Record<string, unknown>)[key] as
+            { alreadyRanEffectId?: Set<string> } | undefined;
+
+        context?.alreadyRanEffectId?.clear();
+    },
     // The dictionary of a non-default language is fetched lazily; loading it up
     // front keeps stories from being checked while their labels are still empty.
     loaders: [
