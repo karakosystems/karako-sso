@@ -13,6 +13,9 @@ export type KcContextExtension = {
         baseUrl?: string;
     };
     darkMode?: boolean;
+    // Set by the branding login-forms provider in providers/, from the realm's
+    // KARAKO_BRAND_* attributes. Absent when the realm sets none.
+    brandOverrides?: Record<string, string>;
 };
 
 // Set by the Turnstile providers in providers/

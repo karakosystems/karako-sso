@@ -6,7 +6,7 @@ const { I18nProvider, useI18n } = i18nBuilder
     .withThemeName<ThemeName>()
     .withCustomTranslations({
         en: {
-            welcomeMessage: "Welcome to Karako - your secure access to our services.",
+            welcomeMessage: "Welcome to {0} - your secure access to our services.",
             loginAccountTitle: "Sign in to your account",
             registerTitle: "Create a new account",
             email: "Email",
@@ -23,7 +23,7 @@ const { I18nProvider, useI18n } = i18nBuilder
                 "The security check is required but has not been configured."
         },
         fr: {
-            welcomeMessage: "Bienvenue sur Karako - votre accès sécurisé à nos services.",
+            welcomeMessage: "Bienvenue sur {0} - votre accès sécurisé à nos services.",
             loginAccountTitle: "Connectez-vous à votre compte",
             registerTitle: "Créer un nouveau compte",
             email: "E-mail",

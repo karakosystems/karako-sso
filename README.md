@@ -42,6 +42,23 @@ An invalid value falls back to the default rather than breaking the page.
 Text colours are derived from `PRIMARY` by contrast, so a light brand colour
 gets dark text automatically. `bun storybook` previews every combination.
 
+### One instance, several companies
+
+The same variables can be set as **realm attributes**, which take precedence over
+the environment for that realm only. A realm that sets none keeps the image's
+branding, so one deployment can serve a company per realm.
+
+```bash
+# there is no admin console screen for realm attributes; use the admin API
+kcadm.sh update realms/acme \
+  -s 'attributes.KARAKO_BRAND_NAME=Acme' \
+  -s 'attributes.KARAKO_BRAND_PRIMARY=#0055aa' \
+  -s 'attributes.KARAKO_BRAND_LAYOUT=hero'
+```
+
+Same names, same accepted values, same fallback on an invalid one — it drops to
+the environment variable, then to the default.
+
 ## Cloudflare Turnstile
 
 Not an environment variable: it is configured per realm, in _Authentication_.

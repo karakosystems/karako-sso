@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 # Stage 1: Theme Build
 FROM oven/bun:1 AS theme-builder
 
@@ -13,7 +15,9 @@ COPY . .
 RUN bun install --frozen-lockfile && bun run build-keycloak-theme
 
 # Build the custom Keycloak providers (protocol mappers, etc.)
-RUN mvn -f providers/pom.xml clean package -DskipTests
+# The cache mount keeps the Keycloak dependency tree across rebuilds.
+RUN --mount=type=cache,target=/root/.m2/repository \
+    mvn -f providers/pom.xml clean package -DskipTests
 
 # Stage 2: keycloak Build
 FROM quay.io/keycloak/keycloak:26.7.2 AS builder
@@ -39,3 +43,7 @@ LABEL org.opencontainers.image.title="karako-iam" \
       org.opencontainers.image.base.name="quay.io/keycloak/keycloak:26.7.2"
 
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
+
+# Provider selection is runtime config, not a build option: kc.sh build ignores
+# it silently and every login page then fails with a null provider.
+ENV KC_SPI_LOGIN_PROVIDER=karako

@@ -3,8 +3,8 @@ import { useKcContext } from "../KcContext";
 import { resolveBranding } from "./resolve";
 import type { Branding } from "./types";
 
-// Values come from kcContext.properties today; the context indirection lets a
-// future source (per-realm attributes) replace them without touching consumers.
+// Two sources, most specific last: the container's environment variables brand
+// the image, the realm's KARAKO_BRAND_* attributes brand one tenant of it.
 const BrandingContext = createContext<Branding | undefined>(undefined);
 
 // Only Storybook and the dev server use this, from outside <KcPage>.
@@ -26,13 +26,13 @@ export function BrandingProvider(props: { children: ReactNode }) {
     const { kcContext } = useKcContext();
     const overrides = useContext(BrandingOverrideContext);
 
+    const properties = kcContext.properties as unknown as
+        Record<string, string> | undefined;
+    const realmOverrides = kcContext.brandOverrides;
+
     const branding = useMemo(
-        () =>
-            resolveBranding(
-                kcContext.properties as unknown as Record<string, string> | undefined,
-                overrides
-            ),
-        [kcContext.properties, overrides]
+        () => resolveBranding({ ...properties, ...realmOverrides }, overrides),
+        [properties, realmOverrides, overrides]
     );
 
     return (

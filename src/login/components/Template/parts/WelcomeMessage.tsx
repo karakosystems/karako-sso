@@ -8,6 +8,8 @@ export function WelcomeMessage(props: { className?: string }) {
     const { msg } = useI18n();
 
     return (
-        <p className={className}>{branding.welcomeMessage ?? msg("welcomeMessage")}</p>
+        <p className={className}>
+            {branding.welcomeMessage ?? msg("welcomeMessage", branding.name)}
+        </p>
     );
 }
