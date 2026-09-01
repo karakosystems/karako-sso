@@ -35,7 +35,7 @@ generated - don't hand-edit it.
 
 ## Local Keycloak for end-to-end testing
 
-`compose.yml` builds the local Dockerfile and boots Keycloak 26.7.2 on
+`compose.yml` builds the local Dockerfile and boots Keycloak 26.7.3 on
 `127.0.0.1:8888` (admin/admin) via `docker compose up --build`. The build runs the
 theme build _and_ the Maven build inside the image, so every change forces a full
 multi-stage rebuild - for fast iteration use `bun dev` or Storybook; reserve
@@ -130,7 +130,7 @@ and the email theme end up in the same JAR.
 ### Server extensions (`providers/`)
 
 Maven module, group `io.karako.keycloak`, artifact `karako-keycloak-providers`,
-targeting Keycloak 26.7.2 with all Keycloak deps `provided`. Currently ships
+targeting Keycloak 26.7.3 with all Keycloak deps `provided`. Currently ships
 `RegexLdapStorageMapper`, which extends the native `UserAttributeLDAPStorageMapper`
 and overlays a regex extraction on the imported value (e.g. pulling `John Doe` out
 of `CN=John Doe,OU=Users,DC=example,DC=com`). SPI registration is via
