@@ -44,7 +44,7 @@ export default typescriptEslint.config(
     },
     {
         // Node/Bun build tooling, not browser code
-        files: ["scripts/**/*.js"],
+        files: ["scripts/**/*.{js,mjs}"],
         languageOptions: {
             globals: {
                 ...globals.node,

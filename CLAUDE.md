@@ -20,7 +20,16 @@ published as an npm package - it is only ever consumed as a JAR.
 
 - `bun dev` - Vite dev server. Renders `KcPage` against a mocked `kcContext` (see "Dev mode" below). Change which page renders by editing `pageId` in `src/main-kc.dev.tsx`.
 - `bun storybook` - Storybook on port 6006. Stories live next to pages (e.g. `src/login/pages/login/Page.stories.tsx`) and use `createKcPageStory` from `src/login/mocks/KcPageStory.tsx`.
-- `bun build` - `tsc && vite build`. Type errors fail the build.
+- `bun build` - `tsc && vp build`. Type errors fail the build.
+
+The toolchain is Vite+ (`vp`), which resolves `vite` to
+`@voidzero-dev/vite-plus-core`. That package ships no `vite` binary, and
+Keycloakify hardcodes `npx vite` to read the config, so `postinstall` runs
+`scripts/vite-bin-shim.mjs` first to create one. Without it `npx` silently
+downloads an unrelated Vite and the theme is read with a different Vite than
+the one building it. Do not add a `devEngines` block: npm refuses to run
+`npx` when it is present, which breaks every Keycloakify command.
+
 - `bun build-keycloak-theme` - full `bun build` then `keycloakify build`; outputs `karako-iam-theme.jar` under `dist_keycloak/`. Requires Maven on PATH.
 - `bun start` - build then boot a throwaway Keycloak 26 with the theme loaded.
 - `bun lint` / `bun lint:fix` - ESLint (flat config in `eslint.config.js`).

@@ -5,14 +5,14 @@
     "type": "module",
     "private": true,
     "scripts": {
-        "postinstall": "keycloakify sync-extensions",
-        "dev": "vite",
-        "build": "tsc && vite build",
+        "postinstall": "node scripts/vite-bin-shim.mjs && keycloakify sync-extensions",
+        "dev": "vp dev",
+        "build": "tsc && vp build",
         "start": "bun run build && keycloakify start-keycloak --keycloak-version 26",
         "build-storybook": "storybook build",
         "build-keycloak-theme": "bun run build && keycloakify build",
         "storybook": "storybook dev -p 6006",
-        "test": "vitest run --project storybook",
+        "test": "vp test run --project storybook",
         "sync:brand": "bun run scripts/sync-brand.js",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
@@ -25,7 +25,9 @@
     "packageManager": "bun",
     "overrides": {
         "hono": "^4.12.25",
-        "postcss": "^8.5.26"
+        "postcss": "^8.5.26",
+        "vite": "npm:@voidzero-dev/vite-plus-core@0.3.0",
+        "vitest": "4.1.11"
     },
     "dependencies": {
         "@fontsource-variable/inter": "^5.3.0",
@@ -61,8 +63,8 @@
         "@typescript-eslint/eslint-plugin": "^8.68.0",
         "@typescript-eslint/parser": "^8.68.0",
         "@vitejs/plugin-react": "^6.1.0",
-        "@vitest/browser-playwright": "latest",
-        "@vitest/coverage-v8": "latest",
+        "@vitest/browser-playwright": "4.1.11",
+        "@vitest/coverage-v8": "4.1.11",
         "eslint": "^10.9.1",
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-react": "^7.37.5",
@@ -79,8 +81,9 @@
         "storybook": "^10.5.10",
         "typescript": "6.0.3",
         "typescript-eslint": "^8.68.0",
-        "vite": "^8.2.2",
-        "vitest": "latest"
+        "vite": "npm:@voidzero-dev/vite-plus-core@0.3.0",
+        "vite-plus": "0.3.0",
+        "vitest": "4.1.11"
     },
     "engines": {
         "bun": "^1.3.0"

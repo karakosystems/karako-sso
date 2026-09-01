@@ -1,14 +1,13 @@
-/// <reference types="vitest/config" />
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { buildEmailTheme } from "keycloakify-emails";
 import { keycloakify } from "keycloakify/vite-plugin";
 import path from "node:path";
-import { defineConfig } from "vite";
+import { defineConfig } from "vite-plus";
 import { BRAND_ENVIRONMENT_VARIABLES } from "./src/login/branding/schema.ts";
 
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
-import { playwright } from "@vitest/browser-playwright";
+import { playwright } from "vite-plus/test/browser-playwright";
 
 export default defineConfig({
     plugins: [
