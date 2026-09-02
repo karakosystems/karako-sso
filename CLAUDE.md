@@ -5,8 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this is
 
 `karako-iam` - a Keycloak distribution: a Keycloakify v11 login theme (React 19,
-TypeScript, Tailwind v4, shadcn/ui) plus a Maven module of Keycloak server
-extensions, baked together into a single container image. The theme build
+TypeScript, Tailwind v4, vendored shadcn/ui components) plus a Maven module of
+Keycloak server extensions, baked together into a single container image. The theme build
 artifact is `karako-iam-theme.jar`; the extensions build to
 `karako-keycloak-providers.jar`. Both are dropped into Keycloak's `providers/`
 directory by the Dockerfile.
@@ -102,9 +102,11 @@ styled from scratch with Tailwind + shadcn. It also injects a `ThemeProvider`
 `kcContext.darkMode` via `shared/getColorScheme.ts`. The shadcn CSS variables live
 in `src/login/index.css`.
 
-shadcn config (`components.json`): style `radix-vega`, base color `neutral`, alias
-`@/components` -> `src/components`, icon library `lucide`. New shadcn components go
-under `src/components/ui/`.
+The components under `src/components/ui/` came from shadcn but the project no
+longer depends on it: there is no `components.json` and no `shadcn` package, so
+`shadcn add` does not work. The keyframes and custom variants those components
+need are vendored in `src/login/shadcn-preset.css`. Add a component by copying it
+from ui.shadcn.com and adjusting it like any other source file.
 
 ### KcContext extension
 
