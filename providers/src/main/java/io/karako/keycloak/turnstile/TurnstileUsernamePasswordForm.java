@@ -32,7 +32,8 @@ public class TurnstileUsernamePasswordForm extends UsernamePasswordForm {
 
         MultivaluedMap<String, String> formData =
             context.getHttpRequest().getDecodedFormParameters();
-        String secret = Turnstile.secretKey(context.getAuthenticatorConfig());
+        String secret =
+            Turnstile.secretKey(context.getSession(), context.getAuthenticatorConfig());
 
         if (secret == null) {
             challengeWithError(context, formData, Turnstile.MSG_NOT_CONFIGURED);
@@ -59,7 +60,8 @@ public class TurnstileUsernamePasswordForm extends UsernamePasswordForm {
      * session, so the attributes set here survive until it renders.
      */
     private void decorate(AuthenticationFlowContext context) {
-        if (!Turnstile.decorate(context.form(), context.getAuthenticatorConfig())) {
+        if (!Turnstile.decorate(
+                context.getSession(), context.form(), context.getAuthenticatorConfig())) {
             context.form().setError(Turnstile.MSG_NOT_CONFIGURED);
         }
     }

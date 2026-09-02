@@ -23,7 +23,7 @@ public class TurnstileResetCredentialChooseUserFactory implements AuthenticatorF
 
     @Override
     public String getDisplayType() {
-        return "Choose User with Cloudflare Turnstile";
+        return "Forgot Password Form with Cloudflare Turnstile";
     }
 
     @Override

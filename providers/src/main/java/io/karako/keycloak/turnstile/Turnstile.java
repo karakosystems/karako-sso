@@ -21,6 +21,10 @@ public final class Turnstile {
     private static final Logger LOG = Logger.getLogger(Turnstile.class);
 
     public static final String SITE_KEY = "turnstile.site.key";
+    // Realm attribute and environment variable sharing one pair of keys across
+    // the registration, login and reset flows.
+    public static final String SHARED_SITE_KEY = "KARAKO_TURNSTILE_SITE_KEY";
+    public static final String SHARED_SECRET_KEY = "KARAKO_TURNSTILE_SECRET_KEY";
     public static final String SECRET_KEY = "turnstile.secret.key";
     public static final String ACTION = "turnstile.action";
     public static final String THEME = "turnstile.theme";
@@ -48,8 +52,9 @@ public final class Turnstile {
      * Adds the widget to the page. Returns false when no site key is available,
      * in which case the caller must not let the form through.
      */
-    public static boolean decorate(LoginFormsProvider form, AuthenticatorConfigModel config) {
-        String siteKey = siteKey(config);
+    public static boolean decorate(KeycloakSession session, LoginFormsProvider form,
+                                   AuthenticatorConfigModel config) {
+        String siteKey = siteKey(session, config);
 
         if (siteKey == null) {
             return false;
@@ -64,12 +69,39 @@ public final class Turnstile {
         return true;
     }
 
-    public static String siteKey(AuthenticatorConfigModel config) {
-        return isTestMode(config) ? TEST_SITE_KEY : value(config, SITE_KEY);
+    public static String siteKey(KeycloakSession session, AuthenticatorConfigModel config) {
+        if (isTestMode(config)) {
+            return TEST_SITE_KEY;
+        }
+        return shared(session, value(config, SITE_KEY), SHARED_SITE_KEY);
     }
 
-    public static String secretKey(AuthenticatorConfigModel config) {
-        return isTestMode(config) ? TEST_SECRET_KEY : value(config, SECRET_KEY);
+    public static String secretKey(KeycloakSession session, AuthenticatorConfigModel config) {
+        if (isTestMode(config)) {
+            return TEST_SECRET_KEY;
+        }
+        return shared(session, value(config, SECRET_KEY), SHARED_SECRET_KEY);
+    }
+
+    /** The step's own value wins, then the realm attribute, then the environment. */
+    private static String shared(KeycloakSession session, String fromConfig, String key) {
+        String fromRealm = null;
+
+        if (session != null && session.getContext() != null
+                && session.getContext().getRealm() != null) {
+            fromRealm = session.getContext().getRealm().getAttribute(key);
+        }
+
+        return firstNonBlank(fromConfig, fromRealm, System.getenv(key));
+    }
+
+    static String firstNonBlank(String... values) {
+        for (String value : values) {
+            if (value != null && !value.isBlank()) {
+                return value;
+            }
+        }
+        return null;
     }
 
     /** True only when the token is present and Cloudflare confirms it. */
@@ -100,22 +132,23 @@ public final class Turnstile {
         siteKey.setName(SITE_KEY);
         siteKey.setLabel("Site key");
         siteKey.setHelpText(
-            "Public key from the Turnstile dashboard. Pre-filled with "
-                + "Cloudflare's test key - replace it before going live."
+            "Public key from the Turnstile dashboard. Leave empty to use the "
+                + "realm attribute " + SHARED_SITE_KEY + ", then the environment "
+                + "variable of the same name."
         );
         siteKey.setType(ProviderConfigProperty.STRING_TYPE);
-        siteKey.setDefaultValue(TEST_SITE_KEY);
 
         ProviderConfigProperty secretKey = new ProviderConfigProperty();
         secretKey.setName(SECRET_KEY);
         secretKey.setLabel("Secret key");
         secretKey.setHelpText(
-            "Private key, used server-side only. Pre-filled with Cloudflare's "
-                + "test key, which accepts any token - replace it before going live."
+            "Private key, used server-side only. Leave empty to use the realm "
+                + "attribute " + SHARED_SECRET_KEY + ", then the environment "
+                + "variable of the same name - which is where a secret belongs, "
+                + "since realm attributes are readable through the admin API."
         );
         secretKey.setType(ProviderConfigProperty.PASSWORD);
         secretKey.setSecret(true);
-        secretKey.setDefaultValue(TEST_SECRET_KEY);
 
         ProviderConfigProperty action = new ProviderConfigProperty();
         action.setName(ACTION);

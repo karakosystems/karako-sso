@@ -25,7 +25,7 @@ public class TurnstileFormAction implements FormAction {
 
     @Override
     public void buildPage(FormContext context, LoginFormsProvider form) {
-        if (!Turnstile.decorate(form, context.getAuthenticatorConfig())) {
+        if (!Turnstile.decorate(context.getSession(), form, context.getAuthenticatorConfig())) {
             form.addError(new FormMessage(null, Turnstile.MSG_NOT_CONFIGURED));
         }
     }
@@ -37,7 +37,7 @@ public class TurnstileFormAction implements FormAction {
         List<FormMessage> errors = new ArrayList<>();
 
         AuthenticatorConfigModel config = context.getAuthenticatorConfig();
-        String secret = Turnstile.secretKey(config);
+        String secret = Turnstile.secretKey(context.getSession(), config);
 
         if (secret == null) {
             errors.add(new FormMessage(null, Turnstile.MSG_NOT_CONFIGURED));

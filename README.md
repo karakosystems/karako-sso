@@ -70,9 +70,25 @@ Three flows can be guarded, each with its own keys and its own on/off switch.
 | Login              | Replace _Username Password Form_ with _Username Password Form with Cloudflare Turnstile_ |
 | Forgotten password | Replace _Choose User_ with _Choose User with Cloudflare Turnstile_                       |
 
-Fill each step's settings with the site and secret keys from the Cloudflare
-dashboard. Leave _Test mode_ on to use Cloudflare's always-pass test keys,
-which are prefilled.
+### One pair of keys for all three
+
+Keycloak attaches configuration to each step, so filling the keys three times is
+the default. Leave them empty instead and set them once for the whole container:
+
+```bash
+KARAKO_TURNSTILE_SITE_KEY=0x4AAA...
+KARAKO_TURNSTILE_SECRET_KEY=0x4AAA...
+```
+
+A realm attribute of the same name overrides the environment for that realm, and
+a step's own setting overrides both — useful when one tenant has its own
+Cloudflare account. Put the **secret** in the environment rather than in a realm
+attribute: realm attributes are readable through the admin API, the step setting
+and the environment are not.
+
+_Test mode_ swaps in Cloudflare's always-pass pair. Nothing is prefilled with it,
+so a step saved without keys and without test mode refuses the form rather than
+looking protected while accepting anything.
 
 The token is verified server-side before the credentials are checked, so a
 failed challenge reveals nothing about the account. Guarding the forgotten

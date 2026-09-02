@@ -22,7 +22,7 @@ public class TurnstileResetCredentialChooseUser extends ResetCredentialChooseUse
 
         // The provider is cached per session, so the attributes survive until
         // the parent builds the page from it.
-        if (!Turnstile.decorate(context.form(), config)) {
+        if (!Turnstile.decorate(context.getSession(), context.form(), config)) {
             context.form().setError(Turnstile.MSG_NOT_CONFIGURED);
         }
 
@@ -35,7 +35,7 @@ public class TurnstileResetCredentialChooseUser extends ResetCredentialChooseUse
 
         MultivaluedMap<String, String> formData =
             context.getHttpRequest().getDecodedFormParameters();
-        String secret = Turnstile.secretKey(config);
+        String secret = Turnstile.secretKey(context.getSession(), config);
 
         if (secret == null) {
             challengeWithError(context, config, Turnstile.MSG_NOT_CONFIGURED);
@@ -62,7 +62,7 @@ public class TurnstileResetCredentialChooseUser extends ResetCredentialChooseUse
                                     String message) {
         context.getEvent().error(Errors.INVALID_USER_CREDENTIALS);
 
-        Turnstile.decorate(context.form(), config);
+        Turnstile.decorate(context.getSession(), context.form(), config);
         Response challenge = context.form().setError(message).createPasswordReset();
 
         context.failureChallenge(AuthenticationFlowError.INVALID_CREDENTIALS, challenge);
