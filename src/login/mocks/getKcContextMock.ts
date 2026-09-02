@@ -12,7 +12,12 @@ const kcContextExtension: KcContextExtension = {
         ...kcEnvDefaults
     }
 };
-const kcContextExtensionPerPage: KcContextExtensionPerPage = {};
+// Every field is optional; the pages are listed so the mock matches the type.
+const kcContextExtensionPerPage: KcContextExtensionPerPage = {
+    "register.ftl": {},
+    "login.ftl": {},
+    "login-reset-password.ftl": {}
+};
 
 export const { getKcContextMock } = createGetKcContextMock({
     kcContextExtension,

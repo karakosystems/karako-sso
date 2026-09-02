@@ -7,7 +7,7 @@
     "scripts": {
         "postinstall": "node scripts/vite-bin-shim.mjs && keycloakify sync-extensions",
         "dev": "vp dev",
-        "build": "tsc && vp build",
+        "build": "tsc -b && vp build",
         "start": "bun run build && keycloakify start-keycloak --keycloak-version 26",
         "build-storybook": "storybook build",
         "build-keycloak-theme": "bun run build && keycloakify build",

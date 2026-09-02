@@ -20,7 +20,9 @@ published as an npm package - it is only ever consumed as a JAR.
 
 - `bun dev` - Vite dev server. Renders `KcPage` against a mocked `kcContext` (see "Dev mode" below). Change which page renders by editing `pageId` in `src/main-kc.dev.tsx`.
 - `bun storybook` - Storybook on port 6006. Stories live next to pages (e.g. `src/login/pages/login/Page.stories.tsx`) and use `createKcPageStory` from `src/login/mocks/KcPageStory.tsx`.
-- `bun build` - `tsc && vp build`. Type errors fail the build.
+- `bun build` - `tsc -b && vp build`. Type errors fail the build. The `-b` is
+  load-bearing: the root tsconfig has `files: []`, so a bare `tsc` checks
+  nothing and always exits 0.
 
 The toolchain is Vite+ (`vp`), which resolves `vite` to
 `@voidzero-dev/vite-plus-core`. That package ships no `vite` binary, and

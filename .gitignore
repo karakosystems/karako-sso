@@ -67,4 +67,4 @@ providers/target/
 
 .env
 .env.*
-!.env.exemple
+!.env.exemple.rendered

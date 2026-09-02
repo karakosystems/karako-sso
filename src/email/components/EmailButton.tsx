@@ -20,6 +20,10 @@ export const EmailButton = ({
         textColor={btnTextColor}
         borderRadius={radius}
         fontSize={15}
+        // Outlook only: these feed the VML fallback, not the HTML button,
+        // which stays auto-width so long labels do not overflow.
+        width={240}
+        height={48}
         style={{
             display: "inline-block",
             width: "auto",
