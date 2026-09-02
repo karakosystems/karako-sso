@@ -84,7 +84,8 @@ const preview: Preview = {
     beforeEach: () => {
         const key = "__keycloakify.useExclusiveAppInstanceEffect.globalContext";
         const context = (window as unknown as Record<string, unknown>)[key] as
-            { alreadyRanEffectId?: Set<string> } | undefined;
+            | { alreadyRanEffectId?: Set<string> }
+            | undefined;
 
         context?.alreadyRanEffectId?.clear();
     },

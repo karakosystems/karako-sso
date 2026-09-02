@@ -27,7 +27,8 @@ export function BrandingProvider(props: { children: ReactNode }) {
     const overrides = useContext(BrandingOverrideContext);
 
     const properties = kcContext.properties as unknown as
-        Record<string, string> | undefined;
+        | Record<string, string>
+        | undefined;
     const realmOverrides = kcContext.brandOverrides;
 
     const branding = useMemo(

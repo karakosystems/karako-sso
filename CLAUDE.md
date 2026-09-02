@@ -32,8 +32,11 @@ the one building it. Do not add a `devEngines` block: npm refuses to run
 
 - `bun build-keycloak-theme` - full `bun build` then `keycloakify build`; outputs `karako-iam-theme.jar` under `dist_keycloak/`. Requires Maven on PATH.
 - `bun start` - build then boot a throwaway Keycloak 26 with the theme loaded.
-- `bun lint` / `bun lint:fix` - ESLint (flat config in `eslint.config.js`).
-- `bun format` / `bun format:check` - Prettier (with `prettier-plugin-tailwindcss`).
+- `bun lint` / `bun lint:fix` - Oxlint (`.oxlintrc.json`). `lint` passes
+  `--deny-warnings`: Oxlint reports correctness issues as warnings and would
+  otherwise exit 0 on a real error.
+- `bun format` / `bun format:check` - Oxfmt, configured in the `fmt` section of
+  `vite.config.ts`.
 - `bun emails:preview` / `bun emails:check` - preview/lint jsx-email templates in `src/email/templates/`.
 - `mvn -f providers/pom.xml package` - build the server-extension JAR.
 - `bun sync:brand` - re-download the favicon set from the Karako CDN into `public/` and verify that every CDN URL hardcoded in `src/` still exists. Run it after uploading new brand assets.
@@ -157,6 +160,13 @@ Releases are cut by pushing a `v*.*.*` tag - there is no release-on-version-bump
 ## Conventions worth knowing
 
 - Path alias `@/*` -> `src/*` (configured in both `vite.config.ts` and `tsconfig.app.json`).
-- `eslint.config.js` disables `react-hooks/exhaustive-deps` and `@typescript-eslint/no-redeclare` globally - don't expect the linter to flag those.
+- Oxlint does not implement `react-hooks/exhaustive-deps`, which the old ESLint
+  config disabled anyway - don't expect the linter to flag stale deps.
+- `vp install` writes `devEngines.packageManager` with `onFail: "download"`,
+  which npm does not recognise: it then refuses to run `npx` at all, and
+  Keycloakify shells out to `npx vite`. `postinstall` rewrites `onFail` to
+  `warn`, which npm accepts, so the pin survives and npx keeps working.
+- `vp migrate` rewrites `vite.config.ts` and drops every comment in it. Restore
+  them by hand after running it.
 - Keycloakify `themeName` and `keycloakVersionTargets` are pinned in `vite.config.ts`; the `22-to-25` target is disabled (only "all-other-versions" emits a JAR).
 - When adding a new Keycloak page, you must (1) create `src/login/pages/<name>/Page.tsx`, (2) add a `case "<name>.ftl":` to `PageIndex.tsx`, and (3) ensure `getKcContextMock` can produce a mock for it so the dev server and Storybook still work.

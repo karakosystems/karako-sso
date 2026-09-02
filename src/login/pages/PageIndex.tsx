@@ -8,7 +8,9 @@ const Page_error = lazy(() => import("./error"));
 const Page_login_reset_password = lazy(() => import("./login-reset-password"));
 const Page_login_verify_email = lazy(() => import("./login-verify-email"));
 const Page_terms = lazy(() => import("./terms"));
-const Page_login_oauth2_device_verify_user_code = lazy(() => import("./login-oauth2-device-verify-user-code"));
+const Page_login_oauth2_device_verify_user_code = lazy(
+    () => import("./login-oauth2-device-verify-user-code")
+);
 const Page_login_oauth_grant = lazy(() => import("./login-oauth-grant"));
 const Page_login_otp = lazy(() => import("./login-otp"));
 const Page_login_password = lazy(() => import("./login-password"));
@@ -31,13 +33,21 @@ const Page_delete_credential = lazy(() => import("./delete-credential"));
 const Page_code = lazy(() => import("./code"));
 const Page_delete_account_confirm = lazy(() => import("./delete-account-confirm"));
 const Page_frontchannel_logout = lazy(() => import("./frontchannel-logout"));
-const Page_login_recovery_authn_code_config = lazy(() => import("./login-recovery-authn-code-config"));
-const Page_login_recovery_authn_code_input = lazy(() => import("./login-recovery-authn-code-input"));
+const Page_login_recovery_authn_code_config = lazy(
+    () => import("./login-recovery-authn-code-config")
+);
+const Page_login_recovery_authn_code_input = lazy(
+    () => import("./login-recovery-authn-code-input")
+);
 const Page_login_reset_otp = lazy(() => import("./login-reset-otp"));
 const Page_login_x509_info = lazy(() => import("./login-x509-info"));
 const Page_webauthn_error = lazy(() => import("./webauthn-error"));
-const Page_login_passkeys_conditional_authenticate = lazy(() => import("./login-passkeys-conditional-authenticate"));
-const Page_login_idp_link_confirm_override = lazy(() => import("./login-idp-link-confirm-override"));
+const Page_login_passkeys_conditional_authenticate = lazy(
+    () => import("./login-passkeys-conditional-authenticate")
+);
+const Page_login_idp_link_confirm_override = lazy(
+    () => import("./login-idp-link-confirm-override")
+);
 const Page_select_organization = lazy(() => import("./select-organization"));
 
 export function PageIndex() {

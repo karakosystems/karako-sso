@@ -14,7 +14,7 @@ type StyleLevelCustomization = {
     Provider?: (props: { children: ReactNode }) => ReactNode;
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
+// oxlint-disable-next-line react-refresh/only-export-components
 function Provider(props: { children: ReactNode }) {
     const { children } = props;
 

@@ -55,8 +55,6 @@ export default defineConfig({
             {
                 extends: true,
                 plugins: [
-                    // The plugin will run tests for the stories defined in your Storybook config
-                    // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
                     storybookTest({
                         configDir: path.join(import.meta.dirname, ".storybook")
                     })
@@ -120,6 +118,25 @@ export default defineConfig({
                     }
                 }
             }
+        ]
+    },
+    fmt: {
+        printWidth: 90,
+        tabWidth: 4,
+        useTabs: false,
+        semi: true,
+        singleQuote: false,
+        trailingComma: "none",
+        bracketSpacing: true,
+        arrowParens: "avoid",
+        sortPackageJson: false,
+        ignorePatterns: [
+            "node_modules/",
+            "/dist/",
+            "/dist_keycloak/",
+            "/public/keycloakify-dev-resources/",
+            "/.vscode/",
+            "/.yarn_home/"
         ]
     }
 });

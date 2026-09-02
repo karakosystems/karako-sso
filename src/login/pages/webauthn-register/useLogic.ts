@@ -234,7 +234,7 @@ async function webAuthnRegister(
             }),
             transports
         };
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // oxlint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         return { success: false, error: error.message || "Registration failed" };
     }

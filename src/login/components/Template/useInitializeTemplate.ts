@@ -10,14 +10,11 @@ export function useInitializeTemplate() {
 
     const { insertScriptTags } = useInsertScriptTags({
         effectId: "Template",
-        scriptTags: [
-            ...(kcContext.scripts === undefined
-                ? []
-                : kcContext.scripts.map(src => ({
-                      type: "text/javascript" as const,
-                      src
-                  })))
-        ]
+        scriptTags:
+            kcContext.scripts?.map(src => ({
+                type: "text/javascript" as const,
+                src
+            })) ?? []
     });
 
     useEffect(() => {
