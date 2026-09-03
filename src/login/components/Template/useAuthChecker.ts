@@ -21,13 +21,8 @@ function getCookieByName(name: string) {
 export function useAuthChecker() {
     const { kcContext } = useKcContext();
 
-    /**
-     * Checks if the current tab's authentication session ID matches the one stored in the browser cookie.
-     *
-     * If the user opens the login page in Tab A, then opens it again in Tab B, the server might generate
-     * a new session ID. Tab A is now "stale". If the user tries to log in on Tab A, it would fail.
-     * This hook detects that mismatch and refreshes the page to get the new ID.
-     */
+    // Opening the login page in a second tab gives the server a new session id,
+    // leaving the first tab stale: detect the mismatch and reload it.
     useEffect(() => {
         if (kcContext.authenticationSession === undefined) {
             return;
@@ -37,7 +32,6 @@ export function useAuthChecker() {
 
         const timer = setTimeout(() => {
             const authSessionIdHashCookie = getCookieByName("KC_AUTH_SESSION_HASH");
-            // If the cookie exists, but doesn't match the ID in our current HTML/Context
             if (
                 authSessionIdHashCookie &&
                 authSessionIdHashCookie !== authSessionIdHash
@@ -49,16 +43,11 @@ export function useAuthChecker() {
         return () => clearTimeout(timer);
     }, []);
 
-    /**
-     * Polls for a valid KEYCLOAK_SESSION cookie every few seconds.
-     *
-     * If the user leaves this tab open and logs into the app via a different tab (SSO),
-     * this hook detects the new session and automatically redirects this tab to the success URL.
-     */
+    // Signing in through another tab leaves this one stranded on the login page,
+    // so poll for the session cookie and follow it.
     useEffect(() => {
         const keycloakSessionCookie = () => getCookieByName("KEYCLOAK_SESSION");
 
-        // If we already have a session upon loading, do nothing
         if (keycloakSessionCookie() !== null) {
             return;
         }
@@ -67,7 +56,6 @@ export function useAuthChecker() {
 
         const poll = () => {
             if (keycloakSessionCookie() === null) {
-                // No session yet, check again in 2 seconds
                 timer = setTimeout(poll, SESSION_POLLING_INTERVAL_MS);
                 return;
             }

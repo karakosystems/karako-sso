@@ -61,6 +61,7 @@ jspm_packages
 /.keycloakify
 
 /.temp-emails
+.rendered
 
 # Maven build output (providers module)
 providers/target/

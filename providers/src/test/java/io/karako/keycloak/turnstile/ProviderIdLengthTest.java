@@ -4,10 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * AUTHENTICATION_EXECUTION.AUTHENTICATOR is a VARCHAR(36): a longer provider id
- * only fails when the execution is saved, not when the provider is loaded.
- */
+// AUTHENTICATION_EXECUTION.AUTHENTICATOR is a VARCHAR(36), and a longer id only
+// fails when the execution is saved, not when the provider is loaded.
 class ProviderIdLengthTest {
 
     private static final int MAX = 36;

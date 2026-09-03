@@ -12,17 +12,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Configuration and server-side verification shared by the registration form
- * action and the login and reset-credentials authenticators.
- */
 public final class Turnstile {
 
     private static final Logger LOG = Logger.getLogger(Turnstile.class);
 
     public static final String SITE_KEY = "turnstile.site.key";
-    // Realm attribute and environment variable sharing one pair of keys across
-    // the registration, login and reset flows.
     public static final String SHARED_SITE_KEY = "KARAKO_TURNSTILE_SITE_KEY";
     public static final String SHARED_SECRET_KEY = "KARAKO_TURNSTILE_SECRET_KEY";
     public static final String SECRET_KEY = "turnstile.secret.key";
@@ -32,7 +26,6 @@ public final class Turnstile {
 
     public static final String RESPONSE_FIELD = "cf-turnstile-response";
 
-    // Resolved from the theme's message bundles, generated from src/login/i18n.ts.
     public static final String MSG_FAILED = "turnstileFailed";
     public static final String MSG_NOT_CONFIGURED = "turnstileNotConfigured";
 
@@ -48,10 +41,7 @@ public final class Turnstile {
 
     private Turnstile() {}
 
-    /**
-     * Adds the widget to the page. Returns false when no site key is available,
-     * in which case the caller must not let the form through.
-     */
+    /** False when no site key is available: the caller must reject the form. */
     public static boolean decorate(KeycloakSession session, LoginFormsProvider form,
                                    AuthenticatorConfigModel config) {
         String siteKey = siteKey(session, config);
@@ -104,7 +94,6 @@ public final class Turnstile {
         return null;
     }
 
-    /** True only when the token is present and Cloudflare confirms it. */
     public static boolean verify(KeycloakSession session, String secret, String token,
                                  String remoteAddr) {
         if (secret == null || Validation.isBlank(token)) {
@@ -126,7 +115,6 @@ public final class Turnstile {
         }
     }
 
-    /** @param defaultAction label reported in the Turnstile analytics. */
     public static List<ProviderConfigProperty> configProperties(String defaultAction) {
         ProviderConfigProperty siteKey = new ProviderConfigProperty();
         siteKey.setName(SITE_KEY);

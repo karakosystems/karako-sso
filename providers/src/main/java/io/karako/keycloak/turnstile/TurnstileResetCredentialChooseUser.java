@@ -8,12 +8,6 @@ import org.keycloak.authentication.authenticators.resetcred.ResetCredentialChoos
 import org.keycloak.events.Errors;
 import org.keycloak.models.AuthenticatorConfigModel;
 
-/**
- * The forgotten-password form, guarded by Cloudflare Turnstile.
- *
- * Without it the form is an open oracle: it accepts unlimited submissions and
- * each one sends an email.
- */
 public class TurnstileResetCredentialChooseUser extends ResetCredentialChooseUser {
 
     @Override

@@ -6,61 +6,24 @@ import { useI18n } from "../../i18n";
 
 // see https://github.com/keycloak/keycloak/blob/main/themes/src/main/resources/theme/base/login/resources/js/webauthnAuthenticate.js
 
-/**
- * Options required to initiate the WebAuthn authentication flow.
- * These usually come directly from the Keycloak context (kcContext).
- */
 export type AuthenticateOptions = {
-    /**
-     * If true, the user has already entered their username.
-     * We will filter the browser prompt to only show keys registered to this specific user.
-     */
     isUserIdentified: boolean;
 
-    /**
-     * The random server-side challenge (Base64URL encoded string).
-     * Used to prevent replay attacks.
-     */
     challenge: string;
 
-    /**
-     * The relying party ID (e.g., "google.com" or "localhost").
-     * Defines the scope of the credential.
-     */
     rpId: string;
 
-    /**
-     * User verification requirement (e.g., "required", "preferred", "discouraged").
-     * Determines if the user must enter a PIN or use biometrics.
-     */
     userVerification: UserVerificationRequirement | string;
 
-    /**
-     * Timeout for the interaction in seconds.
-     * 0 usually means no timeout (or browser default).
-     */
     createTimeout: number;
 
-    /**
-     * List of registered credentials for the user (if identified).
-     * Used to create the 'allowCredentials' list.
-     */
     authenticators: { credentialId: string }[] | undefined;
 
-    /** * Mediation type for the credential request.
-     * "optional" for standard button click, "conditional" for silent requests.
-     */
     mediation: "optional" | "conditional";
 
-    /** * Optional error message to display if the browser does not support WebAuthn.
-     */
     errmsg: string | undefined;
 };
 
-/**
- * The structure of the successful authentication result.
- * All binary fields are converted to Base64URL strings for form submission.
- */
 export type WebAuthnResult =
     | {
           success: true;
@@ -191,25 +154,21 @@ export async function authenticate(
         mediation
     } = options;
 
-    //  Browser Support Check
     if (!window.PublicKeyCredential) {
         return { success: false, error: errmsg || "WebAuthn not supported" };
     }
 
-    // Prepare Configuration
     const publicKey: PublicKeyCredentialRequestOptions = {
         challenge: new Uint8Array(base64url.parse(challenge, { loose: true })),
         rpId: rpId
     };
 
-    // Only set userVerification if it's a valid value
     if (userVerification && userVerification !== "not specified") {
         publicKey.userVerification = userVerification as UserVerificationRequirement;
     }
 
     if (createTimeout !== 0) publicKey.timeout = createTimeout * 1000;
 
-    // Handle Allowed Credentials
     if (isUserIdentified && authenticators) {
         publicKey.allowCredentials = authenticators.map(auth => ({
             id: new Uint8Array(base64url.parse(auth.credentialId, { loose: true })),
@@ -226,7 +185,6 @@ export async function authenticate(
 
         const response = credential.response as AuthenticatorAssertionResponse;
 
-        // Success Handling
         return {
             success: true,
             clientDataJSON: base64url.stringify(new Uint8Array(response.clientDataJSON), {
@@ -256,12 +214,6 @@ export async function authenticate(
     }
 }
 
-/**
- * Get an abort signal for the current WebAuthn operation.
- * Automatically aborts any previous pending WebAuthn request.
- *
- * @returns AbortSignal for use with navigator.credentials.get()
- */
 export function getWebAuthnSignal(): AbortSignal {
     if (abortController) {
         // Abort the previous call

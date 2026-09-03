@@ -9,13 +9,8 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * Passes the realm's KARAKO_BRAND_* attributes to the theme.
- *
- * The container's environment variables brand the whole image; these attributes
- * let one instance serve several companies, a realm each. Keycloakify drops
- * realm.attributes from its kcContext, so they travel as a form attribute.
- */
+// Keycloakify drops realm.attributes from its kcContext, so the realm's
+// KARAKO_BRAND_* values travel to the theme as a form attribute instead.
 public class RealmBrandingLoginFormsProvider extends FreeMarkerLoginFormsProvider {
 
     static final String PREFIX = "KARAKO_BRAND_";
@@ -25,7 +20,6 @@ public class RealmBrandingLoginFormsProvider extends FreeMarkerLoginFormsProvide
         super(session);
     }
 
-    /** Every login page is rendered through here. */
     @Override
     protected Response processTemplate(Theme theme, String templateName, Locale locale) {
         Map<String, String> overrides = brandAttributes();

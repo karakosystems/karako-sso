@@ -15,12 +15,6 @@ import org.keycloak.models.utils.FormMessage;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Cloudflare Turnstile on the registration form.
- *
- * Keycloak only ships Google reCAPTCHA form actions; this is the Turnstile
- * equivalent, verified server-side against siteverify.
- */
 public class TurnstileFormAction implements FormAction {
 
     @Override

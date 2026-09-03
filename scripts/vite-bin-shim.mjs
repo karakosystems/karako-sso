@@ -1,7 +1,5 @@
-// Keycloakify shells out to `npx vite` (hardcoded in its Vite plugin and CLI),
-// but Vite+ resolves `vite` to @voidzero-dev/vite-plus-core, which ships no
-// binary. Without this shim npx downloads an unrelated Vite from the registry
-// and the theme is read with a different Vite than the one building it.
+// Keycloakify hardcodes `npx vite`, but Vite+ resolves `vite` to a package with
+// no binary: without this shim npx downloads an unrelated Vite instead.
 import {
     chmodSync,
     existsSync,
@@ -66,6 +64,6 @@ try {
     lstatSync(binLink);
     unlinkSync(binLink);
 } catch {
-    // nothing to replace
+    /* nothing to replace */
 }
 symlinkSync(join("..", "vite", "bin", "vite.js"), binLink);

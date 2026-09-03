@@ -14,19 +14,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-/**
- * LDAP Storage Mapper - Regex Attribute Extractor.
- *
- * Reuses the native user-attribute mapper to copy the LDAP attribute into the
- * chosen Keycloak user attribute (with default value, mandatory, binary and
- * read-only handling), then overlays a regex extraction on the imported value.
- *
- * Example:
- *   Source attribute : manager
- *   Value            : CN=John Doe,OU=Users,DC=exemple,DC=com
- *   Regex            : ^CN=([^,]+)
- *   Resulting claim  : manager = "John Doe"
- */
 public class RegexLdapStorageMapper extends UserAttributeLDAPStorageMapper {
 
     private static final Logger LOG = Logger.getLogger(RegexLdapStorageMapper.class);
@@ -81,10 +68,8 @@ public class RegexLdapStorageMapper extends UserAttributeLDAPStorageMapper {
         return out;
     }
 
-    /**
-     * Deliberately a no-op: the extracted value is a transformation of what LDAP
-     * holds, so writing it back would overwrite the source with its own excerpt.
-     */
+    // A no-op on purpose: the value is an excerpt of what LDAP holds, so writing
+    // it back would overwrite the source with its own substring.
     @Override
     public void onRegisterUserToLDAP(LDAPObject ldapUser, UserModel localUser, RealmModel realm) {}
 

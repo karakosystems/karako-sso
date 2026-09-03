@@ -9,16 +9,8 @@ import org.keycloak.storage.ldap.mappers.UserAttributeLDAPStorageMapperFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * LDAP Storage Mapper factory - Regex Attribute Extractor.
- *
- * Extends the native user-attribute-ldap-mapper factory (the same way Keycloak's
- * own certificate-ldap-mapper does) to inherit all its config and behavior
- * (read-only, always-read-from-ldap, mandatory, default value, binary, the
- * User Profile attribute dropdown), and adds a regex extraction step on top.
- *
- * Shows up under: Realm → User federation → LDAP → Mappers.
- */
+// Extends the native user-attribute-ldap-mapper factory, as Keycloak's own
+// certificate-ldap-mapper does, to inherit its whole configuration.
 public class RegexLdapStorageMapperFactory extends UserAttributeLDAPStorageMapperFactory {
 
     public static final String PROVIDER_ID = "regex-attribute-ldap-mapper";

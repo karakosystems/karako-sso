@@ -5,10 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-/**
- * The step's own value wins, then the realm attribute, then the environment,
- * so one pair of keys can serve the registration, login and reset flows.
- */
+// The step's own value wins, then the realm attribute, then the environment.
 class TurnstileKeyResolutionTest {
 
     @Test

@@ -8,12 +8,6 @@ import org.keycloak.authentication.authenticators.browser.UsernamePasswordForm;
 import org.keycloak.events.Errors;
 import org.keycloak.models.KeycloakSession;
 
-/**
- * The standard username and password form, guarded by Cloudflare Turnstile.
- *
- * The token is verified before the credentials are, so a failed challenge
- * costs nothing and reveals nothing about the account.
- */
 public class TurnstileUsernamePasswordForm extends UsernamePasswordForm {
 
     public TurnstileUsernamePasswordForm(KeycloakSession session) {
@@ -55,10 +49,8 @@ public class TurnstileUsernamePasswordForm extends UsernamePasswordForm {
         super.action(context);
     }
 
-    /**
-     * The parent builds the page through context.form(), which is cached per
-     * session, so the attributes set here survive until it renders.
-     */
+    // context.form() is cached per session, so these attributes survive until
+    // the parent renders the page.
     private void decorate(AuthenticationFlowContext context) {
         if (!Turnstile.decorate(
                 context.getSession(), context.form(), context.getAuthenticatorConfig())) {
