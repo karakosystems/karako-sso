@@ -136,7 +136,9 @@ export default defineConfig({
             "/dist_keycloak/",
             "/public/keycloakify-dev-resources/",
             "/.vscode/",
-            "/.yarn_home/"
+            "/.yarn_home/",
+            "/CHANGELOG.md",
+            "/release/.manifest.json"
         ]
     }
 });

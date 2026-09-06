@@ -141,9 +141,12 @@ jobs:
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   TAG: ${{ inputs.tag }}
-                  IMAGE_REF: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ inputs.tag }}
+                  IMAGE_BASE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
               run: |
                   gh release upload "${TAG}" ./dist_keycloak/karako-sso-theme.jar
+
+                  # docker/metadata-action publishes semver tags without the leading v
+                  image_ref="${IMAGE_BASE}:${TAG#v}"
 
                   body="$(gh release view "${TAG}" --json body --jq .body)"
                   case "${body}" in
@@ -152,7 +155,7 @@ jobs:
                   gh release edit "${TAG}" --notes "## Container image
 
                   \`\`\`
-                  docker pull ${IMAGE_REF}
+                  docker pull ${image_ref}
                   \`\`\`
 
                   ${body}"
