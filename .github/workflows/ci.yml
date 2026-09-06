@@ -85,4 +85,3 @@ jobs:
 
             - name: Build and test
               run: mvn -B -f providers/pom.xml verify
-
