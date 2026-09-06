@@ -15,11 +15,11 @@ export default defineConfig({
         tailwindcss(),
         keycloakify({
             accountThemeImplementation: "none",
-            themeName: "karako-iam-theme",
+            themeName: "karako-sso-theme",
             environmentVariables: BRAND_ENVIRONMENT_VARIABLES,
             keycloakVersionTargets: {
                 "22-to-25": false,
-                "all-other-versions": "karako-iam-theme.jar"
+                "all-other-versions": "karako-sso-theme.jar"
             },
             postBuild: async buildContext => {
                 await buildEmailTheme({

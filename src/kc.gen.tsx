@@ -9,9 +9,9 @@
 
 import { lazy, Suspense, type ReactNode } from "react";
 
-export type ThemeName = "karako-iam-theme";
+export type ThemeName = "karako-sso-theme";
 
-export const themeNames: ThemeName[] = ["karako-iam-theme"];
+export const themeNames: ThemeName[] = ["karako-sso-theme"];
 
 export type KcEnvName =
     | "KARAKO_BRAND_NAME"

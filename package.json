@@ -1,5 +1,5 @@
 {
-    "name": "karako-iam-theme",
+    "name": "karako-sso-theme",
     "version": "1.0.0",
     "description": "Starter for Keycloakify themes using React, Shadcn, TailwindCSS and Keycloakify",
     "type": "module",

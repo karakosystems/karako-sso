@@ -1,4 +1,4 @@
-# Karako IAM
+# Karako SSO
 
 Keycloak 26.7.3 packaged with the Karako login theme, email theme and server
 extensions. One image, white-labelled per client through environment variables.
@@ -6,7 +6,7 @@ extensions. One image, white-labelled per client through environment variables.
 ## Deploy
 
 ```bash
-docker run --env-file .env ghcr.io/karakosystems/karako-iam:latest
+docker run --env-file .env ghcr.io/karakosystems/karako-sso:latest
 ```
 
 `.env.exemple` lists the Keycloak variables (database, hostname, proxy, admin
@@ -116,13 +116,13 @@ bun sync:brand     # refresh brand assets from the CDN
 ## Build
 
 ```bash
-bun build-keycloak-theme     # dist_keycloak/karako-iam-theme.jar
+bun build-keycloak-theme     # dist_keycloak/karako-sso-theme.jar
 docker compose up --build    # full Keycloak on 127.0.0.1:8888 (admin/admin)
 ```
 
 ## Release
 
-Push a `v*.*.*` tag. The image is published to `ghcr.io/karakosystems/karako-iam`.
+Push a `v*.*.*` tag. The image is published to `ghcr.io/karakosystems/karako-sso`.
 
 ---
 

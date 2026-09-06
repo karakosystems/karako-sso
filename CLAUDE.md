@@ -4,10 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-`karako-iam` - a Keycloak distribution: a Keycloakify v11 login theme (React 19,
+`karako-sso` - a Keycloak distribution: a Keycloakify v11 login theme (React 19,
 TypeScript, Tailwind v4, vendored shadcn/ui components) plus a Maven module of
 Keycloak server extensions, baked together into a single container image. The theme build
-artifact is `karako-iam-theme.jar`; the extensions build to
+artifact is `karako-sso-theme.jar`; the extensions build to
 `karako-keycloak-providers.jar`. Both are dropped into Keycloak's `providers/`
 directory by the Dockerfile.
 
@@ -32,7 +32,7 @@ downloads an unrelated Vite and the theme is read with a different Vite than
 the one building it. Do not add a `devEngines` block: npm refuses to run
 `npx` when it is present, which breaks every Keycloakify command.
 
-- `bun build-keycloak-theme` - full `bun build` then `keycloakify build`; outputs `karako-iam-theme.jar` under `dist_keycloak/`. Requires Maven on PATH.
+- `bun build-keycloak-theme` - full `bun build` then `keycloakify build`; outputs `karako-sso-theme.jar` under `dist_keycloak/`. Requires Maven on PATH.
 - `bun start` - build then boot a throwaway Keycloak 26 with the theme loaded.
 - `bun lint` / `bun lint:fix` - Oxlint (`.oxlintrc.json`). `lint` passes
   `--deny-warnings`: Oxlint reports correctness issues as warnings and would
@@ -155,7 +155,7 @@ of `CN=John Doe,OU=Users,DC=example,DC=com`). SPI registration is via
 ## CI / release flow
 
 - `.github/workflows/ci.yml` (push/PR on `main`): actionlint, then lint + format check + `emails:check`, then a theme build, then a Trivy filesystem scan that fails on CRITICAL/HIGH.
-- `.github/workflows/release.yml` (on `v*.*.*` tags): multi-arch image build pushed to `ghcr.io/karakosystems/karako-iam` with SBOM and provenance, cosign signing, a Trivy image scan, and a GitHub release with the theme JAR attached.
+- `.github/workflows/release.yml` (on `v*.*.*` tags): multi-arch image build pushed to `ghcr.io/karakosystems/karako-sso` with SBOM and provenance, cosign signing, a Trivy image scan, and a GitHub release with the theme JAR attached.
 
 Releases are cut by pushing a `v*.*.*` tag - there is no release-on-version-bump.
 
