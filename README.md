@@ -122,7 +122,16 @@ docker compose up --build    # full Keycloak on 127.0.0.1:8888 (admin/admin)
 
 ## Release
 
-Push a `v*.*.*` tag. The image is published to `ghcr.io/karakosystems/karako-sso`.
+Versions come from the commit history: release-please keeps a release pull
+request open, and merging it tags the repository, writes `CHANGELOG.md`,
+publishes the multi-architecture image to
+`ghcr.io/karakosystems/karako-sso` (signed with cosign), and attaches the
+theme JAR to the GitHub release.
+
+Commit subjects drive the version: `feat:` bumps the minor, `fix:` the patch,
+a `!` or a `BREAKING CHANGE:` footer the major.
+
+Hooks: `brew install lefthook && lefthook install`.
 
 ---
 
