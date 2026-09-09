@@ -58,7 +58,7 @@
         "@types/react-dom": "^19.2.5",
         "@vitejs/plugin-react": "^6.1.0",
         "@vitest/browser-playwright": "4.1.11",
-        "@vitest/coverage-v8": "4.1.11",
+        "@vitest/coverage-v8": "5.0.0",
         "jsx-email": "^3.2.1",
         "keycloakify-emails": "3.4.0",
         "playwright": "latest",
