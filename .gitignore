@@ -69,3 +69,6 @@ providers/target/
 .env
 .env.*
 !.env.exemple.rendered
+
+# Background session worktrees
+.claude/

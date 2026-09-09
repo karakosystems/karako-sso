@@ -3,7 +3,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        image: karako/iam:dev
+        image: karako/sso:dev
         ports:
             - "8888:8080"
         environment:
