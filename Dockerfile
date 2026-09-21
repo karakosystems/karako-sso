@@ -20,7 +20,7 @@ RUN --mount=type=cache,target=/root/.m2/repository \
     mvn -f providers/pom.xml clean package -DskipTests
 
 # Stage 2: keycloak Build
-FROM quay.io/keycloak/keycloak:26.7.3 AS builder
+FROM quay.io/keycloak/keycloak:26.7.4 AS builder
 
 ENV KC_DB=postgres
 ENV KC_HEALTH_ENABLED=true
@@ -31,7 +31,7 @@ COPY --from=theme-builder /build/providers/target/karako-keycloak-providers.jar 
 RUN /opt/keycloak/bin/kc.sh build --metrics-enabled=true --health-enabled=true
 
 # Stage 3: Final runtime image
-FROM quay.io/keycloak/keycloak:26.7.3
+FROM quay.io/keycloak/keycloak:26.7.4
 
 LABEL org.opencontainers.image.title="karako-sso" \
       org.opencontainers.image.description="Keycloak 26.7.3 packaged with the Karako IAM login theme" \
