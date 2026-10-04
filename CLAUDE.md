@@ -1,199 +1,192 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for Claude Code when working in this repository.
 
 ## What this is
 
-`karako-sso` - a Keycloak distribution: a Keycloakify v11 login theme (React 19,
-TypeScript, Tailwind v4, vendored shadcn/ui components) plus a Maven module of
-Keycloak server extensions, baked together into a single container image. The theme build
-artifact is `karako-sso-theme.jar`; the extensions build to
-`karako-keycloak-providers.jar`. Both are dropped into Keycloak's `providers/`
-directory by the Dockerfile.
+`karako-sso` is a Keycloak 26.8 distribution built as one container image:
 
-The theme is derived from the `keycloakify-shadcn-starter` layout but is not
-published as an npm package - it is only ever consumed as a JAR.
+- a Keycloakify v11 login theme (React 19, TypeScript 7, Tailwind v4, vendored
+  shadcn/ui) plus a jsx-email email theme, both in `karako-sso-theme.jar`;
+- a Maven module of server extensions in `providers/`, built to
+  `karako-keycloak-providers.jar`.
+
+The Dockerfile drops both JARs into Keycloak's `providers/` directory. The theme
+is never published to npm.
 
 ## Commands
 
-`packageManager` is `bun` and `bun.lock` is committed. CI uses bun as well.
+bun is the package manager and script runner; `bun.lock` is committed.
 
-- `bun dev` - Vite dev server. Renders `KcPage` against a mocked `kcContext` (see "Dev mode" below). Change which page renders by editing `pageId` in `src/main-kc.dev.tsx`.
-- `bun storybook` - Storybook on port 6006. Stories live next to pages (e.g. `src/login/pages/login/Page.stories.tsx`) and use `createKcPageStory` from `src/login/mocks/KcPageStory.tsx`.
-- `bun build` - `tsc -b && vp build`. Type errors fail the build. The `-b` is
-  load-bearing: the root tsconfig has `files: []`, so a bare `tsc` checks
-  nothing and always exits 0.
+| Command                           | What it does                                                                                     |
+| --------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `bun dev`                         | Vite dev server rendering `KcPage` against a mock context; set `pageId` in `src/main-kc.dev.tsx` |
+| `bun storybook`                   | Storybook on port 6006; stories sit next to each page and use `createKcPageStory`                |
+| `bun run test`                    | Storybook tests in Playwright Chromium (`vp test run --project storybook`)                       |
+| `bun run build`                   | `tsc -b && vp build`; the only step that type-checks                                             |
+| `bun build-keycloak-theme`        | Build, then `keycloakify build` to `dist_keycloak/karako-sso-theme.jar`; needs Maven             |
+| `bun start`                       | Build, then boot a throwaway Keycloak with the theme                                             |
+| `bun lint` / `bun lint:fix`       | Oxlint (`.oxlintrc.json`) with `--deny-warnings`                                                 |
+| `bun format` / `format:check`     | Oxfmt, configured in the `fmt` section of `vite.config.ts`                                       |
+| `bun emails:preview` / `check`    | jsx-email preview server (port 55420) or client compatibility report                             |
+| `bun sync:brand`                  | Re-download favicons from the CDN into `public/` and check every CDN URL in `src/`               |
+| `mvn -f providers/pom.xml verify` | Build and test the server extensions (Java 21)                                                   |
+| `docker compose up --build`       | Full image on `127.0.0.1:8888` (admin/admin); slow, use for end-to-end checks only               |
 
-The toolchain is Vite+ (`vp`), which resolves `vite` to
-`@voidzero-dev/vite-plus-core`. That package ships no `vite` binary, and
-Keycloakify hardcodes `npx vite` to read the config, so `postinstall` runs
-`scripts/vite-bin-shim.mjs` first to create one. Without it `npx` silently
-downloads an unrelated Vite and the theme is read with a different Vite than
-the one building it. Do not add a `devEngines` block: npm refuses to run
-`npx` when it is present, which breaks every Keycloakify command.
+`tsc -b` matters: the root `tsconfig.json` has `files: []` and only references
+`tsconfig.app.json` (browser code) and `tsconfig.node.json` (`vite.config.ts`),
+so a bare `tsc` checks nothing. bun and `vp` strip types without checking them.
 
-- `bun build-keycloak-theme` - full `bun build` then `keycloakify build`; outputs `karako-sso-theme.jar` under `dist_keycloak/`. Requires Maven on PATH.
-- `bun start` - build then boot a throwaway Keycloak 26 with the theme loaded.
-- `bun lint` / `bun lint:fix` - Oxlint (`.oxlintrc.json`). `lint` passes
-  `--deny-warnings`: Oxlint reports correctness issues as warnings and would
-  otherwise exit 0 on a real error.
-- `bun format` / `bun format:check` - Oxfmt, configured in the `fmt` section of
-  `vite.config.ts`.
-- `bun emails:preview` / `bun emails:check` - preview/lint jsx-email templates in `src/email/templates/`.
-- `mvn -f providers/pom.xml package` - build the server-extension JAR.
-- `bun sync:brand` - re-download the favicon set from the Karako CDN into `public/` and verify that every CDN URL hardcoded in `src/` still exists. Run it after uploading new brand assets.
+## Toolchain pitfalls
 
-`postinstall` runs `keycloakify sync-extensions`, which regenerates
-`src/kc.gen.tsx` from installed Keycloakify extensions. Treat `src/kc.gen.tsx` as
-generated - don't hand-edit it.
-
-## Local Keycloak for end-to-end testing
-
-`compose.yml` builds the local Dockerfile and boots Keycloak 26.8 on
-`127.0.0.1:8888` (admin/admin) via `docker compose up --build`. The build runs the
-theme build _and_ the Maven build inside the image, so every change forces a full
-multi-stage rebuild - for fast iteration use `bun dev` or Storybook; reserve
-compose for full end-to-end Keycloak validation.
-
-The compose healthcheck requests `/realms/master` rather than `/health/ready`:
-the health endpoint lives on the management port, which `start-dev` does not
-open.
-
-The Dockerfile tracks the Keycloak minor through its floating quay tag
-(`keycloak:26.8`), and both `release.yml` and `compose.yml` pull the base image
-on every build, so a rebuild picks up the latest patch. Dependabot proposes the
-next minor. `providers/pom.xml` compiles against that minor's `.0` release, which
-is enough for the `provided` SPI; bump it with the Dockerfile tag.
-
-`KC_SPI_LOGIN_PROVIDER=karako` is set on the runtime image, not passed to
-`kc.sh build`: provider selection is runtime configuration, the build step
-ignores it silently and every login page then fails with a null provider.
+- **Vite+ (`vp`)** resolves `vite` to `@voidzero-dev/vite-plus-core`, which
+  ships no `vite` binary. Keycloakify hardcodes `npx vite`, so `postinstall`
+  runs `scripts/vite-bin-shim.mjs` to create one; without it `npx` downloads an
+  unrelated Vite.
+- **`devEngines`**: `vp install` writes `onFail: "download"`, which npm rejects,
+  and npm then refuses to run `npx` at all. `postinstall` rewrites it to `warn`.
+- **`vp test` runs the vitest bundled in `vite-plus`**, not the root one, so
+  `vitest` and `@vitest/*` must match what `vite-plus` ships. Dependabot groups
+  them, but bump the `npm:@voidzero-dev/vite-plus-core@x` alias in both
+  `devDependencies.vite` and `overrides.vite` by hand.
+- **`vp migrate`** rewrites `vite.config.ts` and drops its comments.
+- **Oxlint** has no `react-hooks/exhaustive-deps`; stale deps go unflagged. The
+  lefthook `lint` command calls `bun run lint` because a bare `oxlint` cannot
+  resolve `eslint-plugin-storybook`.
+- **`src/kc.gen.tsx`** is regenerated by `keycloakify sync-extensions` on every
+  install. Never edit it.
 
 ## Architecture
 
-### Entry points
+### Rendering
 
-`src/main.tsx` branches on `window.kcContext`:
+`src/main.tsx` renders `src/main-kc.tsx` when `window.kcContext` exists (real
+Keycloak) and `src/main-kc.dev.tsx` otherwise (mock from `getKcContextMock`).
+Both render the same `KcPage`:
 
-- Set (real Keycloak runtime) -> `src/main-kc.tsx`, which renders `KcPage` from `src/kc.gen.tsx`.
-- Unset (Vite dev) -> `src/main-kc.dev.tsx`, which builds a mock context via `getKcContextMock` and renders the same `KcPage`.
+```
+KcContextProvider > I18nProvider > BrandingProvider > StyleLevelCustomization > PageIndex
+```
 
-Dev and prod render the exact same component tree - only the source of
-`kcContext` differs.
+`src/login/pages/PageIndex.tsx` switches on `kcContext.pageId` over the 38
+Keycloak `.ftl` pages, each lazy-loaded from `src/login/pages/<page>/`
+(`Page.tsx`, its parts, `Page.stories.tsx`).
 
-### Page routing
+To add a page: create the folder, add a `case "<page>.ftl":` to `PageIndex.tsx`,
+and make sure `getKcContextMock` can mock it.
 
-`src/login/KcPage.tsx` wraps the tree in `KcContextProvider` -> `I18nProvider` ->
-`StyleLevelCustomization` -> `<PageIndex />`. `src/login/pages/PageIndex.tsx` is a
-`switch (kcContext.pageId)` over all 38 Keycloak `.ftl` page IDs, each lazy-imported
-from `src/login/pages/<page-name>/`. **To add or modify a page, edit the matching
-folder under `src/login/pages/` and (if new) add it to the switch.** Each page
-folder contains `Page.tsx`, supporting components, and `Page.stories.tsx`.
+### Template and layouts
 
-### Template layer
+`src/login/components/Template/Template.tsx` picks a layout from
+`useBranding().layout`: `Centered`, `Split` (also `split-reverse`), `Hero`,
+`Minimal` or `Stacked`, all in `layouts/` and sharing the props and pieces in
+`parts/`. Pages never know which layout is active.
 
-Shared chrome (logo, language switcher, theme toggle, footer, error display) lives
-in `src/login/components/Template/`. `Template.tsx` is a thin dispatcher: it reads
-`useTemplateVariant()` and renders either `TemplateCentered` or `TemplateSplit`.
-Both variants accept the same props, so pages never care which one is active.
-The variant currently defaults to `centered` in `TemplateVariantContext.tsx`.
+### Branding
 
-### Brand assets
+`src/login/branding/schema.ts` is the single source for the `KARAKO_BRAND_*`
+keys and defaults. From it:
 
-Logos are referenced by absolute CDN URL (`cdn.karakosystems.com/karako/logos/...`)
-from the two Template variants and from `src/email/constants.ts`. Favicons are the
-exception: they are **copied** into `public/` rather than linked, because Keycloak
-serves theme resources with `Cache-Control: no-cache` (a change ships on the next
-build) while the CDN serves `immutable, max-age=31536000` (a replaced asset stays
-stale for up to a year for returning visitors). `bun sync:brand` refreshes those
-copies and fails if a CDN URL referenced from `src/` has gone missing.
+- `BRAND_ENVIRONMENT_VARIABLES` feeds Keycloakify's `environmentVariables` in
+  `vite.config.ts`, which exposes them as `kcContext.properties`;
+- realm attributes with the same prefix reach the theme as
+  `kcContext.brandOverrides`, set by `RealmBrandingLoginFormsProvider` because
+  Keycloakify drops `realm.attributes`;
+- `BrandingProvider` merges environment, then realm overrides, and
+  `resolve.ts` validates every value, falling back to the default on anything
+  invalid;
+- `src/email/constants.ts` turns the same keys into FreeMarker expressions, so
+  emails follow the login branding.
 
-Note that favicon `<link>` hrefs in `index.html` must start with `/` - Keycloakify
-only rewrites root-absolute paths to `resourcesPath`, and relative ones 404 in
-production.
+`KC_SPI_LOGIN_PROVIDER=karako` selects that provider. It is set on the runtime
+image: `kc.sh build` silently ignores it, and every page then fails with a null
+provider.
 
-### Styling layer
+### Styling
 
-`useStyleLevelCustomization` (`src/login/styleLevelCustomization.tsx`) returns
-`doUseDefaultCss: false` - Keycloak's default CSS is **not** loaded; everything is
-styled from scratch with Tailwind + shadcn. It also injects a `ThemeProvider`
-(`src/components/theme-provider.tsx`) whose initial value comes from
-`kcContext.darkMode` via `shared/getColorScheme.ts`. The shadcn CSS variables live
-in `src/login/index.css`.
+Keycloak's default CSS is off (`doUseDefaultCss: false` in
+`styleLevelCustomization.tsx`); everything is Tailwind. The initial colour
+scheme comes from `kcContext.darkMode` through `shared/getColorScheme.ts`.
+shadcn CSS variables live in `src/login/index.css`, and the keyframes and
+variants the components need in `src/login/shadcn-preset.css`.
 
-The components under `src/components/ui/` came from shadcn but the project no
-longer depends on it: there is no `components.json` and no `shadcn` package, so
-`shadcn add` does not work. The keyframes and custom variants those components
-need are vendored in `src/login/shadcn-preset.css`. Add a component by copying it
-from ui.shadcn.com and adjusting it like any other source file.
+`src/components/ui/` was copied from shadcn, but the project has no
+`components.json` or `shadcn` dependency: add a component by copying it from
+ui.shadcn.com.
 
-### KcContext extension
+### KcContext
 
-`src/login/KcContext.ts` extends Keycloakify's base context with `themeName`,
-`properties`, `client.baseUrl` and `darkMode`. If a Keycloak value you need isn't
-on `kcContext`, extend `KcContextExtension` here. Mocks in
-`src/login/mocks/getKcContextMock.ts` must be updated to match.
-
-`properties` is typed `Record<KcEnvName, string>`; `KcEnvName` is generated from
-the `environmentVariables` declared in `vite.config.ts`. That is the mechanism for
-passing runtime configuration from the container's environment into the theme.
+`src/login/KcContext.ts` adds `themeName`, `properties`, `client.baseUrl`,
+`darkMode` and `brandOverrides`, plus Turnstile fields on `login.ftl`,
+`register.ftl` and `login-reset-password.ftl`. Any new field needs a matching
+value in `src/login/mocks/getKcContextMock.ts`.
 
 ### i18n
 
-Two separate i18n systems:
+- Login: `src/login/i18n.ts`, `en` and `fr` overrides on top of Keycloakify's
+  dictionaries.
+- Email: `src/email/i18n.ts` with i18next and JSON files in
+  `src/email/locales/` (`en`, `fr`). `getMessages` maps Keycloak's
+  `requiredAction.*` and time-unit keys. A locale ships only if it is listed in
+  the `buildEmailTheme` call in `vite.config.ts`.
 
-- **Login pages**: `src/login/i18n.ts` uses `@keycloakify/login-ui`'s `i18nBuilder.withCustomTranslations(...)`, with `en` and `fr` overrides on top of Keycloakify's built-in dictionaries.
-- **Emails**: `src/email/i18n.ts` uses `i18next` + `react-i18next` with per-locale JSON files under `src/email/locales/` (`en`, `es`, `fr`). The `getMessages` export maps Keycloak's `requiredAction.*` and time-unit keys; extend it when adding new email-side keys.
+### Email theme
 
-The locale list passed to `buildEmailTheme` in `vite.config.ts` must include every
-locale you ship - locales not listed there won't be bundled even if their JSON
-exists.
+`buildEmailTheme` runs in Keycloakify's `postBuild` hook and adds
+`src/email/templates/*.tsx` to the same JAR. Shared layout:
+`src/email/layout.tsx`.
 
-### Email theme build
+### Brand assets
 
-`vite.config.ts` calls `buildEmailTheme` from `keycloakify-emails` in the
-Keycloakify `postBuild` hook. Templates: `src/email/templates/*.tsx` (jsx-email);
-shared layout `src/email/layout.tsx`; shared style constants
-`src/email/constants.ts`. After `bun build-keycloak-theme`, both the login theme
-and the email theme end up in the same JAR.
+Default logos are absolute CDN URLs (`cdn.karakosystems.com`). Favicons are
+copied into `public/` instead, because the CDN serves them `immutable` for a
+year while Keycloak serves theme files `no-cache`. Their `<link>` hrefs in
+`index.html` must start with `/`: Keycloakify only rewrites root-absolute paths.
 
 ### Server extensions (`providers/`)
 
-Maven module, group `io.karako.keycloak`, artifact `karako-keycloak-providers`,
-targeting Keycloak 26.8.0 with all Keycloak deps `provided`. Currently ships
-`RegexLdapStorageMapper`, which extends the native `UserAttributeLDAPStorageMapper`
-and overlays a regex extraction on the imported value (e.g. pulling `John Doe` out
-of `CN=John Doe,OU=Users,DC=example,DC=com`). SPI registration is via
-`META-INF/services/org.keycloak.storage.ldap.mappers.LDAPStorageMapperFactory`.
+Group `io.karako.keycloak`, all Keycloak dependencies `provided`, compiled
+against Keycloak 26.8.0. Registered through `META-INF/services/`:
 
-## CI / release flow
+- `branding/RealmBrandingLoginFormsProvider`: passes realm brand attributes to
+  the theme;
+- `turnstile/`: Cloudflare Turnstile for registration (form action), login and
+  forgotten password (authenticators). Keys resolve step config, then realm
+  attribute, then `KARAKO_TURNSTILE_*` environment;
+- `ldap/RegexLdapStorageMapper`: overlays a regex extraction on
+  `UserAttributeLDAPStorageMapper`.
 
-- `.github/workflows/ci.yml` (push/PR on `main`): actionlint, then lint + format check + `emails:check`, a Storybook test run, a theme build and a Maven build/test of the server extensions.
-- `.github/workflows/security.yml`: Semgrep CE, OSV-Scanner, Gitleaks and zizmor, each as a plain job that fails the build. No CodeQL or SARIF upload: on a private repository they need GitHub Code Security. zizmor's `self-repository` audit is disabled in `.github/zizmor.yml` because actionlint does not yet accept the `$/` syntax it recommends. `providers/osv-scanner.toml` ignores every Maven package, since they are all `provided` or `test` scoped and ship with the Keycloak image; any new `compile` dependency must lift that override. The root `osv-scanner.toml` holds time-boxed ignores for advisories with no fixed release.
-- `.github/workflows/release-please.yml` maintains the release pull request from conventional commits and, once merged, calls `.github/workflows/release.yml` (a reusable workflow) with the new tag. Never add a tag trigger back to `release.yml`: a tag pushed with `GITHUB_TOKEN` does not start a workflow.
-- `.github/workflows/release.yml`: multi-arch image build pushed to `ghcr.io/karakosystems/karako-sso` with SBOM and provenance, cosign signing, a Trivy image scan (informational), and the theme JAR attached to the release that release-please already created.
+## Image and local stack
 
-release-please configuration lives in `release/config.json` and
-`release/.manifest.json`, never at the repository root.
+- The Dockerfile uses the floating `quay.io/keycloak/keycloak:26.8` tag, and
+  `release.yml` and `compose.yml` pull on every build, so a rebuild picks up the
+  latest patch. Dependabot proposes the next minor; bump `keycloak.version` in
+  `providers/pom.xml` with it. Keep literal tags in `FROM`: Dependabot cannot
+  update a tag built from an `ARG`.
+- The compose healthcheck requests `/realms/master`: `/health/ready` is on the
+  management port, which `start-dev` does not open.
 
-## Conventions worth knowing
+## CI and release
 
-- The lefthook `lint` command runs `bun run lint` rather than `oxlint`: `vp`
-  wraps Oxlint to resolve its plugins, and a bare `oxlint` cannot find
-  `eslint-plugin-storybook`.
-- Path alias `@/*` -> `src/*` (configured in both `vite.config.ts` and `tsconfig.app.json`).
-- Oxlint does not implement `react-hooks/exhaustive-deps`, which the old ESLint
-  config disabled anyway - don't expect the linter to flag stale deps.
-- `vp install` writes `devEngines.packageManager` with `onFail: "download"`,
-  which npm does not recognise: it then refuses to run `npx` at all, and
-  Keycloakify shells out to `npx vite`. `postinstall` rewrites `onFail` to
-  `warn`, which npm accepts, so the pin survives and npx keeps working.
-- `vp test` runs the vitest bundled inside `vite-plus`, not the root `vitest`, so
-  `vitest` and `@vitest/*` must match the version `vite-plus` ships. Dependabot
-  groups them with `vite-plus`, but it does not touch the
-  `npm:@voidzero-dev/vite-plus-core@x` alias in `devDependencies.vite` and
-  `overrides.vite`: bump both by hand to the new `vite-plus` version.
-- `vp migrate` rewrites `vite.config.ts` and drops every comment in it. Restore
-  them by hand after running it.
-- Keycloakify `themeName` and `keycloakVersionTargets` are pinned in `vite.config.ts`; the `22-to-25` target is disabled (only "all-other-versions" emits a JAR).
-- When adding a new Keycloak page, you must (1) create `src/login/pages/<name>/Page.tsx`, (2) add a `case "<name>.ftl":` to `PageIndex.tsx`, and (3) ensure `getKcContextMock` can produce a mock for it so the dev server and Storybook still work.
+- `ci.yml`: actionlint, lint, format check, `emails:check`, Storybook tests,
+  theme build, Maven verify.
+- `security.yml`: Semgrep CE, OSV-Scanner, Gitleaks and zizmor as plain failing
+  jobs. No CodeQL or SARIF: they need GitHub Code Security on a private repo.
+    - zizmor's `self-repository` audit is off (`.github/zizmor.yml`) because
+      actionlint rejects the `$/` syntax it suggests.
+    - `providers/osv-scanner.toml` ignores Maven, since nothing Maven ships in
+      the JAR; lift it if a `compile` dependency is ever added. The root
+      `osv-scanner.toml` holds time-boxed ignores for advisories with no fix.
+    - `.gitleaksignore` lists fingerprints of known false positives in stories.
+- `release-please.yml` maintains the release pull request and, once it merges,
+  calls the reusable `release.yml` with the tag. Never trigger `release.yml` on
+  tags: a tag pushed with `GITHUB_TOKEN` starts no workflow.
+- `release.yml`: multi-arch image to `ghcr.io/karakosystems/karako-sso` with SBOM
+  and provenance, cosign signature, informational Trivy scan, theme JAR on the
+  release.
+- release-please config lives in `release/`, never at the root. `CHANGELOG.md`
+  and `release/.manifest.json` are excluded from Oxfmt because release-please
+  rewrites them.
+- Pull requests are squash-merged with the PR title as the commit subject, so
+  each PR yields one changelog entry. Dependabot prefixes npm updates `build:`
+  and groups `react*` and `vite-plus`/`vitest` packages.
