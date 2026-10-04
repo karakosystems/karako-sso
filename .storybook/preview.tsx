@@ -33,7 +33,7 @@ const BRAND_PRESETS: Record<string, Partial<Branding>> = {
         legalName: "Ember Financial",
         primary: "#d97706",
         radius: "0.25rem",
-        welcomeMessage: "Ember Financial — client portal."
+        welcomeMessage: "Ember Financial: client portal."
     },
     slate: {
         name: "Slate",

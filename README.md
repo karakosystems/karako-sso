@@ -56,7 +56,7 @@ kcadm.sh update realms/acme \
   -s 'attributes.KARAKO_BRAND_LAYOUT=hero'
 ```
 
-Same names, same accepted values, same fallback on an invalid one — it drops to
+Same names, same accepted values, same fallback on an invalid one: it drops to
 the environment variable, then to the default.
 
 ## Cloudflare Turnstile
@@ -81,7 +81,7 @@ KARAKO_TURNSTILE_SECRET_KEY=0x4AAA...
 ```
 
 A realm attribute of the same name overrides the environment for that realm, and
-a step's own setting overrides both — useful when one tenant has its own
+a step's own setting overrides both: useful when one tenant has its own
 Cloudflare account. Put the **secret** in the environment rather than in a realm
 attribute: realm attributes are readable through the admin API, the step setting
 and the environment are not.
@@ -97,7 +97,7 @@ and each one sends an email.
 
 ## LDAP regex mapper
 
-For directories that store a value inside a larger string — pulling `John Doe`
+For directories that store a value inside a larger string, such as pulling `John Doe`
 out of `CN=John Doe,OU=Users,DC=example,DC=com`. On the LDAP user federation
 provider, add a mapper of type _regex-attribute-ldap-mapper_ and set the
 extraction regex and the capturing group index. The default pattern extracts

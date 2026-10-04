@@ -73,16 +73,16 @@ export const KarakoDark: Story = {
 };
 
 export const ClientBlue: Story = {
-    name: "Client — blue",
+    name: "Client, blue",
     args: { primary: "#0055aa", opacity: 0.5, dark: false }
 };
 
 export const ClientGreen: Story = {
-    name: "Client — green",
+    name: "Client, green",
     args: { primary: "#0f7b3f", opacity: 0.5, dark: false }
 };
 
 export const ClientAmber: Story = {
-    name: "Client — amber",
+    name: "Client, amber",
     args: { primary: "#d97706", opacity: 0.5, dark: false }
 };

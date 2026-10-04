@@ -53,7 +53,7 @@ dropdown of the realm's User Profile attributes.
 | Extraction regex            | `^CN=([^,]+)`  | added by this mapper                |
 | Capturing group (index)     | `1`            | added by this mapper                |
 | Read Only                   | `On`           | inherited                           |
-| Always Read Value From LDAP | `Off`          | **keep Off** — see caveat below     |
+| Always Read Value From LDAP | `Off`          | **keep Off**, see caveat below      |
 | Is Mandatory In LDAP        | `Off`          | inherited                           |
 | Attribute default value     | _(optional)_   | inherited                           |
 | Is Binary Attribute         | `Off`          | inherited                           |
@@ -65,7 +65,7 @@ The same regex examples as above apply.
 
 > **Caveats (by design):**
 >
-> - The extracted value is **never written back to LDAP** — `onRegisterUserToLDAP`
+> - The extracted value is **never written back to LDAP**: `onRegisterUserToLDAP`
 >   is a no-op, so even with _Read Only_ off it cannot overwrite the source DN.
 > - Keep **Always Read Value From LDAP** off: when on, the value is re-read raw
 >   from LDAP on access, bypassing the regex.
