@@ -155,7 +155,7 @@ of `CN=John Doe,OU=Users,DC=example,DC=com`). SPI registration is via
 ## CI / release flow
 
 - `.github/workflows/ci.yml` (push/PR on `main`): actionlint, then lint + format check + `emails:check`, a Storybook test run, a theme build and a Maven build/test of the server extensions.
-- `.github/workflows/security.yml`: CodeQL (`javascript-typescript` and `actions`) and a Trivy filesystem scan, both failing the job on findings instead of uploading SARIF. The repository is private, so code scanning uploads need Advanced Security, which is unavailable.
+- `.github/workflows/security.yml`: Semgrep CE, OSV-Scanner, Gitleaks and zizmor, each as a plain job that fails the build. No CodeQL or SARIF upload: on a private repository they need GitHub Code Security. zizmor's `self-repository` audit is disabled in `.github/zizmor.yml` because actionlint does not yet accept the `$/` syntax it recommends.
 - `.github/workflows/release-please.yml` maintains the release pull request from conventional commits and, once merged, calls `.github/workflows/release.yml` (a reusable workflow) with the new tag. Never add a tag trigger back to `release.yml`: a tag pushed with `GITHUB_TOKEN` does not start a workflow.
 - `.github/workflows/release.yml`: multi-arch image build pushed to `ghcr.io/karakosystems/karako-sso` with SBOM and provenance, cosign signing, a Trivy image scan (informational), and the theme JAR attached to the release that release-please already created.
 

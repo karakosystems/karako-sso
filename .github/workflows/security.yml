@@ -14,59 +14,90 @@ on:
 permissions:
     contents: read
 
+concurrency:
+    group: security-${{ github.ref }}
+    cancel-in-progress: true
+
 jobs:
-    codeql:
-        name: CodeQL (${{ matrix.language }})
+    static-analysis:
+        name: Static analysis (Semgrep)
         runs-on: ubuntu-latest
-        permissions:
-            contents: read
-            actions: read
-        strategy:
-            fail-fast: false
-            matrix:
-                language:
-                    - javascript-typescript
-                    - actions
+        env:
+            SEMGREP_VERSION: "1.179.0"
         steps:
             - name: Checkout
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-            - name: Initialize CodeQL
-              uses: github/codeql-action/init@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
               with:
-                  languages: ${{ matrix.language }}
-                  build-mode: none
+                  persist-credentials: false
 
-            # Uploading to code scanning needs Advanced Security, which a private
-            # repository does not have, so the SARIF is inspected in the job instead.
-            - name: Analyze
-              uses: github/codeql-action/analyze@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
+            - name: Set up uv
+              uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
+            - name: Scan
+              run: >-
+                  uvx "semgrep==${SEMGREP_VERSION}" scan --error --metrics off
+                  --config p/typescript --config p/react --config p/java
+                  --config p/dockerfile --config p/security-audit --config p/secrets
+
+    dependencies:
+        name: Known vulnerabilities (OSV-Scanner)
+        runs-on: ubuntu-latest
+        env:
+            OSV_VERSION: "2.6.0"
+            OSV_SHA256: "ca69b3d3cd08f889a49dc0a383122f71cc528b83803671df5fd874d97485b108"
+        steps:
+            - name: Checkout
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
               with:
-                  output: codeql-results
-                  upload: never
-                  upload-database: false
+                  persist-credentials: false
 
-            - name: Report findings
+            - name: Install OSV-Scanner
               run: |
-                  jq -s '[.[].runs[].results[]]' codeql-results/*.sarif > findings.json
-                  jq -r '.[] | "\(.locations[0].physicalLocation.artifactLocation.uri): \(.message.text)"' findings.json
-                  test "$(jq length findings.json)" -eq 0
+                  curl -sSLo osv-scanner \
+                    "https://github.com/google/osv-scanner/releases/download/v${OSV_VERSION}/osv-scanner_linux_amd64"
+                  echo "${OSV_SHA256}  osv-scanner" | sha256sum --check --strict
+                  chmod +x osv-scanner
 
-    trivy:
-        name: Trivy (filesystem)
+            - name: Scan
+              run: ./osv-scanner scan source --recursive .
+
+    secrets:
+        name: Leaked secrets (Gitleaks)
         runs-on: ubuntu-latest
-        permissions:
-            contents: read
+        env:
+            GITLEAKS_VERSION: "8.30.1"
+            GITLEAKS_SHA256: "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb"
         steps:
             - name: Checkout
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-            - name: Scan filesystem
-              uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
               with:
-                  scan-type: fs
-                  scan-ref: .
-                  format: table
-                  severity: CRITICAL,HIGH
-                  ignore-unfixed: true
-                  exit-code: "1"
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            - name: Install Gitleaks
+              run: |
+                  archive="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+                  curl -sSLO \
+                    "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/${archive}"
+                  echo "${GITLEAKS_SHA256}  ${archive}" | sha256sum --check --strict
+                  tar -xzf "${archive}" gitleaks
+
+            - name: Scan
+              run: ./gitleaks git --redact --verbose
+
+    workflows:
+        name: Workflow security (zizmor)
+        runs-on: ubuntu-latest
+        env:
+            ZIZMOR_VERSION: "1.30.1"
+        steps:
+            - name: Checkout
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            - name: Set up uv
+              uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
+            - name: Scan
+              run: uvx "zizmor==${ZIZMOR_VERSION}" --offline .github/workflows
