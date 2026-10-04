@@ -16,7 +16,7 @@ RUN bun install --frozen-lockfile && bun run build-keycloak-theme
 RUN --mount=type=cache,target=/root/.m2/repository \
     mvn -f providers/pom.xml clean package -DskipTests
 
-FROM quay.io/keycloak/keycloak:26.7.3 AS builder
+FROM quay.io/keycloak/keycloak:26.8.0 AS builder
 
 ENV KC_DB=postgres
 ENV KC_HEALTH_ENABLED=true
@@ -26,7 +26,7 @@ COPY --from=theme-builder /build/providers/target/karako-keycloak-providers.jar 
 
 RUN /opt/keycloak/bin/kc.sh build --metrics-enabled=true --health-enabled=true
 
-FROM quay.io/keycloak/keycloak:26.7.3
+FROM quay.io/keycloak/keycloak:26.8.0
 
 LABEL org.opencontainers.image.title="karako-sso" \
       org.opencontainers.image.description="Keycloak 26.7.3 packaged with the Karako IAM login theme" \
