@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.0.2](https://github.com/karakosystems/karako-sso/compare/v1.0.1...v1.0.2) (2026-10-04)
+
+
+### Build and image
+
+* bump @storybook/addon-a11y from 10.5.10 to 10.6.1 ([d0e1470](https://github.com/karakosystems/karako-sso/commit/d0e1470216d528e4af3f6f2cc67402b9ede581b6))
+* bump @storybook/addon-a11y from 10.5.10 to 10.6.1 ([9778b95](https://github.com/karakosystems/karako-sso/commit/9778b9558b32eae875e90d4ee205dd65d58fb0ef))
+* bump @storybook/addon-vitest from 10.5.10 to 10.6.1 ([b50a614](https://github.com/karakosystems/karako-sso/commit/b50a614b97dbfdb5933e200b76a47d2e23fb4b78))
+* bump @storybook/addon-vitest from 10.5.10 to 10.6.1 ([0c54f1e](https://github.com/karakosystems/karako-sso/commit/0c54f1ed777b7f83ce87da4326fb0ace1be304fd))
+* bump @types/node from 26.4.1 to 26.6.3 ([6e14a36](https://github.com/karakosystems/karako-sso/commit/6e14a366c25fd7ac753d4d940e27b5ba2f54833a))
+* bump @types/node from 26.4.1 to 26.6.3 ([7f2ebf2](https://github.com/karakosystems/karako-sso/commit/7f2ebf248a999fe5bb8857c2c5b131f6ec348bb0))
+* bump the react group across 1 directory with 4 updates ([bb727bb](https://github.com/karakosystems/karako-sso/commit/bb727bb2de5bafbdab07911c95f6d0ca04e0a538))
+* bump the react group across 1 directory with 4 updates ([064ef06](https://github.com/karakosystems/karako-sso/commit/064ef06b7c05409f63d8a9d399196d55f54d9150))
+* bump the vite-plus group across 1 directory with 3 updates ([8e77365](https://github.com/karakosystems/karako-sso/commit/8e7736518d37d5fef6d57a6db270e4350049374b))
+* bump the vite-plus group across 1 directory with 3 updates ([50f0e14](https://github.com/karakosystems/karako-sso/commit/50f0e1492b4c473160703bbbc4627f91ec94fc32))
+* upgrade vite-plus to 1.0.0 and vitest to 5.0.1 ([6c9a4db](https://github.com/karakosystems/karako-sso/commit/6c9a4db8d1cbfe374d73544bc66b8b576532287b))
+* upgrade vite-plus to 1.0.0 and vitest to 5.0.1 ([b3c3c60](https://github.com/karakosystems/karako-sso/commit/b3c3c609ee9174f361267ba57c3ef562eebed393))
+
+
+### Continuous integration
+
+* update vite-plus together with vitest in Dependabot ([e31b89f](https://github.com/karakosystems/karako-sso/commit/e31b89fe5536d767240dc3c66d438ccdf6216d4a))
+
 ## [1.0.1](https://github.com/karakosystems/karako-sso/compare/v1.0.0...v1.0.1) (2026-10-04)
 
 
