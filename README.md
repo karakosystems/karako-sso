@@ -9,7 +9,7 @@ extensions. One image, white-labelled per client through environment variables.
 docker run --env-file .env ghcr.io/karakosystems/karako-sso:latest
 ```
 
-`.env.exemple` lists the Keycloak variables (database, hostname, proxy, admin
+`.env.example` lists the Keycloak variables (database, hostname, proxy, admin
 bootstrap). The branding variables below go in the same file.
 
 ## Branding

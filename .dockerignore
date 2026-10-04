@@ -13,7 +13,7 @@ storybook-static
 
 .env
 .env.*
-!.env.exemple
+!.env.example
 
 bun-debug.log
 npm-debug.log
