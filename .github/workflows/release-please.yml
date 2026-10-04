@@ -30,8 +30,6 @@ jobs:
                   config-file: release/config.json
                   manifest-file: release/.manifest.json
 
-    # A tag pushed with GITHUB_TOKEN never starts a workflow, so the release
-    # workflow is called here instead of triggering on the tag.
     publish:
         name: Publish the release
         needs: prepare

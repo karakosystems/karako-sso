@@ -6,8 +6,6 @@ pre-commit:
             run: actionlint {staged_files}
         lint:
             glob: "*.{ts,tsx}"
-            # vp wraps oxlint to resolve its plugins (see CLAUDE.md); a bare
-            # `oxlint` cannot find eslint-plugin-storybook.
             run: bun run lint
 
 commit-msg:

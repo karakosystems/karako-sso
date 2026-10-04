@@ -55,6 +55,14 @@ theme build _and_ the Maven build inside the image, so every change forces a ful
 multi-stage rebuild - for fast iteration use `bun dev` or Storybook; reserve
 compose for full end-to-end Keycloak validation.
 
+The compose healthcheck requests `/realms/master` rather than `/health/ready`:
+the health endpoint lives on the management port, which `start-dev` does not
+open.
+
+`KC_SPI_LOGIN_PROVIDER=karako` is set on the runtime image, not passed to
+`kc.sh build`: provider selection is runtime configuration, the build step
+ignores it silently and every login page then fails with a null provider.
+
 ## Architecture
 
 ### Entry points
@@ -164,6 +172,9 @@ release-please configuration lives in `release/config.json` and
 
 ## Conventions worth knowing
 
+- The lefthook `lint` command runs `bun run lint` rather than `oxlint`: `vp`
+  wraps Oxlint to resolve its plugins, and a bare `oxlint` cannot find
+  `eslint-plugin-storybook`.
 - Path alias `@/*` -> `src/*` (configured in both `vite.config.ts` and `tsconfig.app.json`).
 - Oxlint does not implement `react-hooks/exhaustive-deps`, which the old ESLint
   config disabled anyway - don't expect the linter to flag stale deps.
