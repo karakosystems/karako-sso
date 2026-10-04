@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.0.3](https://github.com/karakosystems/karako-sso/compare/v1.0.2...v1.0.3) (2026-10-04)
+
+
+### Build and image
+
+* merge the three tsconfig files into one ([943f9bf](https://github.com/karakosystems/karako-sso/commit/943f9bf4a612f8e5fc1db9c4702d0fc470abd2c8))
+
+
+### Documentation
+
+* bring CLAUDE.md in line with the current architecture ([08237dd](https://github.com/karakosystems/karako-sso/commit/08237dd1d6f9ccea3c0f89c8aeef64ad7e5d1f76))
+* drop changelog entries duplicated by merge commits ([15ba04f](https://github.com/karakosystems/karako-sso/commit/15ba04f8f03062ce84665345852e065c7634eaea))
+* rewrite the README for deployers and developers ([f420a45](https://github.com/karakosystems/karako-sso/commit/f420a455ac2d0e94656a770f02c077557c12abd8))
+
 ## [1.0.2](https://github.com/karakosystems/karako-sso/compare/v1.0.1...v1.0.2) (2026-10-04)
 
 
