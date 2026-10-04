@@ -13,8 +13,9 @@ updates:
                   - "react-dom"
                   - "@types/react"
                   - "@types/react-dom"
-          vitest:
+          vite-plus:
               patterns:
+                  - "vite-plus"
                   - "vitest"
                   - "@vitest/*"
 

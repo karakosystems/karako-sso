@@ -188,6 +188,11 @@ release-please configuration lives in `release/config.json` and
   which npm does not recognise: it then refuses to run `npx` at all, and
   Keycloakify shells out to `npx vite`. `postinstall` rewrites `onFail` to
   `warn`, which npm accepts, so the pin survives and npx keeps working.
+- `vp test` runs the vitest bundled inside `vite-plus`, not the root `vitest`, so
+  `vitest` and `@vitest/*` must match the version `vite-plus` ships. Dependabot
+  groups them with `vite-plus`, but it does not touch the
+  `npm:@voidzero-dev/vite-plus-core@x` alias in `devDependencies.vite` and
+  `overrides.vite`: bump both by hand to the new `vite-plus` version.
 - `vp migrate` rewrites `vite.config.ts` and drops every comment in it. Restore
   them by hand after running it.
 - Keycloakify `themeName` and `keycloakVersionTargets` are pinned in `vite.config.ts`; the `22-to-25` target is disabled (only "all-other-versions" emits a JAR).
