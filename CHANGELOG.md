@@ -1,5 +1,45 @@
 # Changelog
 
+## [1.0.1](https://github.com/karakosystems/karako-sso/compare/v1.0.0...v1.0.1) (2026-10-04)
+
+
+### Bug fixes
+
+* **ci:** point the release notes pull command at a published tag ([4864757](https://github.com/karakosystems/karako-sso/commit/4864757793c99f7630c587dbf3c1d15aa58190e0))
+* **deps:** patch vulnerable transitive npm dependencies ([39c5fea](https://github.com/karakosystems/karako-sso/commit/39c5feaac0193764d3827b931ed66018fe9a4569))
+* rename the local dev image the repository rename missed ([0f04c0e](https://github.com/karakosystems/karako-sso/commit/0f04c0e7135a23b19ad92fca973214458b59a8c8))
+* silence the Semgrep false positive on sanitized terms HTML ([e091abb](https://github.com/karakosystems/karako-sso/commit/e091abb61e0fd6565f19925fdda9d1563477cd3f))
+
+
+### Build and image
+
+* track the latest Keycloak 26.8 patch on every build ([a416de9](https://github.com/karakosystems/karako-sso/commit/a416de98225e84636ea6ba4bda0bda3eee4da8b5))
+* upgrade TypeScript to 7.0.2 ([d297c81](https://github.com/karakosystems/karako-sso/commit/d297c8176303a2e51cb151baa2e6c0985bc96df0))
+
+
+### Continuous integration
+
+* bump lucide-react from 1.39.0 to 1.49.0 ([c3fa249](https://github.com/karakosystems/karako-sso/commit/c3fa2491d437175704871d7816673e13af8d832a))
+* bump lucide-react from 1.39.0 to 1.49.0 ([4ccf6a8](https://github.com/karakosystems/karako-sso/commit/4ccf6a812cff4aaf539e514a8df605d23932b186))
+* bump playwright from 1.62.1 to 1.63.0 ([7b075eb](https://github.com/karakosystems/karako-sso/commit/7b075eb2b53e87fed54e4eea900b15a8a9517e57))
+* bump playwright from 1.62.1 to 1.63.0 ([e7acabe](https://github.com/karakosystems/karako-sso/commit/e7acabefc2e7eebbeaf88f67c4bae4d919f07a66))
+* bump storybook from 10.5.10 to 10.6.1 ([6c88b7e](https://github.com/karakosystems/karako-sso/commit/6c88b7ee3310bb680747a5443f6db244a33eed07))
+* bump storybook from 10.5.10 to 10.6.1 ([d7fa122](https://github.com/karakosystems/karako-sso/commit/d7fa12248ca88843f305ee547e74f5323871b365))
+* bump the actions-minor-patch group across 1 directory with 5 updates ([cc32c43](https://github.com/karakosystems/karako-sso/commit/cc32c4309eb2f37c4329a86c560202bcc42a352a))
+* bump the actions-minor-patch group across 1 directory with 5 updates ([1d376e7](https://github.com/karakosystems/karako-sso/commit/1d376e7fb365d23359e08eb961734a563303d089))
+* group react and vitest packages in Dependabot updates ([9571588](https://github.com/karakosystems/karako-sso/commit/95715885cb3875c783ea19a629c0c750ed87393e))
+* let Dependabot propose TypeScript major updates ([178c36a](https://github.com/karakosystems/karako-sso/commit/178c36a8321056f570bf8edfcc3fb5a7ab352d32))
+* prefix Dependabot dependency updates with build ([c780a6d](https://github.com/karakosystems/karako-sso/commit/c780a6df72d4f1035dec753fb10c2aebe40d4da9))
+* replace CodeQL and Trivy with Semgrep, OSV-Scanner, Gitleaks and zizmor ([fb93f5a](https://github.com/karakosystems/karako-sso/commit/fb93f5a8c06a01f15b9e240db29bb90c9f6bc3dc))
+* scope OSV-Scanner to dependencies the image actually ships ([d6f40c4](https://github.com/karakosystems/karako-sso/commit/d6f40c447f95ae575c266b23d13cf6b74a123299))
+* stop persisting checkout credentials ([ed4d16b](https://github.com/karakosystems/karako-sso/commit/ed4d16b0dd0db2acfef7e8f6b585dfecb8be5fd9))
+* switch Dependabot to the bun ecosystem ([d6d85cb](https://github.com/karakosystems/karako-sso/commit/d6d85cb3f943d516517d222579dd5d99ff12326a))
+
+
+### Documentation
+
+* replace em dashes with plain punctuation ([aef57fe](https://github.com/karakosystems/karako-sso/commit/aef57fee7be02cb86093b68a79b6187266cdc74a))
+
 ## 1.0.0 (2026-09-06)
 
 
