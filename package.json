@@ -62,8 +62,8 @@
         "@types/react": "^19.2.18",
         "@types/react-dom": "^19.2.5",
         "@vitejs/plugin-react": "^6.1.0",
-        "@vitest/browser-playwright": "4.1.11",
-        "@vitest/coverage-v8": "4.1.11",
+        "@vitest/browser-playwright": "5.0.3",
+        "@vitest/coverage-v8": "5.0.3",
         "jsx-email": "^3.2.1",
         "keycloakify": "^11.15.14",
         "keycloakify-emails": "3.6.0",
@@ -73,7 +73,7 @@
         "typescript": "7.0.2",
         "vite": "npm:@voidzero-dev/vite-plus-core@0.3.0",
         "vite-plus": "0.3.0",
-        "vitest": "4.1.11"
+        "vitest": "5.0.3"
     },
     "engines": {
         "bun": "^1.4.0"
