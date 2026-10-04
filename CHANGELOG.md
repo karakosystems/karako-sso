@@ -5,17 +5,11 @@
 
 ### Build and image
 
-* bump @storybook/addon-a11y from 10.5.10 to 10.6.1 ([d0e1470](https://github.com/karakosystems/karako-sso/commit/d0e1470216d528e4af3f6f2cc67402b9ede581b6))
 * bump @storybook/addon-a11y from 10.5.10 to 10.6.1 ([9778b95](https://github.com/karakosystems/karako-sso/commit/9778b9558b32eae875e90d4ee205dd65d58fb0ef))
-* bump @storybook/addon-vitest from 10.5.10 to 10.6.1 ([b50a614](https://github.com/karakosystems/karako-sso/commit/b50a614b97dbfdb5933e200b76a47d2e23fb4b78))
 * bump @storybook/addon-vitest from 10.5.10 to 10.6.1 ([0c54f1e](https://github.com/karakosystems/karako-sso/commit/0c54f1ed777b7f83ce87da4326fb0ace1be304fd))
-* bump @types/node from 26.4.1 to 26.6.3 ([6e14a36](https://github.com/karakosystems/karako-sso/commit/6e14a366c25fd7ac753d4d940e27b5ba2f54833a))
 * bump @types/node from 26.4.1 to 26.6.3 ([7f2ebf2](https://github.com/karakosystems/karako-sso/commit/7f2ebf248a999fe5bb8857c2c5b131f6ec348bb0))
-* bump the react group across 1 directory with 4 updates ([bb727bb](https://github.com/karakosystems/karako-sso/commit/bb727bb2de5bafbdab07911c95f6d0ca04e0a538))
 * bump the react group across 1 directory with 4 updates ([064ef06](https://github.com/karakosystems/karako-sso/commit/064ef06b7c05409f63d8a9d399196d55f54d9150))
-* bump the vite-plus group across 1 directory with 3 updates ([8e77365](https://github.com/karakosystems/karako-sso/commit/8e7736518d37d5fef6d57a6db270e4350049374b))
 * bump the vite-plus group across 1 directory with 3 updates ([50f0e14](https://github.com/karakosystems/karako-sso/commit/50f0e1492b4c473160703bbbc4627f91ec94fc32))
-* upgrade vite-plus to 1.0.0 and vitest to 5.0.1 ([6c9a4db](https://github.com/karakosystems/karako-sso/commit/6c9a4db8d1cbfe374d73544bc66b8b576532287b))
 * upgrade vite-plus to 1.0.0 and vitest to 5.0.1 ([b3c3c60](https://github.com/karakosystems/karako-sso/commit/b3c3c609ee9174f361267ba57c3ef562eebed393))
 
 
@@ -42,13 +36,9 @@
 
 ### Continuous integration
 
-* bump lucide-react from 1.39.0 to 1.49.0 ([c3fa249](https://github.com/karakosystems/karako-sso/commit/c3fa2491d437175704871d7816673e13af8d832a))
 * bump lucide-react from 1.39.0 to 1.49.0 ([4ccf6a8](https://github.com/karakosystems/karako-sso/commit/4ccf6a812cff4aaf539e514a8df605d23932b186))
-* bump playwright from 1.62.1 to 1.63.0 ([7b075eb](https://github.com/karakosystems/karako-sso/commit/7b075eb2b53e87fed54e4eea900b15a8a9517e57))
 * bump playwright from 1.62.1 to 1.63.0 ([e7acabe](https://github.com/karakosystems/karako-sso/commit/e7acabefc2e7eebbeaf88f67c4bae4d919f07a66))
-* bump storybook from 10.5.10 to 10.6.1 ([6c88b7e](https://github.com/karakosystems/karako-sso/commit/6c88b7ee3310bb680747a5443f6db244a33eed07))
 * bump storybook from 10.5.10 to 10.6.1 ([d7fa122](https://github.com/karakosystems/karako-sso/commit/d7fa12248ca88843f305ee547e74f5323871b365))
-* bump the actions-minor-patch group across 1 directory with 5 updates ([cc32c43](https://github.com/karakosystems/karako-sso/commit/cc32c4309eb2f37c4329a86c560202bcc42a352a))
 * bump the actions-minor-patch group across 1 directory with 5 updates ([1d376e7](https://github.com/karakosystems/karako-sso/commit/1d376e7fb365d23359e08eb961734a563303d089))
 * group react and vitest packages in Dependabot updates ([9571588](https://github.com/karakosystems/karako-sso/commit/95715885cb3875c783ea19a629c0c750ed87393e))
 * let Dependabot propose TypeScript major updates ([178c36a](https://github.com/karakosystems/karako-sso/commit/178c36a8321056f570bf8edfcc3fb5a7ab352d32))
@@ -110,11 +100,8 @@
 
 * align release and security workflows with karako-dc ([7d658f8](https://github.com/karakosystems/karako-sso/commit/7d658f89f6985bcdbeabe94767f7bddf24009ba8))
 * build and test the Java module, add a compose healthcheck ([1d7f6c7](https://github.com/karakosystems/karako-sso/commit/1d7f6c7c4b21ad2259a15f18ddcd39279db9931e))
-* bump actions/checkout from 6.0.3 to 7.0.1 ([f9b9c8d](https://github.com/karakosystems/karako-sso/commit/f9b9c8d027c6864af77512a8c6349cd659c747b7))
 * bump actions/checkout from 6.0.3 to 7.0.1 ([a32f511](https://github.com/karakosystems/karako-sso/commit/a32f511728251ec2d22165cfbd730db6880e5306))
-* bump actions/setup-java from 5.2.0 to 6.0.0 ([4bd66fb](https://github.com/karakosystems/karako-sso/commit/4bd66fbb940a5f0bc343ca243274fc2b9925120e))
 * bump actions/setup-java from 5.2.0 to 6.0.0 ([8e50b81](https://github.com/karakosystems/karako-sso/commit/8e50b8121191e6b26e88be45cab04542798af6e6))
-* bump the actions-minor-patch group with 7 updates ([2ba05a9](https://github.com/karakosystems/karako-sso/commit/2ba05a9b49738663cf986470eca2d06de7ed99ba))
 * bump the actions-minor-patch group with 7 updates ([a982074](https://github.com/karakosystems/karako-sso/commit/a9820741846c86220950085730c6384966a9caad))
 * run the story test suite on pull requests ([1d4f2a9](https://github.com/karakosystems/karako-sso/commit/1d4f2a94035be7c67d349dab61110bf8bb705571))
 
