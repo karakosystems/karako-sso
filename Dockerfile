@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM oven/bun:1 AS theme-builder
+FROM --platform=$BUILDPLATFORM oven/bun:1 AS theme-builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         openjdk-21-jdk-headless \
