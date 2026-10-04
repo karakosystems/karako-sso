@@ -1,17 +1,18 @@
 # Karako Keycloak Providers
 
-Custom Keycloak server extensions for Karako IAM, packaged as a single JAR
-(`karako-keycloak-providers.jar`) dropped into Keycloak's `providers/`
-directory. This module is meant to grow - protocol mappers, authenticators,
-and other SPI implementations live here.
+Keycloak server extensions for Karako SSO, packaged as
+`karako-keycloak-providers.jar` and dropped into Keycloak's `providers/`
+directory by the image build:
 
-Currently shipped:
-
-- **Regex Attribute Extractor (LDAP)** - an LDAP federation mapper that extracts
-  a value from any LDAP attribute using a **configurable regex** at **LDAP
-  import/sync time** (the default pattern pulls the first CN out of a DN) and
-  stores the result as a Keycloak user attribute (which any standard mapper can
-  then expose in tokens).
+- **Realm branding**: a login-forms provider that passes a realm's
+  `KARAKO_BRAND_*` attributes to the theme.
+- **Cloudflare Turnstile**: a registration form action and login and
+  forgotten-password authenticators. Setup is in the root README.
+- **Regex Attribute Extractor (LDAP)**: an LDAP federation mapper that extracts
+  a value from an LDAP attribute with a configurable regex at import and sync
+  time (the default pattern pulls the first CN out of a DN) and stores it as a
+  Keycloak user attribute, which any standard mapper can then expose in tokens.
+  The rest of this file documents it.
 
 ---
 

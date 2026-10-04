@@ -1,37 +1,40 @@
 # Karako SSO
 
-Keycloak 26.8 packaged with the Karako login theme, email theme and server
-extensions. One image, white-labelled per client through environment variables.
+Keycloak 26.8 with the Karako login theme, email theme and server extensions,
+shipped as one container image and white-labelled per client through
+environment variables or realm attributes.
 
 ## Deploy
 
 ```bash
+cp .env.example .env    # fill in the database, hostname and admin values
 docker run --env-file .env ghcr.io/karakosystems/karako-sso:latest
 ```
 
-`.env.example` lists the Keycloak variables (database, hostname, proxy, admin
-bootstrap). The branding variables below go in the same file.
+Each release is tagged with its version (`1.0.2`), minor (`1.0`), major (`1`)
+and `latest`, and signed with cosign. Every build pulls the latest Keycloak 26.8
+patch.
 
 ## Branding
 
-Every variable is optional and read when the container starts, so changing one
-means a restart, not a rebuild. Both the login pages and the emails follow them.
+All variables are optional and read when the container starts: changing one
+needs a restart, not a rebuild. The login pages and the emails both follow them.
 
 | Variable                       | Default                | Value                                                   |
 | ------------------------------ | ---------------------- | ------------------------------------------------------- |
 | `KARAKO_BRAND_NAME`            | `Karako`               | Short name, shown in the UI and page title              |
 | `KARAKO_BRAND_LEGAL_NAME`      | `Karako Systems`       | Full company name, shown in the footer                  |
 | `KARAKO_BRAND_WELCOME_MESSAGE` | _(translated default)_ | Sentence next to the logo                               |
-| `KARAKO_BRAND_LOGO_URL`        | Karako logo            | Absolute `https://` URL, light backgrounds              |
+| `KARAKO_BRAND_LOGO_URL`        | Karako logo            | Absolute `https://` URL, for light backgrounds          |
 | `KARAKO_BRAND_LOGO_DARK_URL`   | Karako logo            | Variant for dark backgrounds                            |
 | `KARAKO_BRAND_FAVICON_URL`     | _(bundled icons)_      | Absolute `https://` URL                                 |
 | `KARAKO_BRAND_PRIMARY`         | `#635bfe`              | Hex colour for buttons, links and decor                 |
 | `KARAKO_BRAND_BASE`            | `neutral`              | Neutral scale for backgrounds and cards                 |
-| `KARAKO_BRAND_RADIUS`          | `0.625rem`             | Any CSS length, e.g. `0.25rem` or `16px`                |
+| `KARAKO_BRAND_RADIUS`          | `0.625rem`             | Any CSS length, such as `0.25rem` or `16px`             |
 | `KARAKO_BRAND_LAYOUT`          | `centered`             | Page layout                                             |
 | `KARAKO_BRAND_DECOR`           | `shape`                | Background pattern, or an absolute `https://` image URL |
 
-An invalid value falls back to the default rather than breaking the page.
+Accepted values:
 
 - **base**: `neutral`, `zinc`, `stone`, `gray`, `mauve`, `olive`, `mist`, `taupe`
 - **layout**: `centered`, `split`, `split-reverse`, `hero`, `minimal`, `stacked`
@@ -39,100 +42,86 @@ An invalid value falls back to the default rather than breaking the page.
   `diagonals`, `arcs`, `blobs`, `topography`, `hexagons`, `beams`, `gradient`,
   `glow`, `columns`, `scatter`
 
-Text colours are derived from `PRIMARY` by contrast, so a light brand colour
-gets dark text automatically. `bun storybook` previews every combination.
+An invalid value falls back to the default instead of breaking the page. Text
+colours are derived from `PRIMARY` by contrast, so a light brand colour gets
+dark text. `bun storybook` previews every combination.
 
 ### One instance, several companies
 
-The same variables can be set as **realm attributes**, which take precedence over
-the environment for that realm only. A realm that sets none keeps the image's
-branding, so one deployment can serve a company per realm.
+The same names can be set as **realm attributes**, which override the
+environment for that realm only. A realm that sets none keeps the image's
+branding. The admin console has no screen for realm attributes, so use the
+admin API:
 
 ```bash
-# there is no admin console screen for realm attributes; use the admin API
 kcadm.sh update realms/acme \
   -s 'attributes.KARAKO_BRAND_NAME=Acme' \
   -s 'attributes.KARAKO_BRAND_PRIMARY=#0055aa' \
   -s 'attributes.KARAKO_BRAND_LAYOUT=hero'
 ```
 
-Same names, same accepted values, same fallback on an invalid one: it drops to
-the environment variable, then to the default.
+An invalid realm value falls back to the environment variable, then to the
+default.
 
 ## Cloudflare Turnstile
 
-Not an environment variable: it is configured per realm, in _Authentication_.
-Three flows can be guarded, each with its own keys and its own on/off switch.
+Turnstile is enabled per realm, in _Authentication_. Three flows can be guarded:
 
-| Flow               | What to do                                                                               |
+| Flow               | Change                                                                                   |
 | ------------------ | ---------------------------------------------------------------------------------------- |
-| Registration       | Add the step _Cloudflare Turnstile_ to the registration form                             |
+| Registration       | Add the _Cloudflare Turnstile_ step to the registration form                             |
 | Login              | Replace _Username Password Form_ with _Username Password Form with Cloudflare Turnstile_ |
 | Forgotten password | Replace _Choose User_ with _Choose User with Cloudflare Turnstile_                       |
 
-### One pair of keys for all three
-
-Keycloak attaches configuration to each step, so filling the keys three times is
-the default. Leave them empty instead and set them once for the whole container:
+Each step can hold its own keys, but leaving them empty uses one pair for the
+whole container:
 
 ```bash
 KARAKO_TURNSTILE_SITE_KEY=0x4AAA...
 KARAKO_TURNSTILE_SECRET_KEY=0x4AAA...
 ```
 
-A realm attribute of the same name overrides the environment for that realm, and
-a step's own setting overrides both: useful when one tenant has its own
-Cloudflare account. Put the **secret** in the environment rather than in a realm
-attribute: realm attributes are readable through the admin API, the step setting
-and the environment are not.
+Precedence is step setting, then realm attribute of the same name, then
+environment. Keep the **secret** out of realm attributes: the admin API exposes
+them, while step settings and the environment stay private.
 
-_Test mode_ swaps in Cloudflare's always-pass pair. Nothing is prefilled with it,
-so a step saved without keys and without test mode refuses the form rather than
-looking protected while accepting anything.
-
-The token is verified server-side before the credentials are checked, so a
-failed challenge reveals nothing about the account. Guarding the forgotten
-password flow matters most: without it the form accepts unlimited submissions
-and each one sends an email.
+_Test mode_ switches a step to Cloudflare's always-pass keys. A step saved with
+neither keys nor test mode rejects the form rather than silently accepting
+everything. The token is checked before the credentials, so a failed challenge
+reveals nothing about the account. Guard the forgotten-password flow first:
+without it, every submission sends an email.
 
 ## LDAP regex mapper
 
-For directories that store a value inside a larger string, such as pulling `John Doe`
-out of `CN=John Doe,OU=Users,DC=example,DC=com`. On the LDAP user federation
-provider, add a mapper of type _regex-attribute-ldap-mapper_ and set the
-extraction regex and the capturing group index. The default pattern extracts
-the first CN of a DN.
+Extracts a value from a larger LDAP string, such as `John Doe` out of
+`CN=John Doe,OU=Users,DC=example,DC=com`. On the LDAP user federation provider,
+add a mapper of type _regex-attribute-ldap-mapper_ and set the regex and the
+capturing group. Examples and caveats: [providers/README.md](./providers/README.md).
 
 ## Develop
 
+Requires bun, Java 21 and Maven for the theme JAR and the extensions, and
+Docker for the full stack.
+
 ```bash
 bun install
-bun dev            # login pages against a mocked Keycloak context
-bun storybook      # all 38 pages, port 6006
-bun run test       # render, interaction and accessibility checks
-bun sync:brand     # refresh brand assets from the CDN
-```
-
-## Build
-
-```bash
+bun dev                      # login pages against a mocked Keycloak context
+bun storybook                # every page and branding combination, port 6006
+bun run test                 # Storybook render, interaction and a11y tests
+bun emails:preview           # email templates, port 55420
 bun build-keycloak-theme     # dist_keycloak/karako-sso-theme.jar
 docker compose up --build    # full Keycloak on 127.0.0.1:8888 (admin/admin)
 ```
 
+Git hooks: `brew install lefthook && lefthook install`.
+
 ## Release
 
-Versions come from the commit history: release-please keeps a release pull
-request open, and merging it tags the repository, writes `CHANGELOG.md`,
-publishes the multi-architecture image to
-`ghcr.io/karakosystems/karako-sso` (signed with cosign), and attaches the
-theme JAR to the GitHub release.
+Commits follow Conventional Commits: `feat:` bumps the minor, `fix:` the patch,
+`!` or a `BREAKING CHANGE:` footer the major. release-please keeps a release
+pull request open; merging it tags the version, updates `CHANGELOG.md`,
+publishes the signed multi-architecture image to
+`ghcr.io/karakosystems/karako-sso` and attaches the theme JAR to the GitHub
+release. Pull requests are squash-merged.
 
-Commit subjects drive the version: `feat:` bumps the minor, `fix:` the patch,
-a `!` or a `BREAKING CHANGE:` footer the major.
-
-Hooks: `brew install lefthook && lefthook install`.
-
----
-
-Architecture, conventions and gotchas: [CLAUDE.md](./CLAUDE.md).
+Architecture, conventions and pitfalls: [CLAUDE.md](./CLAUDE.md).
