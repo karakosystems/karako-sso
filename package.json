@@ -69,7 +69,7 @@
         "keycloakify-emails": "3.6.0",
         "playwright": "latest",
         "remark-gfm": "^4.0.1",
-        "storybook": "^10.5.10",
+        "storybook": "^10.6.1",
         "typescript": "7.0.2",
         "vite": "npm:@voidzero-dev/vite-plus-core@0.3.0",
         "vite-plus": "0.3.0",
