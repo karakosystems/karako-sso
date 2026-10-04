@@ -44,7 +44,7 @@ export function TermsAcceptance(props: {
                     <FieldError id="input-error-terms-accepted">
                         <span
                             dangerouslySetInnerHTML={{
-                                __html: kcSanitize(messagesPerField.get("termsAccepted"))
+                                __html: kcSanitize(messagesPerField.get("termsAccepted")) // nosemgrep: typescript.react.security.audit.react-dangerouslysetinnerhtml.react-dangerouslysetinnerhtml
                             }}
                         />
                     </FieldError>
