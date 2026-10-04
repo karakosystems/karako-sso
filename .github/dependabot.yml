@@ -6,6 +6,17 @@ updates:
           interval: "weekly"
       commit-message:
           prefix: "build"
+      groups:
+          react:
+              patterns:
+                  - "react"
+                  - "react-dom"
+                  - "@types/react"
+                  - "@types/react-dom"
+          vitest:
+              patterns:
+                  - "vitest"
+                  - "@vitest/*"
 
     - package-ecosystem: github-actions
       directory: /
