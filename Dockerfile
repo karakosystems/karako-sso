@@ -16,7 +16,7 @@ RUN bun install --frozen-lockfile && bun run build-keycloak-theme
 RUN --mount=type=cache,target=/root/.m2/repository \
     mvn -f providers/pom.xml clean package -DskipTests
 
-FROM quay.io/keycloak/keycloak:26.7.3 AS builder
+FROM quay.io/keycloak/keycloak:26.8 AS builder
 
 ENV KC_DB=postgres
 ENV KC_HEALTH_ENABLED=true
@@ -26,16 +26,16 @@ COPY --from=theme-builder /build/providers/target/karako-keycloak-providers.jar 
 
 RUN /opt/keycloak/bin/kc.sh build --metrics-enabled=true --health-enabled=true
 
-FROM quay.io/keycloak/keycloak:26.7.3
+FROM quay.io/keycloak/keycloak:26.8
 
 LABEL org.opencontainers.image.title="karako-sso" \
-      org.opencontainers.image.description="Keycloak 26.7.3 packaged with the Karako IAM login theme" \
+      org.opencontainers.image.description="Keycloak 26.8 packaged with the Karako IAM login theme" \
       org.opencontainers.image.source="https://github.com/karakosystems/karako-sso" \
       org.opencontainers.image.url="https://github.com/karakosystems/karako-sso" \
       org.opencontainers.image.documentation="https://github.com/karakosystems/karako-sso#readme" \
       org.opencontainers.image.vendor="Karako Systems" \
       org.opencontainers.image.authors="Louis Midson LAJEANTY <mds@karakosystems.com>" \
-      org.opencontainers.image.base.name="quay.io/keycloak/keycloak:26.7.3"
+      org.opencontainers.image.base.name="quay.io/keycloak/keycloak:26.8"
 
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 

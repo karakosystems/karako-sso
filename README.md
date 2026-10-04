@@ -1,6 +1,6 @@
 # Karako SSO
 
-Keycloak 26.7.3 packaged with the Karako login theme, email theme and server
+Keycloak 26.8 packaged with the Karako login theme, email theme and server
 extensions. One image, white-labelled per client through environment variables.
 
 ## Deploy
