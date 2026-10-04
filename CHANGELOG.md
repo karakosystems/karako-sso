@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/karakosystems/karako-sso/compare/v1.0.3...v1.0.4) (2026-10-04)
+
+
+### Build and image
+
+* build the theme stage once on the native platform ([87984d4](https://github.com/karakosystems/karako-sso/commit/87984d4eb99cdfc0007cae762234138363f60ab7))
+
 ## [1.0.3](https://github.com/karakosystems/karako-sso/compare/v1.0.2...v1.0.3) (2026-10-04)
 
 
