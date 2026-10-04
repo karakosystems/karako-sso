@@ -23,7 +23,7 @@ bun is the package manager and script runner; `bun.lock` is committed.
 | `bun dev`                         | Vite dev server rendering `KcPage` against a mock context; set `pageId` in `src/main-kc.dev.tsx` |
 | `bun storybook`                   | Storybook on port 6006; stories sit next to each page and use `createKcPageStory`                |
 | `bun run test`                    | Storybook tests in Playwright Chromium (`vp test run --project storybook`)                       |
-| `bun run build`                   | `tsc -b && vp build`; the only step that type-checks                                             |
+| `bun run build`                   | `tsc && vp build`; the only step that type-checks                                                |
 | `bun build-keycloak-theme`        | Build, then `keycloakify build` to `dist_keycloak/karako-sso-theme.jar`; needs Maven             |
 | `bun start`                       | Build, then boot a throwaway Keycloak with the theme                                             |
 | `bun lint` / `bun lint:fix`       | Oxlint (`.oxlintrc.json`) with `--deny-warnings`                                                 |
@@ -33,9 +33,10 @@ bun is the package manager and script runner; `bun.lock` is committed.
 | `mvn -f providers/pom.xml verify` | Build and test the server extensions (Java 21)                                                   |
 | `docker compose up --build`       | Full image on `127.0.0.1:8888` (admin/admin); slow, use for end-to-end checks only               |
 
-`tsc -b` matters: the root `tsconfig.json` has `files: []` and only references
-`tsconfig.app.json` (browser code) and `tsconfig.node.json` (`vite.config.ts`),
-so a bare `tsc` checks nothing. bun and `vp` strip types without checking them.
+bun and `vp` strip types without checking them, so only `tsc` catches type
+errors. A single `tsconfig.json` covers the browser code and `vite.config.ts`
+together: Node globals type-check in `src/` too, so keep `process`, `fs` and
+friends out of browser code.
 
 ## Toolchain pitfalls
 
