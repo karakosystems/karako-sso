@@ -1,0 +1,4 @@
+[[PackageOverrides]]
+ecosystem = "Maven"
+ignore = true
+reason = "Every Maven dependency is provided or test scoped: the JAR ships none of them, they come from the Keycloak base image and are patched by bumping it"

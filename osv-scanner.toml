@@ -1,0 +1,4 @@
+[[IgnoredVulns]]
+id = "GHSA-vfj7-8cjw-p6xm"
+ignoreUntil = 2027-01-04
+reason = "braces 3.0.3 has no fixed release; it is only pulled in by jsx-email's build-time globby and never ships in the theme"
