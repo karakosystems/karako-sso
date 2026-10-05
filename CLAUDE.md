@@ -45,7 +45,8 @@ friends out of browser code.
   runs `scripts/vite-bin-shim.mjs` to create one; without it `npx` downloads an
   unrelated Vite.
 - **`devEngines`**: `vp install` writes `onFail: "download"`, which npm rejects,
-  and npm then refuses to run `npx` at all. `postinstall` rewrites it to `warn`.
+  and npm then refuses to run `npx` at all. Only npm reads the block, so
+  `postinstall` forces `onFail: "ignore"`.
 - **`vp test` runs the vitest bundled in `vite-plus`**, not the root one, so
   `vitest` and `@vitest/*` must match what `vite-plus` ships. Dependabot groups
   them, but bump the `npm:@voidzero-dev/vite-plus-core@x` alias in both

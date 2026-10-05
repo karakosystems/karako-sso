@@ -16,20 +16,16 @@ import { fileURLToPath } from "node:url";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 // `vp install` writes devEngines.packageManager with onFail "download", which
-// npm does not know: it falls back to erroring, so `npx` refuses to run at all
-// and every Keycloakify command fails. "warn" keeps the pin and lets npx work.
+// npm does not know: `npx` then refuses to run and every Keycloakify command
+// fails. Only npm reads the block, and Keycloakify always runs it, so "ignore".
 const manifestFile = join(root, "package.json");
 const manifest = JSON.parse(readFileSync(manifestFile, "utf8"));
 const packageManager = manifest.devEngines?.packageManager;
 
-if (
-    packageManager !== undefined &&
-    packageManager.onFail !== "warn" &&
-    packageManager.onFail !== "ignore"
-) {
-    packageManager.onFail = "warn";
+if (packageManager !== undefined && packageManager.onFail !== "ignore") {
+    packageManager.onFail = "ignore";
     writeFileSync(manifestFile, JSON.stringify(manifest, null, 4) + "\n");
-    console.error("vite-bin-shim: set devEngines.packageManager.onFail to warn");
+    console.error("vite-bin-shim: set devEngines.packageManager.onFail to ignore");
 }
 
 const pkgDir = join(root, "node_modules", "vite");
