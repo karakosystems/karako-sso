@@ -1,7 +1,8 @@
 package io.karako.keycloak.turnstile;
 
 import org.jboss.logging.Logger;
-import org.keycloak.broker.provider.util.SimpleHttp;
+import org.keycloak.http.simple.SimpleHttp;
+import org.keycloak.http.simple.SimpleHttpRequest;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.KeycloakSession;
@@ -101,7 +102,7 @@ public final class Turnstile {
         }
 
         try {
-            SimpleHttp request = SimpleHttp.doPost(SITEVERIFY_URL, session)
+            SimpleHttpRequest request = SimpleHttp.create(session).doPost(SITEVERIFY_URL)
                 .param("secret", secret)
                 .param("response", token);
             if (remoteAddr != null) {
