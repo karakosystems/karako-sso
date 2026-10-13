@@ -30,7 +30,7 @@ jobs:
                   persist-credentials: false
 
             - name: Lint workflows (actionlint)
-              uses: reviewdog/action-actionlint@1129829fb3230509a1c9aa4e93cec2b234746a68 # v1.78.0
+              uses: reviewdog/action-actionlint@a8ac3eea598697a830f7d8e701fc9fcbfde88974 # v1.80.0
 
     code_quality:
         name: Code quality (lint, format, emails)
