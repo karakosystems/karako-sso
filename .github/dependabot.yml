@@ -18,6 +18,10 @@ updates:
                   - "vite-plus"
                   - "vitest"
                   - "@vitest/*"
+          storybook:
+              patterns:
+                  - "storybook"
+                  - "@storybook/*"
 
     - package-ecosystem: github-actions
       directory: /
