@@ -30,7 +30,7 @@ jobs:
                   persist-credentials: false
 
             - name: Lint workflows (actionlint)
-              uses: reviewdog/action-actionlint@1129829fb3230509a1c9aa4e93cec2b234746a68 # v1.78.0
+              uses: reviewdog/action-actionlint@419a49378266e892f40c773b4f2fc6de9aa87499 # v1.80.4
 
     code_quality:
         name: Code quality (lint, format, emails)
@@ -85,7 +85,7 @@ jobs:
                   persist-credentials: false
 
             - name: Setup Java
-              uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+              uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
               with:
                   distribution: temurin
                   java-version: "21"
