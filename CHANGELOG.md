@@ -1,5 +1,45 @@
 # Changelog
 
+## [1.1.0](https://github.com/karakosystems/karako-sso/compare/v1.0.4...v1.1.0) (2026-10-22)
+
+
+### Features
+
+* keep only subtle background decors ([704b8db](https://github.com/karakosystems/karako-sso/commit/704b8dbadf392795aee83e5565473a8a5d407423))
+
+
+### Bug fixes
+
+* **deps:** patch source-map-js to 1.2.2 ([43c7ad5](https://github.com/karakosystems/karako-sso/commit/43c7ad53124d8e948d9c37a3929ad3ac362976b8))
+* **deps:** upgrade storybook to 10.6.3 ([4dfce29](https://github.com/karakosystems/karako-sso/commit/4dfce293a60d7900e57b67f151f5a84c0ee4d195))
+* **deps:** upgrade vite-plus to 1.3.0 and vitest to 5.0.5 ([d0642e9](https://github.com/karakosystems/karako-sso/commit/d0642e90e0844f3b14f7b63de24441cec7848357))
+* **turnstile:** use the non-deprecated SimpleHttp API ([042eeb4](https://github.com/karakosystems/karako-sso/commit/042eeb4a00d93d24d74e6d506b34a7ef32a6650b))
+
+
+### Build and image
+
+* bump @types/node from 26.6.3 to 26.6.5 ([#58](https://github.com/karakosystems/karako-sso/issues/58)) ([47e7af0](https://github.com/karakosystems/karako-sso/commit/47e7af0444dd7034ae7aff1289d099cd761696ef))
+* bump lucide-react from 1.49.0 to 1.59.0 ([#57](https://github.com/karakosystems/karako-sso/issues/57)) ([4063298](https://github.com/karakosystems/karako-sso/commit/40632987145aafe5f99bd0a7ff51921561bfcf2f))
+* bump react-i18next from 17.0.13 to 17.1.0 ([#56](https://github.com/karakosystems/karako-sso/issues/56)) ([bd02f2e](https://github.com/karakosystems/karako-sso/commit/bd02f2e72bb531509cfee7544ba216424b3bfc7d))
+* bump tailwind-merge from 3.6.0 to 3.7.0 ([#51](https://github.com/karakosystems/karako-sso/issues/51)) ([c83d7db](https://github.com/karakosystems/karako-sso/commit/c83d7db58db06b08bd462220ceac7823d9fcc74e))
+* bump the react group with 2 updates ([#55](https://github.com/karakosystems/karako-sso/issues/55)) ([6cace75](https://github.com/karakosystems/karako-sso/commit/6cace751618f4450a0ec7e40f7ed10b09b1188c9))
+* **providers:** clear the Maven compiler, jar and test logging warnings ([239b9b8](https://github.com/karakosystems/karako-sso/commit/239b9b852e09102bdaa76e890f49f2b80b7102c1))
+* stop npm warning about the bun devEngines pin ([ba0ada1](https://github.com/karakosystems/karako-sso/commit/ba0ada1c307fbebe73c07688c0a910ea8298f33d))
+
+
+### Continuous integration
+
+* bump the actions-minor-patch group across 1 directory with 3 updates ([#54](https://github.com/karakosystems/karako-sso/issues/54)) ([af45c62](https://github.com/karakosystems/karako-sso/commit/af45c627adbb013d738ed12cf64d12c240f9992b))
+* disable the unused uv cache in security scans ([a33d100](https://github.com/karakosystems/karako-sso/commit/a33d10087798309d449c75f355e417e6720d50f9))
+* group storybook packages in Dependabot updates ([566e61a](https://github.com/karakosystems/karako-sso/commit/566e61ade52b02c7d6b5e6775dd2326eced775ef))
+
+
+### Documentation
+
+* add badges, contributing and license sections to README ([0b91e0e](https://github.com/karakosystems/karako-sso/commit/0b91e0ecc1388ce407a902a6b07fa53781a07bba))
+* add contributing guide, code of conduct and security policy ([89b62fe](https://github.com/karakosystems/karako-sso/commit/89b62fe254a52b3654adbc56f080d2167d6818df))
+* license the project under MIT ([89cda31](https://github.com/karakosystems/karako-sso/commit/89cda311ef4ecfd831631f54d8a6c28e12df570b))
+
 ## [1.0.4](https://github.com/karakosystems/karako-sso/compare/v1.0.3...v1.0.4) (2026-10-04)
 
 
