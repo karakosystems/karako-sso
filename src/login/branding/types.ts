@@ -11,26 +11,7 @@ export const LAYOUTS = [
 
 export type Layout = (typeof LAYOUTS)[number];
 
-export const DECORS = [
-    "none",
-    "shape",
-    "waves",
-    "aurora",
-    "mesh",
-    "grid",
-    "dots",
-    "rings",
-    "diagonals",
-    "arcs",
-    "blobs",
-    "topography",
-    "hexagons",
-    "beams",
-    "gradient",
-    "glow",
-    "columns",
-    "scatter"
-] as const;
+export const DECORS = ["none", "shape", "mesh", "glow"] as const;
 
 export type Decor = (typeof DECORS)[number];
 

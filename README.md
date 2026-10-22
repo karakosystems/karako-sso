@@ -38,9 +38,7 @@ Accepted values:
 
 - **base**: `neutral`, `zinc`, `stone`, `gray`, `mauve`, `olive`, `mist`, `taupe`
 - **layout**: `centered`, `split`, `split-reverse`, `hero`, `minimal`, `stacked`
-- **decor**: `none`, `shape`, `waves`, `aurora`, `mesh`, `grid`, `dots`, `rings`,
-  `diagonals`, `arcs`, `blobs`, `topography`, `hexagons`, `beams`, `gradient`,
-  `glow`, `columns`, `scatter`
+- **decor**: `none`, `shape`, `mesh`, `glow`
 
 An invalid value falls back to the default instead of breaking the page. Text
 colours are derived from `PRIMARY` by contrast, so a light brand colour gets

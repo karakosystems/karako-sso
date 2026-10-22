@@ -69,7 +69,7 @@ export const Stacked: Story = {
 
 export const ClientBranding: Story = {
     name: "Client branding (ACME)",
-    globals: { brand: "acme", layout: "hero", decor: "aurora" },
+    globals: { brand: "acme", layout: "hero", decor: "mesh" },
     play: async ({ canvasElement }) => {
         await loginFormIsUsable(canvasElement);
         const styles = getComputedStyle(document.documentElement);
