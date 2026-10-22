@@ -1,0 +1,49 @@
+name: Bug report
+description: Something does not work as documented.
+labels: [bug]
+body:
+    - type: textarea
+      id: what
+      attributes:
+          label: What happened
+          description: What you did, what you expected and what happened instead.
+      validations:
+          required: true
+    - type: textarea
+      id: reproduce
+      attributes:
+          label: Steps to reproduce
+          placeholder: |
+              1. Set KARAKO_BRAND_LAYOUT=split
+              2. Open the login page
+              3. ...
+      validations:
+          required: true
+    - type: input
+      id: version
+      attributes:
+          label: Version
+          description: Image tag or digest.
+          placeholder: ghcr.io/karakosystems/karako-sso:1.0.5
+      validations:
+          required: true
+    - type: dropdown
+      id: area
+      attributes:
+          label: Area
+          options:
+              - Login theme
+              - Email theme
+              - Branding
+              - Cloudflare Turnstile
+              - LDAP regex mapper
+              - Image or deployment
+              - Other
+      validations:
+          required: true
+    - type: textarea
+      id: context
+      attributes:
+          label: Logs and context
+          description: Browser, Keycloak logs, branding variables. Remove secrets first.
+          render: text
