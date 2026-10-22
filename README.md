@@ -1,5 +1,10 @@
 # Karako SSO
 
+[![CI](https://github.com/karakosystems/karako-sso/actions/workflows/ci.yml/badge.svg)](https://github.com/karakosystems/karako-sso/actions/workflows/ci.yml)
+[![Security](https://github.com/karakosystems/karako-sso/actions/workflows/security.yml/badge.svg)](https://github.com/karakosystems/karako-sso/actions/workflows/security.yml)
+[![Release](https://img.shields.io/github/v/release/karakosystems/karako-sso)](https://github.com/karakosystems/karako-sso/releases/latest)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Keycloak 26.8 with the Karako login theme, email theme and server extensions,
 shipped as one container image and white-labelled per client through
 environment variables or realm attributes.
@@ -123,3 +128,15 @@ publishes the signed multi-architecture image to
 release. Pull requests are squash-merged.
 
 Architecture, conventions and pitfalls: [CLAUDE.md](./CLAUDE.md).
+
+## Contributing
+
+See [CONTRIBUTING.md](.github/CONTRIBUTING.md) and the
+[code of conduct](.github/CODE_OF_CONDUCT.md). Report vulnerabilities privately,
+as described in [SECURITY.md](.github/SECURITY.md).
+
+## License
+
+[MIT](LICENSE). The Karako name and logos used as default branding are not
+covered by the license: replace them with your own through the branding
+variables.
