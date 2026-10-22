@@ -1,7 +1,14 @@
 {
     "name": "karako-sso-theme",
     "version": "1.0.0",
-    "description": "Starter for Keycloakify themes using React, Shadcn, TailwindCSS and Keycloakify",
+    "description": "Keycloak login and email theme for the Karako SSO distribution",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/karakosystems/karako-sso.git"
+    },
+    "homepage": "https://github.com/karakosystems/karako-sso",
+    "bugs": "https://github.com/karakosystems/karako-sso/issues",
     "type": "module",
     "private": true,
     "scripts": {

@@ -12,9 +12,17 @@
 
     <name>Karako Keycloak Providers</name>
     <description>
-        Karako custom Keycloak server extensions (protocol mappers,
-        authenticators, etc.). Currently ships the DN Attribute Mapper.
+        Keycloak server extensions for Karako SSO: realm branding, Cloudflare
+        Turnstile and a regex LDAP attribute mapper.
     </description>
+    <url>https://github.com/karakosystems/karako-sso</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
 
     <properties>
         <java.version>21</java.version>
