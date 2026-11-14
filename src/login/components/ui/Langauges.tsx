@@ -17,12 +17,12 @@ export function Languages() {
                 <DropdownMenuTrigger asChild>
                     <Button
                         variant="outline"
-                        aria-label={msgStr("languages")}
                         aria-haspopup="true"
                         aria-expanded="false"
                         aria-controls="language-switch1"
                     >
-                        <IoLanguage />
+                        <IoLanguage aria-hidden="true" />
+                        <span className="sr-only">{msgStr("languages")}: </span>
                         {currentLanguage.label}
                     </Button>
                 </DropdownMenuTrigger>
