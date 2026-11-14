@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.1.1](https://github.com/karakosystems/karako-sso/compare/v1.1.0...v1.1.1) (2026-11-14)
+
+
+### Bug fixes
+
+* include the visible language in the language switcher accessible name ([#67](https://github.com/karakosystems/karako-sso/issues/67)) ([79340ae](https://github.com/karakosystems/karako-sso/commit/79340ae2ad99dc1403034e2fdac7dbb5b937d132))
+* override vulnerable glob and minimatch and ignore the unfixed deepmerge advisory ([#68](https://github.com/karakosystems/karako-sso/issues/68)) ([a0460c9](https://github.com/karakosystems/karako-sso/commit/a0460c9c4a216f487d8a315ca4c2122d56c8c158))
+
+
+### Build and image
+
+* bump i18next to 27 and react-i18next to 18 ([#71](https://github.com/karakosystems/karako-sso/issues/71)) ([62f7a28](https://github.com/karakosystems/karako-sso/commit/62f7a283c90b1116a4df2a78c7cf9db7c76ed036))
+* update dependencies ([#70](https://github.com/karakosystems/karako-sso/issues/70)) ([ea019e7](https://github.com/karakosystems/karako-sso/commit/ea019e70eb3709795f4b4cc180233a2e8ab8de68))
+
 ## [1.1.0](https://github.com/karakosystems/karako-sso/compare/v1.0.4...v1.1.0) (2026-10-22)
 
 
