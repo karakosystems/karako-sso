@@ -6,7 +6,7 @@
       "name": "keycloakify-starter",
       "dependencies": {
         "@fontsource-variable/inter": "^5.3.0",
-        "@keycloakify/login-ui": "~250004.7.5",
+        "@keycloakify/login-ui": "~250004.8.2",
         "@tailwindcss/vite": "^4.3.5",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
@@ -194,7 +194,7 @@
 
     "@jsx-email/plugin-pretty": ["@jsx-email/plugin-pretty@2.0.0", "", { "dependencies": { "pretty": "2.0.0" }, "peerDependencies": { "jsx-email": "^3.0.0" } }, "sha512-w4pScaesE1b6p11lSDnqSfIu6Sxh9eT2f3uH1Ch0dNs1RFarTFTK6cpdNb1T5/hqhT8nGCtGVG/HPhCof6CQtA=="],
 
-    "@keycloakify/login-ui": ["@keycloakify/login-ui@250004.7.5", "", { "peerDependencies": { "tsafe": "^1.8.5" } }, "sha512-7IrVDAhHijUbB2yG+hNlaBXyR1JDi4lEWwBAAsn42gaAvoFIyqq5pMGHypsoPgbKCUGqhVj5Hn+tifAJXpA5IA=="],
+    "@keycloakify/login-ui": ["@keycloakify/login-ui@250004.8.2", "", { "peerDependencies": { "tsafe": "^1.8.5" } }, "sha512-p+lbSSn5sa7mBvvG0iJVmkeKQSBXt8jH5tPQUuWAXLwTWkCzaFhLanCzmU6ab1Ze9N+hG7hFO1eDNw8hn+d43g=="],
 
     "@ladjs/naivebayes": ["@ladjs/naivebayes@0.1.0", "", { "dependencies": { "debug": "^4.1.1", "stopword": "^1.0.1" } }, "sha512-0ft+9eOFCvfh8WDmNM0sCzr3ENiSiy4ChgX/tCRzB+1AZkjhisdF97yYnqj0DQdnPg34anUL9zISQh7lQcnkyQ=="],
 
